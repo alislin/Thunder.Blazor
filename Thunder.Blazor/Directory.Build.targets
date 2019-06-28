@@ -1,0 +1,16 @@
+<Project>
+  <!-- A temporary workaround for the following Blazor bug: https://github.com/aspnet/Blazor/issues/261 -->
+  <Target Name="RemoveOppositeOutputDirectoriesForBlazor" BeforeTargets="BeforeBuild" Condition="$(RunArguments.Contains('blazor'))">
+    <PropertyGroup>
+      <OutputRoot>$(OutputPath)\..</OutputRoot>
+      <!-- ReSharper disable once UnknownProperty -->
+      <OutputRoot Condition="$(AppendTargetFrameworkToOutputPath)">$(OutputPath)\..\..</OutputRoot>
+    </PropertyGroup>
+    <ItemGroup>
+      <OppositeOutputPath Include="$(OutputRoot)\Release" Condition="'$(Configuration)'=='Debug'" />
+      <OppositeOutputPath Include="$(OutputRoot)\Debug" Condition="'$(Configuration)'=='Release'" />
+    </ItemGroup>
+    <Message Text="Removing the output folder of the opposite configuration: '@(OppositeOutputPath)'" Importance="high" Condition="Exists(@(OppositeOutputPath))" />
+    <RemoveDir Directories="@(OppositeOutputPath)" />
+  </Target>
+</Project>
