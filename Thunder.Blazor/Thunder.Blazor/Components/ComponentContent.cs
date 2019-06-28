@@ -4,10 +4,22 @@ using System;
 namespace Thunder.Blazor.Components
 {
     /// <summary>
-    /// 组件
+    /// 组件构造数据
     /// </summary>
     public class ComponentContent
     {
+        public ComponentContent()
+        {
+        }
+
+        public ComponentContent(object obj,string paraName,object paraData)
+        {
+            var contentType = obj.GetType();
+            var parameters = new ComponentParamenter(paraName, paraData);
+            Parameters = parameters;
+            ContentType = contentType;
+        }
+
         /// <summary>
         /// 组件参数
         /// </summary>

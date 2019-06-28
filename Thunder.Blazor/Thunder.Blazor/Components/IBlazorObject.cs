@@ -36,6 +36,15 @@ namespace Thunder.Blazor.Components
     public interface IBehaver
     {
         /// <summary>
+        /// 是否可见
+        /// </summary>
+        bool Visabled { get; set; }
+        /// <summary>
+        /// 是否激活
+        /// </summary>
+        bool Actived { get; set; }
+
+        /// <summary>
         /// 加载
         /// </summary>
         Action Load { get; set; }
@@ -80,6 +89,16 @@ namespace Thunder.Blazor.Components
     /// </summary>
     public interface IVisual
     {
-        
+        string Backgroud { get; set; }
+        string FontColor { get; set; }
+        string Size { get; set; }
+    }
+
+    /// <summary>
+    /// 容器
+    /// </summary>
+    public interface IContainer
+    {
+        ComponentContent Content { get; set; }
     }
 }
