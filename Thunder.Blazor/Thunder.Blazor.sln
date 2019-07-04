@@ -3,9 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29021.104
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Thunder.Blazor", "Thunder.Blazor\Thunder.Blazor.csproj", "{618A25E7-0895-48C0-A9C7-7888AEF1BA7C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Thunder.Blazor", "Thunder.Blazor\Thunder.Blazor.csproj", "{618A25E7-0895-48C0-A9C7-7888AEF1BA7C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sample", "Sample", "{6C8F02A8-5660-4F10-9B56-CA414AFDFBB8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Server", "Server", "{048EA55C-BEEC-44E0-BF58-FFE172EF3F61}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Client", "Client", "{080F8C95-4939-423A-8797-B49897185E14}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -20,6 +24,10 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{048EA55C-BEEC-44E0-BF58-FFE172EF3F61} = {6C8F02A8-5660-4F10-9B56-CA414AFDFBB8}
+		{080F8C95-4939-423A-8797-B49897185E14} = {6C8F02A8-5660-4F10-9B56-CA414AFDFBB8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9CCFF833-7926-4C38-BE1B-794E12DDC4A7}
