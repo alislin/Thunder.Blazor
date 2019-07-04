@@ -99,6 +99,6 @@ namespace Thunder.Blazor.Components
     /// </summary>
     public interface IContainer
     {
-        TComponent Content { get; set; }
+        ComponentContent Content { get; set; }
     }
 }
