@@ -39,14 +39,25 @@ namespace Thunder.Blazor.Components
         /// <typeparam name="T">类型</typeparam>
         /// <param name="parameterName">名称</param>
         /// <returns></returns>
-        public T Get<T>(string parameterName)
+        public T Get<T>(string parameterName = null)
         {
-            if (!parameters.ContainsKey(parameterName))
+            var name = parameterName;
+            if (string.IsNullOrEmpty(name))
             {
-                throw new KeyNotFoundException($"{parameterName} 参数不存在");
+                name = typeof(T).FullName;
+            }
+            if (!parameters.ContainsKey(name))
+            {
+                throw new KeyNotFoundException($"{name} 参数不存在");
             }
 
-            return (T)parameters[parameterName];
+            return (T)parameters[name];
+        }
+
+        public ComponentParamenter With(string parameterName, object value)
+        {
+            parameters[parameterName] = value;
+            return this;
         }
     }
 
