@@ -9,7 +9,7 @@ using Thunder.Blazor.Components;
 namespace Thunder.Blazor.Services
 {
     /// <summary>
-    /// 组件服务
+    /// 组件服务(含Js调用)
     /// </summary>
     public class ComponentService<T> :IDisposable where T: TContext,new()
     {

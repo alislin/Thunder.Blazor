@@ -17,6 +17,11 @@ namespace Thunder.Blazor.Components
             parameters = new Dictionary<string, object>();
         }
 
+        /// <summary>
+        /// 创建级联参数,并添加参数值
+        /// </summary>
+        /// <param name="parameterName">名称</param>
+        /// <param name="value">参数</param>
         public ComponentParamenter(string parameterName, object value)
         {
             parameters = new Dictionary<string, object>();
@@ -54,6 +59,12 @@ namespace Thunder.Blazor.Components
             return (T)parameters[name];
         }
 
+        /// <summary>
+        /// 链式添加参数方法
+        /// </summary>
+        /// <param name="parameterName">名称</param>
+        /// <param name="value">参数</param>
+        /// <returns></returns>
         public ComponentParamenter With(string parameterName, object value)
         {
             parameters[parameterName] = value;

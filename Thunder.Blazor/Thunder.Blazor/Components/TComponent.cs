@@ -74,6 +74,10 @@ namespace Thunder.Blazor.Components
             }
         }
 
+        /// <summary>
+        /// 设置子组件
+        /// </summary>
+        /// <param name="child">子组件数据</param>
         public void SetChild(TContext child)
         {
             Value.Child = child;
@@ -130,6 +134,10 @@ namespace Thunder.Blazor.Components
         {
         }
 
+        /// <summary>
+        /// 定制组件
+        /// </summary>
+        /// <param name="type">对象类型</param>
         public TContentCustion(Type type)
         {
             Type = type;
