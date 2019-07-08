@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace Thunder.Blazor.Components
 {
+    /// <summary>
+    /// 基础对象
+    /// </summary>
     public class TObject : IThunderObject
     {
         /// <summary>
@@ -10,6 +13,10 @@ namespace Thunder.Blazor.Components
         /// </summary>
         public string ObjectName { get; set; }
     }
+
+    /// <summary>
+    /// 节点对象
+    /// </summary>
     public class TNode : TObject, INode
     {
         /// <summary>
@@ -22,6 +29,9 @@ namespace Thunder.Blazor.Components
         public Dictionary<string, INode> ChildNodes { get; set; }
     }
 
+    /// <summary>
+    /// 区块对象
+    /// </summary>
     public class TBlock : TNode, IBehaver
     {
         /// <summary>

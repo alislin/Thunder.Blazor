@@ -1,13 +1,19 @@
 ﻿using Microsoft.AspNetCore.Components;
 using System;
+using System.Collections.Generic;
 
 namespace Thunder.Blazor.Components
 {
     /// <summary>
     /// 子组件基类
     /// </summary>
-    public class TComponent : ComponentBase, IDisposable
+    public class TComponent : ComponentBase, IDisposable,IThunderObject
     {
+        /// <summary>
+        /// 对象名称
+        /// </summary>
+        public string ObjectName { get; set; }
+
         /// <summary>
         /// 级联参数（父组件传入参数）
         /// </summary>
@@ -51,11 +57,19 @@ namespace Thunder.Blazor.Components
         }
     }
 
+    /// <summary>
+    /// 组件
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public abstract class TComponentObject<T> : TComponent where T : new()
     {
         [Parameter] protected T Value { get; set; } = new T();
     }
 
+    /// <summary>
+    /// 含上下文数据的组件
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public abstract class TComponent<T>:TComponent where T : TContext,new()
     {
         [Parameter] protected T Value { get; set; } = new T();
@@ -143,7 +157,13 @@ namespace Thunder.Blazor.Components
             Type = type;
         }
 
+        /// <summary>
+        /// 类型
+        /// </summary>
         public Type Type { get; set; }
+        /// <summary>
+        /// 上下文类型
+        /// </summary>
         public override Type ContextType => Type;
     }
 }
