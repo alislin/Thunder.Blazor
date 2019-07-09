@@ -12,7 +12,7 @@ namespace Thunder.Blazor.Components
         /// <summary>
         /// 对象名称
         /// </summary>
-        public string ObjectName { get; set; }
+        [Parameter] public string ObjectName { get; set; }
 
         /// <summary>
         /// 级联参数（父组件传入参数）
@@ -104,7 +104,7 @@ namespace Thunder.Blazor.Components
     /// <summary>
     /// 组件数据
     /// </summary>
-    public abstract class TContext
+    public abstract class TContext: IThunderObject
     {
         /// <summary>
         /// 组件参数(级联传入)
@@ -127,6 +127,11 @@ namespace Thunder.Blazor.Components
         /// 类型名称
         /// </summary>
         public string TypeName => this.GetType().FullName;
+
+        /// <summary>
+        /// 对象名称
+        /// </summary>
+        public string ObjectName { get; set; }
 
         /// <summary>
         /// 自动生成参数
@@ -165,5 +170,30 @@ namespace Thunder.Blazor.Components
         /// 上下文类型
         /// </summary>
         public override Type ContextType => Type;
+    }
+
+    /// <summary>
+    /// 容器组件
+    /// </summary>
+    public abstract class TContainer : TContext, IVisual, IBehaver<TContext>
+    {
+        public string Text { get; set; }
+
+        public bool Visabled { get; set; }
+        public bool Actived { get; set; }
+        public Action<TContext> Load { get; set; }
+        public Action<TContext> Show { get; set; }
+        public Action<TContext> Close { get; set; }
+        public EventHandler OnLoading{ get; set; }
+        public EventHandler OnShowing{ get; set; }
+        public EventHandler OnClosing{ get; set; }
+        public EventHandler OnLoaded { get; set; }
+        public EventHandler OnShowed { get; set; }
+        public EventHandler OnClosed { get; set; }
+
+        public string Backgroud { get; set; }
+        public string FontColor { get; set; }
+        public string Size { get; set; }
+
     }
 }

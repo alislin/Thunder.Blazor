@@ -33,7 +33,7 @@ namespace Thunder.Blazor.Components
     /// <summary>
     /// 行为接口
     /// </summary>
-    public interface IBehaver
+    public interface IBehaver<T>
     {
         /// <summary>
         /// 是否可见
@@ -47,15 +47,15 @@ namespace Thunder.Blazor.Components
         /// <summary>
         /// 加载
         /// </summary>
-        Action Load { get; set; }
+        Action<T> Load { get; set; }
         /// <summary>
         /// 显示 / 激活
         /// </summary>
-        Action Show { get; set; }
+        Action<T> Show { get; set; }
         /// <summary>
         /// 关闭
         /// </summary>
-        Action Close { get; set; }
+        Action<T> Close { get; set; }
 
         /// <summary>
         /// 加载前
