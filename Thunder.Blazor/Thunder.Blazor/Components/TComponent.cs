@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
 using System;
 using System.Collections.Generic;
+using Thunder.Blazor.Models;
 
 namespace Thunder.Blazor.Components
 {
@@ -13,6 +14,10 @@ namespace Thunder.Blazor.Components
         /// 对象名称
         /// </summary>
         [Parameter] public string ObjectName { get; set; }
+        /// <summary>
+        /// 自定义对象
+        /// </summary>
+        [Parameter] public object Tag { get; set; }
 
         /// <summary>
         /// 级联参数（父组件传入参数）
@@ -60,19 +65,29 @@ namespace Thunder.Blazor.Components
     /// <summary>
     /// 组件
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    public abstract class TComponentObject<T> : TComponent where T : new()
+    /// <typeparam name="TModel"></typeparam>
+    public abstract class TComponentObject<TModel> : TComponent where TModel : new()
     {
-        [Parameter] protected T Value { get; set; } = new T();
+        [Parameter] protected TModel Value { get; set; } = new TModel();
+    }
+
+    /// <summary>
+    /// 含数据上下文和视图的组件
+    /// </summary>
+    /// <typeparam name="TView">视图类型</typeparam>
+    /// <typeparam name="TModel">数据上下文</typeparam>
+    public abstract class TComponent<TModel, TView> : TComponent<TModel> where TModel : TContext<TView>, new()
+    {
+
     }
 
     /// <summary>
     /// 含上下文数据的组件
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    public abstract class TComponent<T>:TComponent where T : TContext,new()
+    /// <typeparam name="TModel"></typeparam>
+    public abstract class TComponent<TModel>:TComponent where TModel : TContext,new()
     {
-        [Parameter] protected T Value { get; set; } = new T();
+        [Parameter] protected TModel Value { get; set; } = new TModel();
         protected override void OnInit()
         {
             base.OnInit();
@@ -80,7 +95,7 @@ namespace Thunder.Blazor.Components
             {
                 try
                 {
-                    Value = Paramenters.Get<T>();
+                    Value = Paramenters.Get<TModel>();
                 }
                 catch (Exception ex)
                 {
@@ -100,25 +115,98 @@ namespace Thunder.Blazor.Components
         }
     }
 
+    /// <summary>
+    /// 带容器的组件
+    /// </summary>
+    /// <typeparam name="TView"></typeparam>
+    /// <typeparam name="TModel"></typeparam>
+    public abstract class TComponentContainer<TModel,TCon>:TComponent<TCon> where TCon : TContainer<TModel>, new() where TModel:TContext,new()
+    {
+        public abstract void Load(TModel value);
+        public abstract void Show(TModel value);
+        public abstract void Close(TModel value);
+
+        protected override void OnInit()
+        {
+            Value.LoadItem = Load;
+            Value.ShowItem = Show;
+            Value.CloseItem = Close;
+
+            base.OnInit();
+        }
+
+        public virtual void DoCommand(ContextResult result)
+        {
+            Value.OnCommand?.Invoke(this, result);
+        }
+
+        public override void Dispose()
+        {
+            base.Dispose();
+        }
+    }
+
 
     /// <summary>
     /// 组件数据
     /// </summary>
-    public abstract class TContext: IThunderObject
+    public  class TContext: IThunderObject, IVisual, IBaseBehaver
     {
-        /// <summary>
-        /// 组件参数(级联传入)
-        /// </summary>
-        public ComponentParamenter ContextParameters => GetParamenter();
         /// <summary>
         /// 组件类型
         /// </summary>
-        public abstract Type ContextType { get; }
+        public virtual Type ContextType { get;  set; }
         /// <summary>
         /// 子组件数据
         /// </summary>
         public TContext Child { get; set; }
 
+        /// <summary>
+        /// 对象名称
+        /// </summary>
+        public string ObjectName { get; set; }
+        /// <summary>
+        /// 自定义对象
+        /// </summary>
+        public object Tag { get; set; }
+
+        /// <summary>
+        /// 背景
+        /// </summary>
+        public string Backgroud { get; set; }
+        /// <summary>
+        /// 字体颜色
+        /// </summary>
+        public string FontColor { get; set; }
+        /// <summary>
+        /// 尺寸
+        /// </summary>
+        public string Size { get; set; }
+        /// <summary>
+        /// 样式
+        /// </summary>
+        public string StyleClass { get; set; }
+        /// <summary>
+        /// 是否可见
+        /// </summary>
+        public bool IsVisabled { get; set; }
+        /// <summary>
+        /// 是否激活
+        /// </summary>
+        public bool IsActived { get; set; }
+        /// <summary>
+        /// 是否有效
+        /// </summary>
+        public bool IsEnabled { get; set; }
+        /// <summary>
+        /// 操作指令
+        /// </summary>
+        public Action CommandAction { get; set; }
+
+        /// <summary>
+        /// 组件参数(级联传入)
+        /// </summary>
+        public ComponentParamenter ContextParameters => GetParamenter();
         /// <summary>
         /// 生成区块
         /// </summary>
@@ -127,11 +215,6 @@ namespace Thunder.Blazor.Components
         /// 类型名称
         /// </summary>
         public string TypeName => this.GetType().FullName;
-
-        /// <summary>
-        /// 对象名称
-        /// </summary>
-        public string ObjectName { get; set; }
 
         /// <summary>
         /// 自动生成参数
@@ -144,56 +227,94 @@ namespace Thunder.Blazor.Components
         }
     }
 
-    /// <summary>
-    /// 定制组件数据（无参数）
-    /// </summary>
-    public class TContentCustion : TContext
+    public static class TContextExt
     {
-        public TContentCustion()
+        public static TModel ToViewModel<TModel,TView>(this TModel model) where TModel:TContext
         {
+            model.ContextType = typeof(TView);
+            return model;
         }
+    }
+
+    /// <summary>
+    /// 指定前端对象
+    /// </summary>
+    /// <typeparam name="TView"></typeparam>
+    public class TContext<TView> : TContext
+    {
+        public override Type ContextType => typeof(TView);
+    }
+
+    public class TContainer : TContext, IBehaver
+    {
+        /// <summary>
+        /// 说明文字
+        /// </summary>
+        public string Caption { get; set; }
 
         /// <summary>
-        /// 定制组件
+        /// 加载
         /// </summary>
-        /// <param name="type">对象类型</param>
-        public TContentCustion(Type type)
-        {
-            Type = type;
-        }
-
+        public Action Load { get; set; }
         /// <summary>
-        /// 类型
+        /// 显示 / 激活
         /// </summary>
-        public Type Type { get; set; }
+        public Action Show { get; set; }
         /// <summary>
-        /// 上下文类型
+        /// 关闭
         /// </summary>
-        public override Type ContextType => Type;
+        public Action Close { get; set; }
+        /// <summary>
+        /// 加载前
+        /// </summary>
+        public EventHandler OnLoading { get; set; }
+        /// <summary>
+        /// 显示前
+        /// </summary>
+        public EventHandler OnShowing { get; set; }
+        /// <summary>
+        /// 关闭前
+        /// </summary>
+        public EventHandler OnClosing { get; set; }
+        /// <summary>
+        /// 加载后
+        /// </summary>
+        public EventHandler OnLoaded { get; set; }
+        /// <summary>
+        /// 显示后
+        /// </summary>
+        public EventHandler OnShowed { get; set; }
+        /// <summary>
+        /// 关闭后
+        /// </summary>
+        public EventHandler OnClosed { get; set; }
+        /// <summary>
+        /// 操作指令
+        /// </summary>
+        public EventHandler<ContextResult> OnCommand { get; set; }
     }
 
     /// <summary>
     /// 容器组件
     /// </summary>
-    public abstract class TContainer : TContext, IVisual, IBehaver<TContext>
+    public abstract class TContainer<TModel> : TContainer, IBehaver<TModel>
     {
-        public string Text { get; set; }
+        /// <summary>
+        /// 加载
+        /// </summary>
+        public Action<TModel> LoadItem { get; set; }
+        /// <summary>
+        /// 显示 / 激活
+        /// </summary>
+        public Action<TModel> ShowItem { get; set; }
+        /// <summary>
+        /// 关闭
+        /// </summary>
+        public Action<TModel> CloseItem { get; set; }
+    }
 
-        public bool Visabled { get; set; }
-        public bool Actived { get; set; }
-        public Action<TContext> Load { get; set; }
-        public Action<TContext> Show { get; set; }
-        public Action<TContext> Close { get; set; }
-        public EventHandler OnLoading{ get; set; }
-        public EventHandler OnShowing{ get; set; }
-        public EventHandler OnClosing{ get; set; }
-        public EventHandler OnLoaded { get; set; }
-        public EventHandler OnShowed { get; set; }
-        public EventHandler OnClosed { get; set; }
-
-        public string Backgroud { get; set; }
-        public string FontColor { get; set; }
-        public string Size { get; set; }
-
+    public class TContainer<TModel, TView> : TContainer<TModel>
+    {
+        public override Type ContextType => typeof(TView);
     }
 }

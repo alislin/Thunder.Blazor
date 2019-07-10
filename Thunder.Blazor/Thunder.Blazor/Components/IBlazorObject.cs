@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Thunder.Blazor.Models;
 
 namespace Thunder.Blazor.Components
 {
@@ -13,49 +14,63 @@ namespace Thunder.Blazor.Components
         /// 对象名称
         /// </summary>
         string ObjectName { get; set; }
+        /// <summary>
+        /// 自定义对象
+        /// </summary>
+        object Tag { get; set; }
     }
 
     /// <summary>
     /// 节点接口
     /// </summary>
-    public interface INode
+    public interface INode<TModel>
     {
         /// <summary>
         /// 父节点
         /// </summary>
-        INode ParentNode { get; set; }
+        TModel ParentNode { get; set; }
         /// <summary>
         /// 子节点
         /// </summary>
-        Dictionary<string,INode> ChildNodes { get; set; }
+        IList<TModel> ChildNodes { get; set; }
     }
-
     /// <summary>
-    /// 行为接口
+    /// 基础行为
     /// </summary>
-    public interface IBehaver<T>
+    public interface IBaseBehaver
     {
         /// <summary>
         /// 是否可见
         /// </summary>
-        bool Visabled { get; set; }
+        bool IsVisabled { get; set; }
         /// <summary>
         /// 是否激活
         /// </summary>
-        bool Actived { get; set; }
+        bool IsActived { get; set; }
+        /// <summary>
+        /// 是否有效
+        /// </summary>
+        bool IsEnabled { get; set; }
+        /// <summary>
+        /// 操作指令
+        /// </summary>
+        Action CommandAction { get; set; }
+    }
 
+    public interface IBehaver
+    {
         /// <summary>
         /// 加载
         /// </summary>
-        Action<T> Load { get; set; }
+        Action Load { get; set; }
         /// <summary>
         /// 显示 / 激活
         /// </summary>
-        Action<T> Show { get; set; }
+        Action Show { get; set; }
         /// <summary>
         /// 关闭
         /// </summary>
-        Action<T> Close { get; set; }
+        Action Close { get; set; }
 
         /// <summary>
         /// 加载前
@@ -82,6 +97,30 @@ namespace Thunder.Blazor.Components
         /// 关闭后
         /// </summary>
         EventHandler OnClosed { get; set; }
+        /// <summary>
+        /// 操作指令
+        /// </summary>
+        EventHandler<ContextResult> OnCommand { get; set; }
+    }
+
+    /// <summary>
+    /// 行为接口
+    /// </summary>
+    public interface IBehaver<T>: IBehaver
+    {
+        /// <summary>
+        /// 加载
+        /// </summary>
+        Action<T> LoadItem { get; set; }
+        /// <summary>
+        /// 显示 / 激活
+        /// </summary>
+        Action<T> ShowItem { get; set; }
+        /// <summary>
+        /// 关闭
+        /// </summary>
+        Action<T> CloseItem { get; set; }
+
     }
 
     /// <summary>
@@ -92,6 +131,7 @@ namespace Thunder.Blazor.Components
         string Backgroud { get; set; }
         string FontColor { get; set; }
         string Size { get; set; }
+        string StyleClass { get; set; }
     }
 
     /// <summary>
