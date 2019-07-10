@@ -6,19 +6,6 @@ using System.Text;
 
 namespace Thunder.Blazor.Components
 {
-    public class TBlockDropContextBase<TModel> : TComponent<TModel> where TModel: TContext,new()
-    {
-        public void ToggleShow()
-        {
-            Value.IsVisabled = !Value.IsVisabled;
-        }
-    }
-
-    public class TBlockDropContext : TContainer
-    {
-        
-    }
-
     /// <summary>
     /// 基础标签数据
     /// </summary>
