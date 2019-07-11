@@ -101,6 +101,7 @@ namespace Thunder.Blazor.Components
                 {
                 }
             }
+
         }
 
         /// <summary>
@@ -118,22 +119,21 @@ namespace Thunder.Blazor.Components
     /// <summary>
     /// 带容器的组件
     /// </summary>
-    /// <typeparam name="TView"></typeparam>
     /// <typeparam name="TModel"></typeparam>
-    public abstract class TComponentContainer<TModel,TCon>:TComponent<TCon> where TCon : TContainer<TModel>, new() where TModel:TContext,new()
+    public class TComponentContainer<TModel> : TComponent<TModel> where TModel : TContainer, new()
     {
-        public abstract void Load(TModel value);
-        public abstract void Show(TModel value);
-        public abstract void Close(TModel value);
-
         protected override void OnInit()
         {
-            Value.LoadItem = Load;
-            Value.ShowItem = Show;
-            Value.CloseItem = Close;
+            Value.Load = Load;
+            Value.Show = Show;
+            Value.Close = Close;
 
             base.OnInit();
         }
+
+        protected virtual void Load() { }
+        protected virtual void Show() { }
+        protected virtual void Close() { }
 
         public virtual void DoCommand(ContextResult result)
         {
@@ -145,6 +145,29 @@ namespace Thunder.Blazor.Components
             base.Dispose();
         }
     }
+
+    /// <summary>
+    /// 带容器的组件
+    /// </summary>
+    /// <typeparam name="TView"></typeparam>
+    /// <typeparam name="TModel"></typeparam>
+    public abstract class TComponentContainer<TModel,TCon>: TComponentContainer<TCon> where TCon : TContainer<TModel>, new() where TModel:TContext,new()
+    {
+        protected override void OnInit()
+        {
+            Value.LoadItem = LoadItem;
+            Value.ShowItem = ShowItem;
+            Value.CloseItem = CloseItem;
+
+            base.OnInit();
+        }
+
+        protected virtual void LoadItem(TModel value) { }
+        protected virtual void ShowItem(TModel value) { }
+        protected virtual void CloseItem(TModel value) { }
+
+    }
+
 
 
     /// <summary>
