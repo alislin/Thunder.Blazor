@@ -15,8 +15,11 @@ namespace Thunder.Blazor.Components
             base.OnInit();
         }
 
-        protected void Show(TContext value)
+        protected void Show(TContext value,string caption=null,ButtonType button= ButtonType.OK,string size=null)
         {
+            DataContext.Caption = caption ?? value.Caption;
+            DataContext.Size = size;
+            DataContext.ButtonType = button;
             DataContext.Child = value;
             Show();
         }
@@ -24,6 +27,7 @@ namespace Thunder.Blazor.Components
         protected override void Show()
         {
             DataContext.IsVisabled = true;
+            StateHasChanged();
         }
 
         protected override void Load()
@@ -46,6 +50,6 @@ namespace Thunder.Blazor.Components
     public class TModalContext : TContainer<TContext> 
     {
         public ButtonType ButtonType { get; set; }
-        public new Action<TContext> Show { get; set; }
+        public new Action<TContext,string,ButtonType,string> Show { get; set; }
     }
 }

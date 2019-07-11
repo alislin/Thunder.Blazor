@@ -176,6 +176,11 @@ namespace Thunder.Blazor.Components
     public  class TContext: IThunderObject, IVisual, IBaseBehaver
     {
         /// <summary>
+        /// 说明文字
+        /// </summary>
+        public string Caption { get; set; }
+
+        /// <summary>
         /// 组件类型
         /// </summary>
         public virtual Type ContextType { get;  set; }
@@ -270,10 +275,6 @@ namespace Thunder.Blazor.Components
 
     public class TContainer : TContext, IBehaver
     {
-        /// <summary>
-        /// 说明文字
-        /// </summary>
-        public string Caption { get; set; }
 
         /// <summary>
         /// 加载
