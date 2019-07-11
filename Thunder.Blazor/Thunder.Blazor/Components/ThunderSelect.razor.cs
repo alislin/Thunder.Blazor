@@ -32,7 +32,7 @@ namespace Thunder.Blazor.Components
                 {
                     selectedValue = value;
                     SelectedValueChanged.InvokeAsync(selectedValue);
-                    var m = Value.Items.FirstOrDefault(x => x.Value == selectedValue);
+                    var m = DataContext.Items.FirstOrDefault(x => x.Value == selectedValue);
                     selectedItem = m;
                     SelectedItemChanged.InvokeAsync(m);
                 }
@@ -54,12 +54,12 @@ namespace Thunder.Blazor.Components
             }
         }
 
-        protected bool HasGroup => (Value?.OptionList?.Count ?? 0) > 1;
+        protected bool HasGroup => (DataContext?.OptionList?.Count ?? 0) > 1;
 
         protected override void OnInit()
         {
             InitSelected = true;
-            selectvalue = Value.Items.FirstOrDefault(x => x.Selected).Value;
+            selectvalue = DataContext.Items.FirstOrDefault(x => x.Selected).Value;
             //Console.WriteLine($"init {selectvalue}");
             base.OnInit();
         }

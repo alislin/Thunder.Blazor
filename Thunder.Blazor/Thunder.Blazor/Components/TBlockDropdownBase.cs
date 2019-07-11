@@ -11,7 +11,7 @@ namespace Thunder.Blazor.Components
     {
         public void ToggleDropdown()
         {
-            Value.IsOpen = !Value.IsOpen;
+            DataContext.IsOpen = !DataContext.IsOpen;
         }
 
     }

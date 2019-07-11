@@ -68,7 +68,7 @@ namespace Thunder.Blazor.Components
     /// <typeparam name="TModel"></typeparam>
     public abstract class TComponentObject<TModel> : TComponent where TModel : new()
     {
-        [Parameter] protected TModel Value { get; set; } = new TModel();
+        [Parameter] protected TModel DataContext { get; set; } = new TModel();
     }
 
     /// <summary>
@@ -87,7 +87,7 @@ namespace Thunder.Blazor.Components
     /// <typeparam name="TModel"></typeparam>
     public abstract class TComponent<TModel>:TComponent where TModel : TContext,new()
     {
-        [Parameter] protected TModel Value { get; set; } = new TModel();
+        [Parameter] protected TModel DataContext { get; set; } = new TModel();
         protected override void OnInit()
         {
             base.OnInit();
@@ -95,7 +95,7 @@ namespace Thunder.Blazor.Components
             {
                 try
                 {
-                    Value = Paramenters.Get<TModel>();
+                    DataContext = Paramenters.Get<TModel>();
                 }
                 catch (Exception ex)
                 {
@@ -110,9 +110,9 @@ namespace Thunder.Blazor.Components
         /// <param name="child">子组件数据</param>
         public void SetChild(TContext child)
         {
-            Value.Child = child;
-            ChildContent = Value.Child.ContextFragment;
-            ChildParamenters = Value.Child.ContextParameters;
+            DataContext.Child = child;
+            ChildContent = DataContext.Child.ContextFragment;
+            ChildParamenters = DataContext.Child.ContextParameters;
         }
     }
 
@@ -124,9 +124,9 @@ namespace Thunder.Blazor.Components
     {
         protected override void OnInit()
         {
-            Value.Load = Load;
-            Value.Show = Show;
-            Value.Close = Close;
+            DataContext.Load = Load;
+            DataContext.Show = Show;
+            DataContext.Close = Close;
 
             base.OnInit();
         }
@@ -137,7 +137,7 @@ namespace Thunder.Blazor.Components
 
         public virtual void DoCommand(ContextResult result)
         {
-            Value.OnCommand?.Invoke(this, result);
+            DataContext.OnCommand?.Invoke(this, result);
         }
 
         public override void Dispose()
@@ -155,9 +155,9 @@ namespace Thunder.Blazor.Components
     {
         protected override void OnInit()
         {
-            Value.LoadItem = LoadItem;
-            Value.ShowItem = ShowItem;
-            Value.CloseItem = CloseItem;
+            DataContext.LoadItem = LoadItem;
+            DataContext.ShowItem = ShowItem;
+            DataContext.CloseItem = CloseItem;
 
             base.OnInit();
         }

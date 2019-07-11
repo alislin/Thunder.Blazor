@@ -7,11 +7,23 @@ using Thunder.Blazor.Models;
 
 namespace Thunder.Blazor.Components
 {
-    public class TModalBase:TComponentContainer<TModalContext>
+    public class TModalBase<TModel>:TComponentContainer<TModel> where TModel:TModalContext,new()
     {
+        protected override void OnInit()
+        {
+            DataContext.Show = Show;
+            base.OnInit();
+        }
+
+        protected void Show(TContext value)
+        {
+            DataContext.Child = value;
+            Show();
+        }
+
         protected override void Show()
         {
-            Value.IsVisabled = true;
+            DataContext.IsVisabled = true;
         }
 
         protected override void Load()
@@ -21,13 +33,19 @@ namespace Thunder.Blazor.Components
 
         protected override void Close()
         {
-            Value.IsVisabled = false;
-            Value.OnCommand?.Invoke(this, ContextResult.Cancel());
+            Close(ContextResult.Cancel());
+        }
+
+        protected virtual void Close(ContextResult result)
+        {
+            DataContext.IsVisabled = false;
+            DataContext.OnCommand?.Invoke(this, ContextResult.Cancel());
         }
     }
 
-    public class TModalContext : TContainer
+    public class TModalContext : TContainer<TContext> 
     {
         public ButtonType ButtonType { get; set; }
+        public new Action<TContext> Show { get; set; }
     }
 }

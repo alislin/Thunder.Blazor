@@ -1,7 +1,7 @@
 ﻿@inherits TSelectBase
-<select class="@Value?.StyleClass" @bind="@SelectedValue">
+<select class="@DataContext?.StyleClass" @bind="@SelectedValue">
     @{
-        var vlist = Value?.OptionList ?? new List<IGrouping<string, Thunder.Standard.Lib.Model.SelectOption>>();
+        var vlist = DataContext?.OptionList ?? new List<IGrouping<string, Thunder.Standard.Lib.Model.SelectOption>>();
     }
     @if (HasGroup)
     {
