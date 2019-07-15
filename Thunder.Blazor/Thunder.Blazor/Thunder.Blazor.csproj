@@ -26,7 +26,7 @@ Include Common Control base class, and interactions associated logic. Separation
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.Browser" Version="3.0.0-preview6.19307.2" />
-    <PackageReference Include="Thunder.Standard.Lib" Version="1.0.3" />
+    <PackageReference Include="Thunder.Standard.Lib" Version="1.0.4" />
   </ItemGroup>
 
   <ItemGroup>
