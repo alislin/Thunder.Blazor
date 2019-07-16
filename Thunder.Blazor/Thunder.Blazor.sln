@@ -17,6 +17,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientDemo.Client", "Sample
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientDemo.Shared", "Sample\ClientDemo.Shared\ClientDemo.Shared.csproj", "{65DCBF07-8D48-451E-A9AE-9D5880D5D6BE}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "JsLibs", "JsLibs", "{CF57C840-C5CD-4E9A-87BF-9A655F04DA2B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Thunder.Blazor.JsLibs.NotyJgrowl", "JsLibs\Thunder.Blazor.JsLibs.NotyJgrowl\Thunder.Blazor.JsLibs.NotyJgrowl.csproj", "{A91B31A8-0016-42ED-83DC-912CC706668E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +43,10 @@ Global
 		{65DCBF07-8D48-451E-A9AE-9D5880D5D6BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{65DCBF07-8D48-451E-A9AE-9D5880D5D6BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{65DCBF07-8D48-451E-A9AE-9D5880D5D6BE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A91B31A8-0016-42ED-83DC-912CC706668E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A91B31A8-0016-42ED-83DC-912CC706668E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A91B31A8-0016-42ED-83DC-912CC706668E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A91B31A8-0016-42ED-83DC-912CC706668E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -49,6 +57,7 @@ Global
 		{45ED8AB6-31B4-4D56-ACB0-60043D53DD5C} = {080F8C95-4939-423A-8797-B49897185E14}
 		{04F92230-8487-4066-BF1F-4BF168819440} = {080F8C95-4939-423A-8797-B49897185E14}
 		{65DCBF07-8D48-451E-A9AE-9D5880D5D6BE} = {080F8C95-4939-423A-8797-B49897185E14}
+		{A91B31A8-0016-42ED-83DC-912CC706668E} = {CF57C840-C5CD-4E9A-87BF-9A655F04DA2B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9CCFF833-7926-4C38-BE1B-794E12DDC4A7}
