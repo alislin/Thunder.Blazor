@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿/* Ceated by Ya Lin. 2019/7/11 14:52:29 */
+
+using Microsoft.AspNetCore.Components;
 using System;
 using System.Collections.Generic;
 using Thunder.Blazor.Models;
@@ -97,7 +99,7 @@ namespace Thunder.Blazor.Components
                 {
                     DataContext = Paramenters.Get<TModel>();
                 }
-                catch (Exception ex)
+                catch
                 {
                 }
             }
