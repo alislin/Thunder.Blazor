@@ -10,10 +10,10 @@ namespace Thunder.Blazor.JsLib.NotyJgrowl
 {
     public static class NotyJgrowlExtensions
     {
-        //public static IServiceCollection AddToaster(this IServiceCollection services, ToasterConfiguration configuration)
+        //public static IServiceCollection AddToaster(this IServiceCollection services, NotifyConfiguration configuration)
         //{
         //    if (configuration == null) throw new ArgumentNullException(nameof(configuration));
-        //    services.TryAddScoped<IToaster>(builder => new Toaster(configuration));
+        //    services.TryAddScoped<Notify>(builder => new Notify(configuration));
         //    return services;
         //}
 

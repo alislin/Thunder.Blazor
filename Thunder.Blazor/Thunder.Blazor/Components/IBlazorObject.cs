@@ -141,4 +141,23 @@ namespace Thunder.Blazor.Components
     {
         TComponent Content { get; set; }
     }
+
+    /// <summary>
+    /// CSS 动画
+    /// </summary>
+    public interface IAnimate
+    {
+        /// <summary>
+        /// 启用动画
+        /// </summary>
+        public bool AnimateEnabled { get; set; }
+        /// <summary>
+        /// 进入动画
+        /// </summary>
+        public string AnimateEnter { get; set; }
+        /// <summary>
+        /// 退出动画
+        /// </summary>
+        public string AnimateExit { get; set; }
+    }
 }

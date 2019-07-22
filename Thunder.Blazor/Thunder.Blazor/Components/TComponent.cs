@@ -10,8 +10,15 @@ namespace Thunder.Blazor.Components
     /// <summary>
     /// 子组件基类
     /// </summary>
-    public class TComponent : ComponentBase, IDisposable,IThunderObject
+    public class TComponent : ComponentBase, IDisposable,IThunderObject,IAnimate
     {
+        private string domId;
+
+        public TComponent()
+        {
+            domId = NewId();
+        }
+
         /// <summary>
         /// 对象名称
         /// </summary>
@@ -20,6 +27,23 @@ namespace Thunder.Blazor.Components
         /// 自定义对象
         /// </summary>
         [Parameter] public object Tag { get; set; }
+        /// <summary>
+        /// 自动Dom Id
+        /// </summary>
+        public string DomId => domId;
+
+        /// <summary>
+        /// 启用动画
+        /// </summary>
+        [Parameter] public bool AnimateEnabled { get; set; }
+        /// <summary>
+        /// 进入动画
+        /// </summary>
+        [Parameter] public string AnimateEnter{ get; set; }
+        /// <summary>
+        /// 退出动画
+        /// </summary>
+        [Parameter] public string AnimateExit { get; set; }
 
         /// <summary>
         /// 级联参数（父组件传入参数）
@@ -61,6 +85,13 @@ namespace Thunder.Blazor.Components
         protected void Log(string m)
         {
             Console.WriteLine(m);
+        }
+
+        public string NewId(string key=null)
+        {
+            key = string.IsNullOrWhiteSpace(key) ? "t" : key;
+            var r = new Random(DateTime.Now.Millisecond).Next(9999999).ToString("0000000");
+            return $"{key}_{r}";
         }
     }
 

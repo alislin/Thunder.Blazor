@@ -26,6 +26,17 @@ namespace Thunder.Blazor.Services
 
     }
 
+    public class JsAction<T>
+    {
+        public Action<T> Action { get; set; }
+
+        [JSInvokable]
+        public void CallAction(T dat)
+        {
+            Action?.Invoke(dat);
+        }
+    }
+
     public static class JsCallbackext
     {
         //public static DotNetObjectRef ToObjectRef(this JsCallback obj)

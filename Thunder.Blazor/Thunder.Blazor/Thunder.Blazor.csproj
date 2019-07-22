@@ -22,6 +22,15 @@ Include Common Control base class, and interactions associated logic. Separation
 
   <ItemGroup>
     <None Remove="Components\_Imports.razor" />
+    <None Remove="content\animate.min.css" />
+    <None Remove="content\thunder.blazor.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="content\animate.min.css">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="content\thunder.blazor.js" />
   </ItemGroup>
 
   <ItemGroup>

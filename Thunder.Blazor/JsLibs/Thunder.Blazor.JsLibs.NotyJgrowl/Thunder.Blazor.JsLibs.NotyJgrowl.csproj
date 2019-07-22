@@ -6,15 +6,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Content\plugins\jgrowl.min.js" />
-    <None Remove="Content\plugins\noty.min.js" />
+    <None Remove="content\NotyJgrowl\jgrowl.min.js" />
+    <None Remove="content\NotyJgrowl\noty.min.js" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="Content\plugins\jgrowl.min.js">
+    <Content Include="content\NotyJgrowl\jgrowl.min.js">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
-    <Content Include="Content\plugins\noty.min.js">
+    <Content Include="content\NotyJgrowl\noty.min.js">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
   </ItemGroup>
