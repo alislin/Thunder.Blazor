@@ -13,6 +13,8 @@ namespace Thunder.Blazor.Services
 {
     public class AnimateService
     {
+        private Dictionary<string, (AnimateData data,Task task)> Data = new Dictionary<string, (AnimateData, Task)>();
+
         public AnimateService(IJSRuntime jsRuntime)
         {
             JsRuntime = jsRuntime;
@@ -21,13 +23,62 @@ namespace Thunder.Blazor.Services
         [Inject]
         public IJSRuntime JsRuntime { get; set; }
 
-        public async Task Start<T>(AnimateData data, Action<T> callback=null)
+        /// <summary>
+        /// 执行动画
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="data">动画参数</param>
+        /// <param name="callback">动画执行完后回调</param>
+        /// <returns></returns>
+        public async Task Start(AnimateData data, Action callback=null)
         {
-            var jscall = new JsAction<T>
+            await Reset(data);
+            Console.WriteLine($"开始动画。{data.AnimateType.ToString()}");
+
+            var jscall = new JsAction
             {
-                Action = callback
+                Action = () =>
+                {
+                    if (data.resetOnEnd)
+                    {
+                        Console.WriteLine($"回调清理动画。{data.AnimateType.ToString()}");
+                        Reset(data);
+                    }
+                    callback?.Invoke();
+                }
             };
-            await JsRuntime.InvokeAsync<object>("thunder.animateCSS", new object[] { data, jscall.ToObjectRef() });
+            var cb = jscall.ToObjectRef();
+            //if (callback == null)
+            //{
+            //    cb = null;
+            //}
+            var task= JsRuntime.InvokeAsync<object>("thunder.animateCSS", new object[] { data, cb });
+            Data.Add(data.id, (data,task));
+        }
+
+        /// <summary>
+        /// 重置动画
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public async Task Reset(AnimateData data, bool forceRemove = false)
+        {
+            if (Data.ContainsKey(data.id))
+            {
+                var ani = Data[data.id];
+                if (ani.task.Status != TaskStatus.RanToCompletion)
+                {
+                    Console.WriteLine($"等待动画结束。{ani.data.AnimateType.ToString()}");
+                    ani.task.Wait();
+                }
+            }
+            if (Data.ContainsKey(data.id)||forceRemove)
+            {
+                var ani = Data[data.id];
+                await JsRuntime.InvokeAsync<object>("thunder.resetAnimate", ani.data);
+                Data.Remove(data.id);
+                Console.WriteLine($"完成动画清理。{ani.data.AnimateType.ToString()}");
+            }
         }
     }
 
@@ -41,17 +92,9 @@ namespace Thunder.Blazor.Services
         /// </summary>
         public string id { get; set; }
         /// <summary>
-        /// 动画类型
+        /// 动画参数 CSS
         /// </summary>
-        public string type  => AnimateType.ToString();
-        /// <summary>
-        /// 持续时间
-        /// </summary>
-        public string delay => AnimateDelay.ToDescriptionString();
-        /// <summary>
-        /// 动画速度
-        /// </summary>
-        public string speed => AnimateSpeed.ToString();
+        public string[] animateClass => GetAnimate();
         /// <summary>
         /// 动画类型
         /// </summary>
@@ -64,6 +107,31 @@ namespace Thunder.Blazor.Services
         /// 动画速度
         /// </summary>
         public Speed AnimateSpeed { get; set; } = Speed.normal;
+        /// <summary>
+        /// 动画结束以后重置
+        /// </summary>
+        public bool resetOnEnd { get; set; } = false;
+        /// <summary>
+        /// 动画类型
+        /// </summary>
+        private string type => AnimateType.ToString();
+        /// <summary>
+        /// 持续时间
+        /// </summary>
+        private string delay => AnimateDelay.ToDescriptionString();
+        /// <summary>
+        /// 动画速度
+        /// </summary>
+        private string speed => AnimateSpeed.ToDescriptionString();
+        private string[] GetAnimate()
+        {
+            var result = new List<string>();
+            if (!string.IsNullOrWhiteSpace(type)) result.Add(type);
+            if (!string.IsNullOrWhiteSpace(delay)) result.Add(delay);
+            if (!string.IsNullOrWhiteSpace(speed)) result.Add(speed);
+            if (result.Count > 0) result.Add("animated");
+            return result.ToArray();
+        }
     }
 
     public enum AnimateType
@@ -164,10 +232,15 @@ namespace Thunder.Blazor.Services
 
     public enum Speed
     {
-        normal=1000,
-        slow=2000,       //2s
-        slower=3000,    //3s
-        fast=800,       //800ms
-        faster=500,    //500ms    
+        [Description("")]
+        normal = 1000,
+        [Description("slow")]
+        slow = 2000,       //2s
+        [Description("slower")]
+        slower = 3000,    //3s
+        [Description("fast")]
+        fast = 800,       //800ms
+        [Description("faster")]
+        faster = 500,    //500ms    
     }
 }

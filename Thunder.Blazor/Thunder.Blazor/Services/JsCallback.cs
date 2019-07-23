@@ -26,14 +26,14 @@ namespace Thunder.Blazor.Services
 
     }
 
-    public class JsAction<T>
+    public class JsAction
     {
-        public Action<T> Action { get; set; }
+        public Action Action { get; set; }
 
         [JSInvokable]
-        public void CallAction(T dat)
+        public void CallAction()
         {
-            Action?.Invoke(dat);
+            Action?.Invoke();
         }
     }
 
