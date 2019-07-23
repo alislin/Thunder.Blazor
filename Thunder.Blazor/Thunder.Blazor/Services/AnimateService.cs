@@ -132,6 +132,11 @@ namespace Thunder.Blazor.Services
             if (result.Count > 0) result.Add("animated");
             return result.ToArray();
         }
+
+        public string ToString()
+        {
+            return string.Join(" ", animateClass);
+        }
     }
 
     public enum AnimateType

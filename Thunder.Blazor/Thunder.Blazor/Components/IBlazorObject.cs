@@ -132,6 +132,7 @@ namespace Thunder.Blazor.Components
         string FontColor { get; set; }
         string Size { get; set; }
         string StyleClass { get; set; }
+        Action StateHasChanged { get; set; }
     }
 
     /// <summary>

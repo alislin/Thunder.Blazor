@@ -118,9 +118,22 @@ namespace Thunder.Blazor.Components
     /// 含上下文数据的组件
     /// </summary>
     /// <typeparam name="TModel"></typeparam>
-    public abstract class TComponent<TModel>:TComponent where TModel : TContext,new()
+    public abstract class TComponent<TModel> : TComponent where TModel : TContext, new()
     {
-        [Parameter] protected TModel DataContext { get; set; } = new TModel();
+        private TModel dataContext = new TModel();
+
+        [Parameter] protected TModel DataContext {
+            get => dataContext;
+            set
+            {
+                dataContext = value;
+                if (dataContext!=null)
+                {
+                    dataContext.StateHasChanged = StateHasChanged;
+                }
+            }
+        }
+
         protected override void OnInit()
         {
             base.OnInit();
@@ -134,7 +147,10 @@ namespace Thunder.Blazor.Components
                 {
                 }
             }
-
+            if (DataContext != null)
+            {
+                DataContext.StateHasChanged = StateHasChanged;
+            }
         }
 
         /// <summary>
@@ -250,7 +266,7 @@ namespace Thunder.Blazor.Components
         /// <summary>
         /// 是否可见
         /// </summary>
-        public bool IsVisabled { get; set; }
+        public bool IsVisabled { get; set; } = true;
         /// <summary>
         /// 是否激活
         /// </summary>
@@ -258,7 +274,7 @@ namespace Thunder.Blazor.Components
         /// <summary>
         /// 是否有效
         /// </summary>
-        public bool IsEnabled { get; set; }
+        public bool IsEnabled { get; set; } = true;
         /// <summary>
         /// 操作指令
         /// </summary>
@@ -272,6 +288,10 @@ namespace Thunder.Blazor.Components
         /// 生成区块
         /// </summary>
         public RenderFragment ContextFragment => new RenderFragment(x => { x.OpenComponent(1, ContextType); x.CloseComponent(); });
+        /// <summary>
+        /// 状态已改变
+        /// </summary>
+        public Action StateHasChanged { get; set; }
         /// <summary>
         /// 类型名称
         /// </summary>
