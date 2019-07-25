@@ -34,8 +34,4 @@ Include Common Control base class, and interactions associated logic. Separation
     <PackageReference Include="Thunder.Standard.Lib" Version="1.0.4" />
   </ItemGroup>
 
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="if exist $(ProjectDir)bin\$(ConfigurationName)\$(TargetName)*.nupkg (&#xD;&#xA;copy $(ProjectDir)bin\$(ConfigurationName)\$(TargetName)*.nupkg V:\nugetpack\&#xD;&#xA;)&#xD;&#xA;:nofile" />
-  </Target>
-
 </Project>

@@ -46,8 +46,4 @@
     <TypeScriptCompile Include="content\thunder.animate.ts" />
   </ItemGroup>
   
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="if exist $(ProjectDir)bin\$(ConfigurationName)\$(TargetName)*.nupkg (&#xD;&#xA;copy $(ProjectDir)bin\$(ConfigurationName)\$(TargetName)*.nupkg V:\nugetpack\&#xD;&#xA;)&#xD;&#xA;:nofile" />
-  </Target>
-
 </Project>

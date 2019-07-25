@@ -36,8 +36,5 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
   </ItemGroup>
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="if exist $(ProjectDir)bin\$(ConfigurationName)\$(TargetName)*.nupkg (&#xD;&#xA;copy $(ProjectDir)bin\$(ConfigurationName)\$(TargetName)*.nupkg V:\nugetpack\&#xD;&#xA;)&#xD;&#xA;:nofile" />
-  </Target>
 
 </Project>

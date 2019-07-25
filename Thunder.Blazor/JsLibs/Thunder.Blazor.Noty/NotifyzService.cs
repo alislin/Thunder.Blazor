@@ -42,7 +42,7 @@ namespace Thunder.Blazor.Services
 
         public async Task Show(NotyData msg)
         {
-            await JsRuntime.InvokeAsync<object>("NotyJgrowl.show", msg);
+            await JsRuntime.InvokeAsync<object>("ThunderBlazor.Noty.Show", msg);
         }
 
         /// <summary>
@@ -65,6 +65,17 @@ namespace Thunder.Blazor.Services
 
     public class NotyData
     {
+        public NotyData()
+        {
+        }
+
+        public NotyData(string text,NotyType type= NotyType.info, int timeout=2500)
+        {
+            this.text = text;
+            this.timeout = timeout;
+            this.NotyType = type;
+        }
+
         public string text { get; set; }
         public int timeout { get; set; } = 2500;
         public string type => NotyType.ToString();

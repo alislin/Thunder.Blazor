@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Components.Builder;
 using Microsoft.Extensions.DependencyInjection;
+using Thunder.Blazor.Services;
 
 namespace ClientDemo.Client
 {
@@ -7,6 +8,7 @@ namespace ClientDemo.Client
     {
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddNotyScoped();
         }
 
         public void Configure(IComponentsApplicationBuilder app)

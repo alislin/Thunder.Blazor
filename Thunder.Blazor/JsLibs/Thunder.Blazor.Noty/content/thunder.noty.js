@@ -11,7 +11,7 @@ var __assign = (this && this.__assign) || function () {
     return __assign.apply(this, arguments);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var NotyJs = require("./noty.min");
+var NotyJs = require("./noty.min.js");
 var Thunder;
 (function (Thunder) {
     var Noty;

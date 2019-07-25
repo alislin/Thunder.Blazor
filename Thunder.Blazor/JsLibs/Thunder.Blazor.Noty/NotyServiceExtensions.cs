@@ -5,7 +5,7 @@ namespace Thunder.Blazor.Services
 {
     public static class NotyServiceExtensions
     {
-        public static IServiceCollection AddAnimateScoped(this IServiceCollection services)
+        public static IServiceCollection AddNotyScoped(this IServiceCollection services)
         {
             services.TryAddScoped<NotifyService>();
             return services;

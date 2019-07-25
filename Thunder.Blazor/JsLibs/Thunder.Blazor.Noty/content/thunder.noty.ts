@@ -1,4 +1,4 @@
-﻿import NotyJs = require("./noty.min")
+﻿import NotyJs = require("./noty.min.js")
 namespace Thunder.Noty {
 
     declare var window: Window & { ThunderBlazor: ThunderBlazor }
