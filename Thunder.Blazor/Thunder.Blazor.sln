@@ -11,15 +11,27 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Server", "Server", "{048EA5
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Client", "Client", "{080F8C95-4939-423A-8797-B49897185E14}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientDemo.Server", "Sample\ClientDemo.Server\ClientDemo.Server.csproj", "{45ED8AB6-31B4-4D56-ACB0-60043D53DD5C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClientDemo.Server", "Sample\ClientDemo.Server\ClientDemo.Server.csproj", "{45ED8AB6-31B4-4D56-ACB0-60043D53DD5C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientDemo.Client", "Sample\ClientDemo.Client\ClientDemo.Client.csproj", "{04F92230-8487-4066-BF1F-4BF168819440}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClientDemo.Client", "Sample\ClientDemo.Client\ClientDemo.Client.csproj", "{04F92230-8487-4066-BF1F-4BF168819440}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientDemo.Shared", "Sample\ClientDemo.Shared\ClientDemo.Shared.csproj", "{65DCBF07-8D48-451E-A9AE-9D5880D5D6BE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClientDemo.Shared", "Sample\ClientDemo.Shared\ClientDemo.Shared.csproj", "{65DCBF07-8D48-451E-A9AE-9D5880D5D6BE}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "JsLibs", "JsLibs", "{CF57C840-C5CD-4E9A-87BF-9A655F04DA2B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Thunder.Blazor.JsLibs.NotyJgrowl", "JsLibs\Thunder.Blazor.JsLibs.NotyJgrowl\Thunder.Blazor.JsLibs.NotyJgrowl.csproj", "{A91B31A8-0016-42ED-83DC-912CC706668E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Thunder.Blazor.JsLibs.NotyJgrowl", "JsLibs\Thunder.Blazor.JsLibs.NotyJgrowl\Thunder.Blazor.JsLibs.NotyJgrowl.csproj", "{A91B31A8-0016-42ED-83DC-912CC706668E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Thunder.Blazor.Animate", "JsLibs\Thunder.Blazor.Animate\Thunder.Blazor.Animate.csproj", "{BB8B9FAA-B7E4-45AE-BAA6-72646931E3CC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Bootstrap", "Bootstrap", "{BA91EC08-B587-4BC8-AE0B-CB8A900C3EB5}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Thunder.Blazor.Noty", "JsLibs\Thunder.Blazor.Noty\Thunder.Blazor.Noty.csproj", "{C1CF88A6-2F47-4889-92F0-A91E4339B5BB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Thunder.Blazor.DomObject", "JsLibs\Thunder.Blazor.DomObject\Thunder.Blazor.DomObject.csproj", "{122ED7B3-2B10-468A-BFFC-0606E68DD137}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{A9488432-328E-4D8A-8F41-CE21CB7C0A13}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThunderBlazorTest", "Test\ThunderBlazorTest\ThunderBlazorTest.csproj", "{C0A2BC6B-6C95-4222-8847-7392ED208970}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,6 +59,22 @@ Global
 		{A91B31A8-0016-42ED-83DC-912CC706668E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A91B31A8-0016-42ED-83DC-912CC706668E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A91B31A8-0016-42ED-83DC-912CC706668E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BB8B9FAA-B7E4-45AE-BAA6-72646931E3CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BB8B9FAA-B7E4-45AE-BAA6-72646931E3CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BB8B9FAA-B7E4-45AE-BAA6-72646931E3CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BB8B9FAA-B7E4-45AE-BAA6-72646931E3CC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C1CF88A6-2F47-4889-92F0-A91E4339B5BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1CF88A6-2F47-4889-92F0-A91E4339B5BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1CF88A6-2F47-4889-92F0-A91E4339B5BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1CF88A6-2F47-4889-92F0-A91E4339B5BB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{122ED7B3-2B10-468A-BFFC-0606E68DD137}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{122ED7B3-2B10-468A-BFFC-0606E68DD137}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{122ED7B3-2B10-468A-BFFC-0606E68DD137}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{122ED7B3-2B10-468A-BFFC-0606E68DD137}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C0A2BC6B-6C95-4222-8847-7392ED208970}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C0A2BC6B-6C95-4222-8847-7392ED208970}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C0A2BC6B-6C95-4222-8847-7392ED208970}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C0A2BC6B-6C95-4222-8847-7392ED208970}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -58,6 +86,10 @@ Global
 		{04F92230-8487-4066-BF1F-4BF168819440} = {080F8C95-4939-423A-8797-B49897185E14}
 		{65DCBF07-8D48-451E-A9AE-9D5880D5D6BE} = {080F8C95-4939-423A-8797-B49897185E14}
 		{A91B31A8-0016-42ED-83DC-912CC706668E} = {CF57C840-C5CD-4E9A-87BF-9A655F04DA2B}
+		{BB8B9FAA-B7E4-45AE-BAA6-72646931E3CC} = {CF57C840-C5CD-4E9A-87BF-9A655F04DA2B}
+		{C1CF88A6-2F47-4889-92F0-A91E4339B5BB} = {CF57C840-C5CD-4E9A-87BF-9A655F04DA2B}
+		{122ED7B3-2B10-468A-BFFC-0606E68DD137} = {CF57C840-C5CD-4E9A-87BF-9A655F04DA2B}
+		{C0A2BC6B-6C95-4222-8847-7392ED208970} = {A9488432-328E-4D8A-8F41-CE21CB7C0A13}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9CCFF833-7926-4C38-BE1B-794E12DDC4A7}

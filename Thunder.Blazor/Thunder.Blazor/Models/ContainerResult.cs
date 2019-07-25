@@ -22,7 +22,7 @@ namespace Thunder.Blazor.Models
         public ContextResultValue Result { get; set; }
         public bool Cancelled => Result == ContextResultValue.Cancel;
 
-        protected ContextResult(object data, Type resultType, ContextResultValue result)
+        public ContextResult(object data, Type resultType, ContextResultValue result)
         {
             Data = data;
             DataType = resultType;

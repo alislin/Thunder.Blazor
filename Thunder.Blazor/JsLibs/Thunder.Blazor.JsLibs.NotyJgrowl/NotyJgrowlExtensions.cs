@@ -6,7 +6,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using System.Text;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Thunder.Blazor.JsLib.NotyJgrowl
+namespace Thunder.Blazor.Services
 {
     public static class NotyJgrowlExtensions
     {

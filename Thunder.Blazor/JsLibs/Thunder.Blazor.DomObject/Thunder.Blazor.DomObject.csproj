@@ -3,9 +3,11 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <Authors>Ya Lin</Authors>
-    <Description>Blazor framework for rapid development of the program.
+    <Description>
+      Blazor framework for rapid development of the program.
 
-Include Common Control base class, and interactions associated logic. Separation of interface and business logic. As a basic framework to use.</Description>
+      Include Common Control base class, and interactions associated logic. Separation of interface and business logic. As a basic framework to use.
+    </Description>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <PackageLicenseFile></PackageLicenseFile>
@@ -22,18 +24,18 @@ Include Common Control base class, and interactions associated logic. Separation
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="_Imports.razor" />
+    <EmbeddedResource Include="content\**\*.js" LogicalName="blazor:js:%(RecursiveDir)%(Filename)%(Extension)" />
+    <EmbeddedResource Include="content\**\*.css" LogicalName="blazor:css:%(RecursiveDir)%(Filename)%(Extension)" />
+    <EmbeddedResource Include="content\**" Exclude="**\*.js;**\*.css" LogicalName="blazor:file:%(RecursiveDir)%(Filename)%(Extension)" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="Components\_Imports.razor" />
+    <PackageReference Include="Microsoft.AspNetCore.Blazor" Version="3.0.0-preview7.19365.7" />
+    <PackageReference Include="Microsoft.TypeScript.MSBuild" Version="3.6.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Components.Browser" Version="3.0.0-preview7.19365.7" />
-    <PackageReference Include="Thunder.Standard.Lib" Version="1.0.4" />
-  </ItemGroup>
-
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
     <Exec Command="if exist $(ProjectDir)bin\$(ConfigurationName)\$(TargetName)*.nupkg (&#xD;&#xA;copy $(ProjectDir)bin\$(ConfigurationName)\$(TargetName)*.nupkg V:\nugetpack\&#xD;&#xA;)&#xD;&#xA;:nofile" />
   </Target>

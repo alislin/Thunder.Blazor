@@ -8,7 +8,7 @@ using Thunder.Blazor.Models;
 namespace Thunder.Blazor.Components
 {
     /// <summary>
-    /// 子组件基类
+    /// 子组件基类 (View)
     /// </summary>
     public class TComponent : ComponentBase, IDisposable,IThunderObject,IAnimate
     {
@@ -48,31 +48,31 @@ namespace Thunder.Blazor.Components
         /// <summary>
         /// 级联参数（父组件传入参数）
         /// </summary>
-        [CascadingParameter] protected ComponentParamenter Paramenters { get; set; }
+        [CascadingParameter] public ComponentParamenter Paramenters { get; set; }
         /// <summary>
         /// 级联参数（传入子组件）
         /// </summary>
-        [CascadingParameter] protected ComponentParamenter ChildParamenters { get; set; }
+        [CascadingParameter] public ComponentParamenter ChildParamenters { get; set; }
         /// <summary>
         /// 子组件
         /// </summary>
-        [Parameter] protected RenderFragment ChildContent { get; set; }     //todo:需要处理子组件队列 List<T>
+        [Parameter] public RenderFragment ChildContent { get; set; }     //todo:需要处理子组件队列 List<T>
         /// <summary>
         /// 组件名称
         /// </summary>
-        [Parameter] protected string Name { get; set; }
+        [Parameter] public string Name { get; set; }
         /// <summary>
         /// 点击回调
         /// </summary>
-        [Parameter] protected EventCallback OnClick { get; set; }
+        [Parameter] public EventCallback OnClick { get; set; }
         /// <summary>
         /// 关闭回调
         /// </summary>
-        [Parameter] protected EventCallback OnClose { get; set; }
+        [Parameter] public EventCallback OnClose { get; set; }
         /// <summary>
         /// 是否含有传入参数
         /// </summary>
-        protected bool HasParamenters => Paramenters != null;
+        public bool HasParamenters => Paramenters != null;
 
         public virtual void Dispose()
         {
@@ -101,7 +101,7 @@ namespace Thunder.Blazor.Components
     /// <typeparam name="TModel"></typeparam>
     public abstract class TComponentObject<TModel> : TComponent where TModel : new()
     {
-        [Parameter] protected TModel DataContext { get; set; } = new TModel();
+        [Parameter] public TModel DataContext { get; set; } = new TModel();
     }
 
     /// <summary>
@@ -122,7 +122,7 @@ namespace Thunder.Blazor.Components
     {
         private TModel dataContext = new TModel();
 
-        [Parameter] protected TModel DataContext {
+        [Parameter] public TModel DataContext {
             get => dataContext;
             set
             {
@@ -220,7 +220,7 @@ namespace Thunder.Blazor.Components
 
 
     /// <summary>
-    /// 组件数据
+    /// 组件数据 (ViewModel)
     /// </summary>
     public  class TContext: IThunderObject, IVisual, IBaseBehaver
     {

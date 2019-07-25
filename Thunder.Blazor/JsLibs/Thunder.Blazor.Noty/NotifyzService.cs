@@ -2,9 +2,11 @@
 using Microsoft.JSInterop;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using Thunder.Blazor.Extensions;
 
 namespace Thunder.Blazor.Services
 {
@@ -23,13 +25,13 @@ namespace Thunder.Blazor.Services
     /// <script src="assets/js/plugins/noty.min.js"></script>
     /// <script src="assets/js/noty.app.js"></script>
     /// </remarks>
-    public class Notify
+    public class NotifyService
     {
-        public Notify()
+        public NotifyService()
         {
         }
 
-        public Notify(IJSRuntime jsRuntime)
+        public NotifyService(IJSRuntime jsRuntime)
         {
             JsRuntime = jsRuntime;
         }
@@ -56,26 +58,21 @@ namespace Thunder.Blazor.Services
                 {
                     msg = "请求失败！网络连接异常。";
                 }
-                await Show(new NotyData { text = msg, typesrc = NotyDataType.error,timeout=0 });
+                await Show(new NotyData { text = msg, NotyType = NotyType.error,timeout=0 });
             }
         }
-    }
-
-    class notifydata
-    {
-        public bool sticky { get; set; }
-        public int corners { get; set; } = 10;
-        public string position { get; set; } = "top-right";
-        public string theme { get; set; } = "default";
-        public string type { get; set; } = "alert";
     }
 
     public class NotyData
     {
         public string text { get; set; }
-        public string type => typesrc.ToString();
         public int timeout { get; set; } = 2500;
-        public NotyDataType typesrc { get; set; } = NotyDataType.info;
+        public string type => NotyType.ToString();
+        public string layout => NotyLayout.ToString();
+        public string theme => NotyTheme.ToDescriptionString();
+        public NotyTheme NotyTheme { get; set; } = NotyTheme.bootstrap_v4;
+        public NotyType NotyType { get; set; } = NotyType.info;
+        public NotyLayout NotyLayout { get; set; } = NotyLayout.topRight;
     }
 
     public enum NotyDataType
@@ -87,8 +84,41 @@ namespace Thunder.Blazor.Services
         alert,
     }
 
+    public enum NotyTheme
+    {
+        [Description("mint")]
+        mint,
+        [Description("sunset")]
+        sunset,
+        [Description("relax")]
+        relax,
+        [Description("nest")]
+        nest,
+        [Description("metroui")]
+        metroui,
+        [Description("semanticui")]
+        semanticui,
+        [Description("light")]
+        light,
+        [Description("bootstrap-v3")]
+        bootstrap_v3,
+        [Description("bootstrap-v4")]
+        bootstrap_v4
+    }
+
+    public enum NotyType
+    {
+        alert, success, warning, error, info
+    }
+
+    public enum NotyLayout
+    {
+        top, topLeft, topCenter, topRight, center, centerLeft, centerRight, bottom, bottomLeft, bottomCenter, bottomRight
+    }
+
     public class NotifyConfiguration
     {
 
     }
+
 }

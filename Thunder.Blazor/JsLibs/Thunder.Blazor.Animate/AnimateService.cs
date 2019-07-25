@@ -11,13 +11,17 @@ using Thunder.Standard.Lib.Extension;
 
 namespace Thunder.Blazor.Services
 {
-    public class AnimateService
+    public partial class AnimateService
     {
         private Dictionary<string, (AnimateData data,Task task)> Data = new Dictionary<string, (AnimateData, Task)>();
 
         public AnimateService(IJSRuntime jsRuntime)
         {
             JsRuntime = jsRuntime;
+        }
+
+        public AnimateService()
+        {
         }
 
         [Inject]
@@ -52,7 +56,7 @@ namespace Thunder.Blazor.Services
             //{
             //    cb = null;
             //}
-            var task= JsRuntime.InvokeAsync<object>("thunder.animateCSS", new object[] { data, cb });
+            var task= JsRuntime.InvokeAsync<object>("ThunderBlazor.Animate.Start", new object[] { data, cb });
             Data.Add(data.id, (data,task));
         }
 
@@ -75,11 +79,12 @@ namespace Thunder.Blazor.Services
             if (Data.ContainsKey(data.id)||forceRemove)
             {
                 var ani = Data[data.id];
-                await JsRuntime.InvokeAsync<object>("thunder.resetAnimate", ani.data);
+                await JsRuntime.InvokeAsync<object>("ThunderBlazor.Animate.Reset", ani.data);
                 Data.Remove(data.id);
                 Console.WriteLine($"完成动画清理。{ani.data.AnimateType.ToString()}");
             }
         }
+
     }
 
     /// <summary>
