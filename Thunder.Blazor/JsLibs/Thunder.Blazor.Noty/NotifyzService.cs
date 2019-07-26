@@ -76,6 +76,15 @@ namespace Thunder.Blazor.Services
             this.NotyType = type;
         }
 
+        public NotyData(string text, NotyType notyType, int timeout, NotyTheme notyTheme= NotyTheme.bootstrap_v4, NotyLayout notyLayout= NotyLayout.topRight)
+        {
+            this.text = text;
+            this.timeout = timeout;
+            NotyTheme = notyTheme;
+            NotyType = notyType;
+            NotyLayout = notyLayout;
+        }
+
         public string text { get; set; }
         public int timeout { get; set; } = 2500;
         public string type => NotyType.ToString();

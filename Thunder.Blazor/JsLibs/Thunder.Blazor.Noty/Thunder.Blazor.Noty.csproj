@@ -36,7 +36,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Remove="content\bootstrap-v3.min.css" />
     <EmbeddedResource Remove="content\index.d.ts" />
+    <EmbeddedResource Remove="content\metroui.min.css" />
+    <EmbeddedResource Remove="content\mint.min.css" />
+    <EmbeddedResource Remove="content\nest.min.css" />
+    <EmbeddedResource Remove="content\relax.min.css" />
+    <EmbeddedResource Remove="content\semanticui.min.css" />
+    <EmbeddedResource Remove="content\sunset.min.css" />
     <EmbeddedResource Remove="content\thunder.noty.ts" />
   </ItemGroup>
 
