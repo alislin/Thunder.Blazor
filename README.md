@@ -1,12 +1,12 @@
 # Thunder.Blazor 
 ![](https://img.shields.io/badge/.NetCore%203.0-SDK%203.0.100--preview7--012821-sucess)  
 
-| Components               | nuget version                                                     |
-| ------------------------ | ----------------------------------------------------------------- |
-| Thunder.Blazor           | ![Nuget](https://img.shields.io/nuget/v/thunder.blazor)           |
-| Thunder.Blazor.Animate   | ![Nuget](https://img.shields.io/nuget/v/thunder.blazor.animate)   |
-| Thunder.Blazor.Noty      | ![Nuget](https://img.shields.io/nuget/v/thunder.blazor.noty)      |
-| Thunder.Blazor.Bootstrap | ![Nuget](https://img.shields.io/nuget/v/thunder.blazor.bootstrap) |
+| Components               | nuget version                                                                        |
+| ------------------------ | ------------------------------------------------------------------------------------ |
+| Thunder.Blazor           | ![Nuget (with prereleases)](https://img.shields.io/nuget/v/thunder.blazor)           |
+| Thunder.Blazor.Animate   | ![Nuget (with prereleases)](https://img.shields.io/nuget/v/thunder.blazor.animate)   |
+| Thunder.Blazor.Noty      | ![Nuget (with prereleases)](https://img.shields.io/nuget/vpre/thunder.blazor.noty)   |
+| Thunder.Blazor.Bootstrap | ![Nuget (with prereleases)](https://img.shields.io/nuget/v/thunder.blazor.bootstrap) |
 
 Blazor framework for rapid development of the program.
 
