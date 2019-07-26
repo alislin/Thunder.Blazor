@@ -30,7 +30,9 @@ Public void ConfigureServices(IServiceCollection services)
     services.AddAnimateScoped();
 }
 ```
-On the page or component that needs to be called
+In the page or component that needs to be called, the component that needs to be animated will be set to `id`.
+> After the page inherits `TComponent`, you can use `NewId()` to generate a random `id` name  
+> `@inherits Thunder.Blazor.Components.TComponent`
 ```
 <h1 id="@titleId">Hello, world!</h1>
 @code{

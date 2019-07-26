@@ -30,7 +30,9 @@ public void ConfigureServices(IServiceCollection services)
     services.AddAnimateScoped();
 }
 ```
-在需要调用的页面或者组件
+在需要调用的页面或者组件，将需要启用动画的组件设置 `id` 。  
+> 页面继承 `TComponent` 后，可以使用 `NewId()` 生成随机 `id` 名称  
+> `@inherits Thunder.Blazor.Components.TComponent` 
 ```
 <h1 id="@titleId">Hello, world!</h1>
 @code{
