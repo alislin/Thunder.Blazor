@@ -43,7 +43,9 @@
   </ItemGroup>
   
   <ItemGroup>
-    <TypeScriptCompile Include="content\thunder.animate.ts" />
+    <TypeScriptCompile Include="content\thunder.animate.ts">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </TypeScriptCompile>
   </ItemGroup>
   
 </Project>

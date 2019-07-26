@@ -119,7 +119,7 @@ namespace Thunder.Blazor.Services
 
     public enum NotyType
     {
-        alert, success, warning, error, info
+        alert, success, warning, error, info, information
     }
 
     public enum NotyLayout

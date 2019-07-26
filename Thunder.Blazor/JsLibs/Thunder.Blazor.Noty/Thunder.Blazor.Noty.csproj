@@ -36,13 +36,20 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Remove="content\index.d.ts" />
     <EmbeddedResource Remove="content\thunder.noty.ts" />
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="content\bootstrap-v4.min.css" />
+    <None Remove="content\noty.min.css" />
     <None Remove="content\thunder.callback.js" />
     <None Remove="content\thunder.callback.js.map" />
     <None Remove="content\thunder.noty.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Remove="content\index.d.ts" />
   </ItemGroup>
 
   <ItemGroup>

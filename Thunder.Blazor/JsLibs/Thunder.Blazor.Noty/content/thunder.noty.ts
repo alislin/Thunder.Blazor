@@ -1,5 +1,5 @@
-﻿import NotyJs = require("./noty.min")
-namespace Thunder.Noty {
+﻿///<reference path = 'index.d.ts' />
+namespace Thunder.NotyJs {
 
     declare var window: Window & { ThunderBlazor: ThunderBlazor }
 
@@ -20,23 +20,26 @@ namespace Thunder.Noty {
 
     class NotyWrap {
         public Show(data: NotyData, callback: any) {
-            new NotyJs(data).show().on('onClick', () => {
+            var option = data;
+            var noty = new Noty(data);
+            noty.on('onClose', () => {
                 if (typeof callback === 'object') callback.invokeMethodAsync("CallAction", data);
             });
+            noty.show();
         }
 
         public CloseAll() {
-            NotyJs.closeAll();
+            Noty.closeAll();
         }
         
     }
 
-    class NotyData {
-        text: string;
-        timeout: number;
-        layout: string;
-        theme: string;
-        type: string;
+    class NotyData implements  Noty.Options {
+        text?: string;
+        timeout?: number;
+        layout?: Noty.Layout;
+        theme?: Noty.Theme;
+        type?: Noty.Type;
     }
 }
-Thunder.Noty.Init();
+Thunder.NotyJs.Init();
