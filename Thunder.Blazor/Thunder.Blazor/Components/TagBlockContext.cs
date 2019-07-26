@@ -33,6 +33,10 @@ namespace Thunder.Blazor.Components
         public bool IsOpen { get; set; }
     }
 
+    /// <summary>
+    /// 多级节点数据
+    /// </summary>
+    /// <typeparam name="TModel"></typeparam>
     public class TNode<TModel> : TNodeBase<TModel> where TModel:TNode<TModel>
     {
         public void Add(TModel child, Action action = null)

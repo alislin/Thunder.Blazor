@@ -28,5 +28,10 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Thunder.Blazor\Thunder.Blazor.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="content\**\*.js" LogicalName="blazor:js:%(RecursiveDir)%(Filename)%(Extension)" />
+    <EmbeddedResource Include="content\**\*.css" LogicalName="blazor:css:%(RecursiveDir)%(Filename)%(Extension)" />
+    <EmbeddedResource Include="content\**" Exclude="**\*.js;**\*.css" LogicalName="blazor:file:%(RecursiveDir)%(Filename)%(Extension)" />
+  </ItemGroup>
 
 </Project>

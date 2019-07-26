@@ -7,6 +7,10 @@ using Thunder.Blazor.Models;
 
 namespace Thunder.Blazor.Components
 {
+    /// <summary>
+    /// Modal 窗口
+    /// </summary>
+    /// <typeparam name="TModel"></typeparam>
     public class TModalBase<TModel>:TComponentContainer<TModel> where TModel:TModalContext,new()
     {
         protected override void OnInit()
@@ -52,4 +56,5 @@ namespace Thunder.Blazor.Components
         public ButtonType ButtonType { get; set; }
         public new Action<TContext,string,ButtonType,string> Show { get; set; }
     }
+
 }
