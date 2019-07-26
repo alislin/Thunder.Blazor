@@ -52,7 +52,7 @@ On the page or component that needs to be called
 ```
 ---
 ### Thunder.Blazor.Noty
-> By default only `bootstrap-v4.min.css` is included. If you need other topics, you can add the corresponding theme css in `head` of the `index.htm` file.
+> By default only `bootstrap-v4.min.css` is included. If you need other theme, you can add the corresponding theme css in `head` of the `index.htm` file.
 
 Configured in the `startup.cs` file
 ```
