@@ -1,4 +1,4 @@
-﻿import NotyJs = require("./noty.min.js")
+﻿import NotyJs = require("./noty.min")
 namespace Thunder.Noty {
 
     declare var window: Window & { ThunderBlazor: ThunderBlazor }
@@ -7,7 +7,7 @@ namespace Thunder.Noty {
 
     export function Init(): void {
         const obj = {
-            Noty: new Noty()
+            Noty: new NotyWrap()
         };
 
         if (window.ThunderBlazor) {
@@ -18,7 +18,7 @@ namespace Thunder.Noty {
         }
     }
 
-    class Noty {
+    class NotyWrap {
         public Show(data: NotyData, callback: any) {
             new NotyJs(data).show().on('onClick', () => {
                 if (typeof callback === 'object') callback.invokeMethodAsync("CallAction", data);

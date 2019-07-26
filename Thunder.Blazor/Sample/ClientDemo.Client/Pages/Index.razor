@@ -1,18 +1,31 @@
 ﻿@page "/"
+@inherits TComponent
 
-
-<h1>Hello, world!</h1>
+<h1 id="@titleId">Hello, world!</h1>
 
 Welcome to your new app.
 
 <SurveyPrompt Title="How is Blazor working for you?" />
 
-<button @onclick="@NotyInfo" >提示消息</button>
+<button class="btn btn-primary" @onclick="@NotyInfo">提示消息 (Notice pop)</button>
+<button class="btn btn-primary" @onclick="@AnimateClick">动画演示 (Animate Demo)</button>
 
 @code{
-[Inject] protected NotifyService noty { get; set; }
-private void NotyInfo()
-{
-    noty.Show(new NotyData("这是一条测试的消息。\r\n This is a test pop!"));
-}
+    [Inject] protected NotifyService noty { get; set; }
+    [Inject] protected AnimateService animate { get; set; }
+    protected string titleId { get; set; }
+    protected override void OnInit()
+    {
+        titleId = NewId();
+        base.OnInit();
+    }
+    private void NotyInfo()
+    {
+        noty.Show(new NotyData("这是一条测试的消息。\r\n This is a test pop!"));
+    }
+
+    private void AnimateClick()
+    {
+        animate.Start(new AnimateData { AnimateType = AnimateType.tada, id = titleId, resetOnEnd=true });
+    }
 }

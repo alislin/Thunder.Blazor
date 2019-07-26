@@ -11,11 +11,11 @@ var __assign = (this && this.__assign) || function () {
     return __assign.apply(this, arguments);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var NotyJs = require("./noty.min.js");
+var NotyJs = require("./noty.min");
 var Thunder;
 (function (Thunder) {
     var Noty;
-    (function (Noty_1) {
+    (function (Noty) {
         var ThunderBlazor = /** @class */ (function () {
             function ThunderBlazor() {
             }
@@ -23,7 +23,7 @@ var Thunder;
         }());
         function Init() {
             var obj = {
-                Noty: new Noty()
+                Noty: new NotyWrap()
             };
             if (window.ThunderBlazor) {
                 window.ThunderBlazor = __assign({}, window.ThunderBlazor, obj);
@@ -32,20 +32,20 @@ var Thunder;
                 window.ThunderBlazor = __assign({}, obj);
             }
         }
-        Noty_1.Init = Init;
-        var Noty = /** @class */ (function () {
-            function Noty() {
+        Noty.Init = Init;
+        var NotyWrap = /** @class */ (function () {
+            function NotyWrap() {
             }
-            Noty.prototype.Show = function (data, callback) {
+            NotyWrap.prototype.Show = function (data, callback) {
                 new NotyJs(data).show().on('onClick', function () {
                     if (typeof callback === 'object')
                         callback.invokeMethodAsync("CallAction", data);
                 });
             };
-            Noty.prototype.CloseAll = function () {
+            NotyWrap.prototype.CloseAll = function () {
                 NotyJs.closeAll();
             };
-            return Noty;
+            return NotyWrap;
         }());
         var NotyData = /** @class */ (function () {
             function NotyData() {
@@ -55,4 +55,3 @@ var Thunder;
     })(Noty = Thunder.Noty || (Thunder.Noty = {}));
 })(Thunder || (Thunder = {}));
 Thunder.Noty.Init();
-//# sourceMappingURL=thunder.noty.js.map
