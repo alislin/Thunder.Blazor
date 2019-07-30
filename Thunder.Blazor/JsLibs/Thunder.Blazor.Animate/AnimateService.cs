@@ -7,7 +7,8 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
 using System.Threading.Tasks;
-using Thunder.Standard.Lib.Extension;
+using Thunder.Blazor.Extensions;
+using Thunder.Blazor.Services;
 
 namespace Thunder.Blazor.Services
 {

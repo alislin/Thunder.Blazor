@@ -24,13 +24,26 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="content\animate.min.css" />
-  </ItemGroup>
-
-  <ItemGroup>
     <EmbeddedResource Include="content\**\*.js" LogicalName="blazor:js:%(RecursiveDir)%(Filename)%(Extension)" />
     <EmbeddedResource Include="content\**\*.css" LogicalName="blazor:css:%(RecursiveDir)%(Filename)%(Extension)" />
     <EmbeddedResource Include="content\**" Exclude="**\*.js;**\*.css" LogicalName="blazor:file:%(RecursiveDir)%(Filename)%(Extension)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Remove="content\sweetalert.d.ts" />
+    <EmbeddedResource Remove="content\thunder.sweetalert.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="content\core.ts" />
+    <None Remove="content\sweetalert.min.js" />
+    <None Remove="content\thunder.noty.js" />
+    <None Remove="content\thunder.sweetalert.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Remove="content\core.ts" />
+    <TypeScriptCompile Remove="content\sweetalert.d.ts" />
   </ItemGroup>
 
   <ItemGroup>
@@ -42,13 +55,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Thunder.Blazor\Thunder.Blazor.csproj" />
+    <EmbeddedResource Update="content\thunder.sweetalert.js">
+      <LogicalName>blazor:js:%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
+    </EmbeddedResource>
   </ItemGroup>
-  
+
   <ItemGroup>
-    <TypeScriptCompile Include="content\thunder.animate.ts">
+    <TypeScriptCompile Update="content\thunder.sweetalert.ts">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </TypeScriptCompile>
   </ItemGroup>
-  
+
+
 </Project>

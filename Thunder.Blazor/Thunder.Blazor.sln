@@ -31,7 +31,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{A9488432-3
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ThunderBlazorTest", "Test\ThunderBlazorTest\ThunderBlazorTest.csproj", "{C0A2BC6B-6C95-4222-8847-7392ED208970}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Thunder.Blazor.Bootstrap", "Bootstrap\Thunder.Blazor.Bootstrap\Thunder.Blazor.Bootstrap.csproj", "{6B855682-4894-4B54-BECC-D92CACDFED42}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Thunder.Blazor.Bootstrap", "Bootstrap\Thunder.Blazor.Bootstrap\Thunder.Blazor.Bootstrap.csproj", "{6B855682-4894-4B54-BECC-D92CACDFED42}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Thunder.Blazor.BlockUI", "Jslibs\Thunder.Blazor.BlockUI\Thunder.Blazor.BlockUI.csproj", "{4C623157-01FC-4C94-BDCD-CEBD2A8BAE61}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Thunder.Blazor.SweetAlert", "jslibs\Thunder.Blazor.SweetAlert\Thunder.Blazor.SweetAlert.csproj", "{B0F9CCAB-8224-42BC-8FA4-32F723D855F4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -75,6 +79,14 @@ Global
 		{6B855682-4894-4B54-BECC-D92CACDFED42}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6B855682-4894-4B54-BECC-D92CACDFED42}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6B855682-4894-4B54-BECC-D92CACDFED42}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4C623157-01FC-4C94-BDCD-CEBD2A8BAE61}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4C623157-01FC-4C94-BDCD-CEBD2A8BAE61}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4C623157-01FC-4C94-BDCD-CEBD2A8BAE61}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4C623157-01FC-4C94-BDCD-CEBD2A8BAE61}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B0F9CCAB-8224-42BC-8FA4-32F723D855F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B0F9CCAB-8224-42BC-8FA4-32F723D855F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B0F9CCAB-8224-42BC-8FA4-32F723D855F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B0F9CCAB-8224-42BC-8FA4-32F723D855F4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -90,6 +102,8 @@ Global
 		{122ED7B3-2B10-468A-BFFC-0606E68DD137} = {CF57C840-C5CD-4E9A-87BF-9A655F04DA2B}
 		{C0A2BC6B-6C95-4222-8847-7392ED208970} = {A9488432-328E-4D8A-8F41-CE21CB7C0A13}
 		{6B855682-4894-4B54-BECC-D92CACDFED42} = {BA91EC08-B587-4BC8-AE0B-CB8A900C3EB5}
+		{4C623157-01FC-4C94-BDCD-CEBD2A8BAE61} = {CF57C840-C5CD-4E9A-87BF-9A655F04DA2B}
+		{B0F9CCAB-8224-42BC-8FA4-32F723D855F4} = {CF57C840-C5CD-4E9A-87BF-9A655F04DA2B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9CCFF833-7926-4C38-BE1B-794E12DDC4A7}

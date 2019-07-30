@@ -102,6 +102,11 @@ namespace Thunder.Blazor.Components
     public abstract class TComponentObject<TModel> : TComponent where TModel : new()
     {
         [Parameter] public TModel DataContext { get; set; } = new TModel();
+
+        protected override void OnInit()
+        {
+            base.OnInit();
+        }
     }
 
     /// <summary>

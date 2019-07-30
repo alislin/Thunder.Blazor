@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Thunder.Blazor.Components;
@@ -31,9 +32,11 @@ namespace Thunder.Blazor.Components
                 if (selectedValue != value)
                 {
                     selectedValue = value;
+                    DataContext.SelectedValue = value;
                     SelectedValueChanged.InvokeAsync(selectedValue);
                     var m = DataContext.Items.FirstOrDefault(x => x.Value == selectedValue);
                     selectedItem = m;
+                    DataContext.SelectedItem = m;
                     SelectedItemChanged.InvokeAsync(m);
                 }
             }
@@ -58,10 +61,10 @@ namespace Thunder.Blazor.Components
 
         protected override void OnInit()
         {
+            base.OnInit();
             InitSelected = true;
             selectvalue = DataContext.Items.FirstOrDefault(x => x.Selected).Value;
             //Console.WriteLine($"init {selectvalue}");
-            base.OnInit();
         }
 
         protected override void OnAfterRender()
@@ -79,6 +82,8 @@ namespace Thunder.Blazor.Components
     {
         public List<SelectOption> Items { get; set; } = new List<SelectOption>();
         public List<IGrouping<string, SelectOption>> OptionList => Items.GroupBy(x => x.Group).ToList();
-        //public string SelectedValue { get; set; }
+        public override Type ContextType => typeof(ThunderSelect);
+        public string SelectedValue { get; set; }
+        public SelectOption SelectedItem { get; set; }
     }
 }

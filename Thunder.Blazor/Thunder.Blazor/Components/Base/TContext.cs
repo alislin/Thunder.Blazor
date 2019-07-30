@@ -93,6 +93,12 @@ namespace Thunder.Blazor.Components
             var p = new ComponentParamenter(TypeName, this);
             return p;
         }
+
+        public T OnAction<T>(Action action) where T:TContext
+        {
+            CommandAction = action;
+            return (T)this;
+        }
     }
 
 

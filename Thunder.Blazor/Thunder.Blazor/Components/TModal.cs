@@ -26,6 +26,7 @@ namespace Thunder.Blazor.Components
             DataContext.ButtonType = button;
             DataContext.Child = value;
             Show();
+            DataContext.Child.StateHasChanged?.Invoke();
         }
 
         protected override void Show()
@@ -48,6 +49,27 @@ namespace Thunder.Blazor.Components
         {
             DataContext.IsVisabled = false;
             DataContext.OnCommand?.Invoke(this, ContextResult.Cancel());
+            switch (result.Result)
+            {
+                default:
+                case ContextResultValue.None:
+                    break;
+                case ContextResultValue.OK:
+                    DataContext?.OKAction?.Invoke();
+                    break;
+                case ContextResultValue.Cancel:
+                    DataContext?.CancelAction?.Invoke();
+                    break;
+                case ContextResultValue.Close:
+                    break;
+                case ContextResultValue.Yes:
+                    break;
+                case ContextResultValue.No:
+                    break;
+            }
+
+            //DataContext.Child = new TContext<TNull>();
+            StateHasChanged();
         }
     }
 
@@ -55,6 +77,18 @@ namespace Thunder.Blazor.Components
     {
         public ButtonType ButtonType { get; set; }
         public new Action<TContext,string,ButtonType,string> Show { get; set; }
+        public Action OKAction { get; set; }
+        public Action CancelAction { get; set; }
+        public TModalContext OK(Action action)
+        {
+            OKAction = action;
+            return this;
+        }
+        public TModalContext Cancel (Action action)
+        {
+            CancelAction = action;
+            return this;
+        }
     }
 
 }
