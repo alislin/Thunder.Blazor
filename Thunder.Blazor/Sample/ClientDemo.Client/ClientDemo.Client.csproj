@@ -13,6 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Bootstrap\Thunder.Blazor.Bootstrap\Thunder.Blazor.Bootstrap.csproj" />
     <ProjectReference Include="..\..\JsLibs\Thunder.Blazor.Animate\Thunder.Blazor.Animate.csproj" />
     <ProjectReference Include="..\..\JsLibs\Thunder.Blazor.DomObject\Thunder.Blazor.DomObject.csproj" />
     <ProjectReference Include="..\..\JsLibs\Thunder.Blazor.Noty\Thunder.Blazor.Noty.csproj" />
