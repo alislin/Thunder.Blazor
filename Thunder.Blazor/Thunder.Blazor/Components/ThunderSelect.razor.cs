@@ -9,7 +9,6 @@ namespace Thunder.Blazor.Components
 {
     public class TSelectBase : TComponent<SelectOptionContext>
     {
-        private string selectedValue;
         private SelectOption selectedItem;
         private string selectvalue;
         private bool InitSelected;
@@ -26,18 +25,12 @@ namespace Thunder.Blazor.Components
         [Parameter]
         protected string SelectedValue
         {
-            get => selectedValue;
+            get => selectedItem?.Value;
             set
             {
-                if (selectedValue != value)
+                if (selectedItem?.Value!=value)
                 {
-                    selectedValue = value;
-                    DataContext.SelectedValue = value;
-                    SelectedValueChanged.InvokeAsync(selectedValue);
-                    var m = DataContext.Items.FirstOrDefault(x => x.Value == selectedValue);
-                    selectedItem = m;
-                    DataContext.SelectedItem = m;
-                    SelectedItemChanged.InvokeAsync(m);
+                    SetSelectValue(value);
                 }
             }
         }
@@ -53,7 +46,10 @@ namespace Thunder.Blazor.Components
             }
             set
             {
-                selectedItem = value;
+                if (selectedItem?.Value != value?.Value)
+                {
+                    SetSelectValue(value?.Value);
+                }
             }
         }
 
@@ -64,7 +60,6 @@ namespace Thunder.Blazor.Components
             base.OnInit();
             InitSelected = true;
             selectvalue = DataContext.Items.FirstOrDefault(x => x.Selected).Value;
-            //Console.WriteLine($"init {selectvalue}");
         }
 
         protected override void OnAfterRender()
@@ -76,14 +71,36 @@ namespace Thunder.Blazor.Components
             }
             base.OnAfterRender();
         }
+
+        protected void SetSelectValue(string s)
+        {
+            DataContext.SelectedValue = s;
+            selectedItem = DataContext.SelectedItem;
+
+            SelectedValueChanged.InvokeAsync(selectedItem?.Value);
+            SelectedItemChanged.InvokeAsync(selectedItem);
+        }
     }
 
     public class SelectOptionContext : TContext
     {
-        public List<SelectOption> Items { get; set; } = new List<SelectOption>();
+        private string selectedValue;
+
+        public List<SelectOption> Items { get; set; }
         public List<IGrouping<string, SelectOption>> OptionList => Items.GroupBy(x => x.Group).ToList();
         public override Type ContextType => typeof(ThunderSelect);
-        public string SelectedValue { get; set; }
-        public SelectOption SelectedItem { get; set; }
+        public string SelectedValue { get => GetSelectItem(selectedValue)?.Value; set => selectedValue = value; }
+        public SelectOption SelectedItem { get => GetSelectItem(selectedValue); set => selectedValue = value?.Value; }
+
+
+        protected SelectOption GetSelectItem(string s)
+        {
+            var result = Items?.FirstOrDefault(x => x.Value == s);
+            if (result == null)
+            {
+                result = Items?.FirstOrDefault();
+            }
+            return result;
+        }
     }
 }
