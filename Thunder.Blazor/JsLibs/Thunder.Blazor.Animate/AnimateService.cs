@@ -38,7 +38,7 @@ namespace Thunder.Blazor.Services
         public async Task Start(AnimateData data, Action callback=null)
         {
             await Reset(data);
-            Console.WriteLine($"开始动画。{data.AnimateType.ToString()}");
+            //Console.WriteLine($"开始动画。{data.AnimateType.ToString()}");
 
             var jscall = new JsAction
             {
@@ -46,7 +46,7 @@ namespace Thunder.Blazor.Services
                 {
                     if (data.resetOnEnd)
                     {
-                        Console.WriteLine($"回调清理动画。{data.AnimateType.ToString()}");
+                        //Console.WriteLine($"回调清理动画。{data.AnimateType.ToString()}");
                         Reset(data);
                     }
                     callback?.Invoke();
@@ -73,7 +73,7 @@ namespace Thunder.Blazor.Services
                 var ani = Data[data.id];
                 if (ani.task.Status != TaskStatus.RanToCompletion)
                 {
-                    Console.WriteLine($"等待动画结束。{ani.data.AnimateType.ToString()}");
+                    //Console.WriteLine($"等待动画结束。{ani.data.AnimateType.ToString()}");
                     ani.task.Wait();
                 }
             }
@@ -82,7 +82,7 @@ namespace Thunder.Blazor.Services
                 var ani = Data[data.id];
                 await JsRuntime.InvokeAsync<object>("ThunderBlazor.Animate.Reset", ani.data);
                 Data.Remove(data.id);
-                Console.WriteLine($"完成动画清理。{ani.data.AnimateType.ToString()}");
+                //Console.WriteLine($"完成动画清理。{ani.data.AnimateType.ToString()}");
             }
         }
 
