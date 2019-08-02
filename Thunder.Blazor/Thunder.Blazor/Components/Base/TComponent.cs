@@ -32,6 +32,7 @@ namespace Thunder.Blazor.Components
         /// </summary>
         public string DomId => domId;
 
+        public bool InitLoaded { get; set; }
         /// <summary>
         /// 启用动画
         /// </summary>
@@ -78,15 +79,15 @@ namespace Thunder.Blazor.Components
         /// <summary>
         /// 是否可见
         /// </summary>
-        public bool IsVisabled { get; set; } = true;
+        [Parameter] public bool IsVisabled { get; set; } = true;
         /// <summary>
         /// 是否激活
         /// </summary>
-        public bool IsActived { get; set; }
+        [Parameter] public bool IsActived { get; set; }
         /// <summary>
         /// 是否有效
         /// </summary>
-        public bool IsEnabled { get; set; } = true;
+        [Parameter] public bool IsEnabled { get; set; } = true;
         /// <summary>
         /// 操作指令
         /// </summary>
@@ -126,19 +127,39 @@ namespace Thunder.Blazor.Components
         /// <summary>
         /// 加载
         /// </summary>
-        public virtual void Load() { }
+        public virtual void Load()
+        {
+            Show();
+        }
         /// <summary>
         /// 显示 / 激活
         /// </summary>
-        public virtual void Show() { }
+        public virtual void Show()
+        {
+            if (!IsVisabled)
+            {
+                InitLoaded = false;
+            }
+            IsVisabled = true;
+            if (!InitLoaded)
+            {
+                OnShowing?.Invoke(this, new EventArgs());
+            }
+            StateHasChanged();
+        }
         /// <summary>
         /// 关闭
         /// </summary>
-        public virtual void Close() { }
+        public virtual void Close()
+        {
+            IsVisabled = false;
+            StateHasChanged();
+        }
         #endregion
 
         public virtual void Dispose()
         {
+            Close();
         }
 
         /// <summary>
@@ -160,6 +181,21 @@ namespace Thunder.Blazor.Components
             key = string.IsNullOrWhiteSpace(key) ? "t" : key;
             var r = new Random(DateTime.Now.Millisecond).Next(9999999).ToString("0000000");
             return $"{key}_{r}";
+        }
+
+        protected override bool ShouldRender()
+        {
+            return base.ShouldRender();
+        }
+
+        protected override void OnAfterRender()
+        {
+            base.OnAfterRender();
+            if (!InitLoaded)
+            {
+                InitLoaded = true;
+                OnShowed?.Invoke(this, new EventArgs());
+            }
         }
 
     }
@@ -186,24 +222,25 @@ namespace Thunder.Blazor.Components
     {
         protected TModel dataContext = new TModel();
 
-        #region IBaseBehaver
-        /// <summary>
-        /// 是否可见
-        /// </summary>
-        [Parameter] public new bool IsVisabled { get => dataContext?.IsVisabled ?? false; set => dataContext.IsVisabled = value; }
-        /// <summary>
-        /// 是否激活
-        /// </summary>
-        [Parameter] public new bool IsActived { get => dataContext?.IsActived ?? false; set => dataContext.IsActived = value; }
-        /// <summary>
-        /// 是否有效
-        /// </summary>
-        [Parameter] public new bool IsEnabled { get => dataContext?.IsEnabled??false; set => dataContext.IsEnabled = value; }
-        /// <summary>
-        /// 操作指令
-        /// </summary>
-        [Parameter] public new Action CommandAction { get => dataContext?.CommandAction; set => dataContext.CommandAction = value; }
-        #endregion
+        //#region IBaseBehaver
+        ///// <summary>
+        ///// 是否可见
+        ///// </summary>
+        //[Parameter] public new bool IsVisabled { get => dataContext?.IsVisabled ?? false; set => dataContext.IsVisabled = value; }
+        ///// <summary>
+        ///// 是否激活
+        ///// </summary>
+        //[Parameter] public new bool IsActived { get => dataContext?.IsActived ?? false; set => dataContext.IsActived = value; }
+        ///// <summary>
+        ///// 是否有效
+        ///// </summary>
+        //[Parameter] public new bool IsEnabled { get => dataContext?.IsEnabled??false; set => dataContext.IsEnabled = value; }
+        ///// <summary>
+        ///// 操作指令
+        ///// </summary>
+        //[Parameter] public new Action CommandAction { get => dataContext?.CommandAction; set => dataContext.CommandAction = value; }
+        //#endregion
+
         [Parameter] public TModel DataContext {
             get => dataContext;
             set
@@ -233,13 +270,57 @@ namespace Thunder.Blazor.Components
             {
                 DataContext.StateHasChanged = StateHasChanged;
             }
-    }
+        }
 
-    /// <summary>
-    /// 设置子组件
-    /// </summary>
-    /// <param name="child">子组件数据</param>
-    public void SetChild(TContext child)
+        protected void UpdateBehaver()
+        {
+            dataContext.IsVisabled = IsVisabled;
+            dataContext.IsEnabled = IsEnabled;
+            dataContext.IsActived = IsActived;
+            //dataContext.CommandAction = CommandAction;
+        }
+
+        protected void UpdateBehaverValue()
+        {
+            IsVisabled = dataContext.IsVisabled;
+            IsEnabled = dataContext.IsEnabled;
+            IsActived = dataContext.IsActived;
+            CommandAction = dataContext.CommandAction;
+        }
+
+        /// <summary>
+        /// 加载
+        /// </summary>
+        public override void Load()
+        {
+            Show();
+        }
+        /// <summary>
+        /// 显示 / 激活
+        /// </summary>
+        public override void Show()
+        {
+            UpdateBehaverValue();
+            base.Show();
+            UpdateBehaver();
+            //dataContext.IsVisabled = base.IsVisabled;
+        }
+        /// <summary>
+        /// 关闭
+        /// </summary>
+        public override void Close()
+        {
+            UpdateBehaverValue();
+            base.Close();
+            UpdateBehaver();
+            //dataContext.IsVisabled = base.IsVisabled;
+        }
+
+        /// <summary>
+        /// 设置子组件
+        /// </summary>
+        /// <param name="child">子组件数据</param>
+        public void SetChild(TContext child)
         {
             DataContext.Child = child;
             ChildContent = DataContext.Child.ContextFragment;

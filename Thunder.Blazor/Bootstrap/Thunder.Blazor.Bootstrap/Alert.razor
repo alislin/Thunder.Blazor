@@ -1,9 +1,16 @@
 ﻿@inherits AlertBase
-@if (DataContext.IsVisabled)
+@if (IsVisabled)
 {
-    <div class="alert alert-primary" role="alert">
-        @ChildContent
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <div id="@DomId" class="alert @DataContext?.Style" role="alert">
+        @if (string.IsNullOrWhiteSpace(DataContext?.Text))
+        {
+            @ChildContent
+        }
+        else
+        {
+            @DataContext?.Text
+        }
+        <button type="button" class="close" @onclick="@Close">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>

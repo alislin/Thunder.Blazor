@@ -15,7 +15,7 @@ namespace Thunder.Blazor.Components
         public bool ShowAlert => Alert != null && Alert.IsVisabled;
         public bool ShowModal => Modal != null && Modal.IsVisabled;
 
-        public TAlertContent Alert { get; set; }
+        public TAlertContext Alert { get; set; }
         public TModalContext Modal { get; set; }
     }
 }

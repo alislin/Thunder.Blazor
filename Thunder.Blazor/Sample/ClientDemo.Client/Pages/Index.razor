@@ -1,21 +1,24 @@
 ﻿@page "/"
 @inherits TComponent
 
+<Alert @ref="@alert" IsVisabled="false"></Alert>
 <h1 id="@titleId">Hello, world!</h1>
 
 Welcome to your new app.
 
 <SurveyPrompt Title="How is Blazor working for you?" />
 
-<Alert>警告内容, Alert infomation.</Alert>
 <button class="btn btn-primary" @onclick="@NotyInfo">提示消息 (Notice pop)</button>
 <button class="btn btn-primary" @onclick="@AnimateClick">动画演示 (Animate Demo)</button>
-<button class="btn btn-primary" @onclick="@AnimateClick">警告条幅 (Alert infomation)</button>
+<button class="btn btn-primary" @onclick="@AlertShow">警告条幅 (Alert infomation)</button>
 
 @code{
     [Inject] protected NotifyService noty { get; set; }
     [Inject] protected AnimateService animate { get; set; }
     protected string titleId { get; set; }
+
+    Alert alert { get; set; }
+
     protected override void OnInit()
     {
         titleId = NewId();
@@ -34,6 +37,15 @@ Welcome to your new app.
 
     private void AlertShow()
     {
+        var alertcontext = new AlertContext
+        {
+            Text = $"[{DateTime.Now}] 警告内容, Alert infomation.",
+            IsVisabled = false
+        };
+
+        alert.DataContext = alertcontext;
+        alert.OnShowed += (o, e) => { animate.Start(new AnimateData { AnimateType = AnimateType.slideInRight, id = alert.DomId }); };
+        alert.Show();
 
     }
 }

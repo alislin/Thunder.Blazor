@@ -8,26 +8,14 @@ namespace Thunder.Blazor.Components
     /// Alert 组件
     /// </summary>
     /// <typeparam name="TModel"></typeparam>
-    public class TAlert<TModel> : TComponent<TAlertContent> where TModel:TAlertContent,new()
+    public class TAlert<TModel> : TComponentContainer<TModel> where TModel:TAlertContext,new()
     {
-        protected override void OnInit()
-        {
-            base.OnInit();
 
-            DataContext.Show = Show;
-        }
-
-        protected void Show(object obj)
-        {
-            DataContext.IsVisabled = true;
-        }
     }
 
-    public class TAlertContent : TContainer
+    public class TAlertContext : TContainer
     {
         public bool EnableCloseButton { get; set; }
-
-        public Action<object> Show { get; set; }
     }
 
 }

@@ -1,5 +1,6 @@
 ﻿/* Ceated by Ya Lin. 2019/7/31 17:19:44 */
 
+using Microsoft.AspNetCore.Components;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -7,12 +8,14 @@ using Thunder.Blazor.Components;
 
 namespace Thunder.Blazor.Bootstrap
 {
-    public class AlertBase:TAlert<TAlertContent>
+    public class AlertBase:TAlert<AlertContext>
     {
-        public void Close()
-        {
+    }
 
-        }
+    public class AlertContext : TAlertContext
+    {
+        public string Style { get; set; } = (new AlertStyle()).danger;
+        public string Text { get; set; }
     }
 
     public class AlertStyle : IStyleType
