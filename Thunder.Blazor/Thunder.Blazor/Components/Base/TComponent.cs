@@ -10,7 +10,7 @@ namespace Thunder.Blazor.Components
     /// <summary>
     /// 子组件基类 (View)
     /// </summary>
-    public class TComponent : ComponentBase, IDisposable,IThunderObject,IAnimate
+    public class TComponent : ComponentBase, IDisposable,IThunderObject,IAnimate, IBehaverComponent
     {
         private string domId;
 
@@ -74,6 +74,69 @@ namespace Thunder.Blazor.Components
         /// </summary>
         public bool HasParamenters => Paramenters != null;
 
+        #region IBaseBehaver
+        /// <summary>
+        /// 是否可见
+        /// </summary>
+        public bool IsVisabled { get; set; } = true;
+        /// <summary>
+        /// 是否激活
+        /// </summary>
+        public bool IsActived { get; set; }
+        /// <summary>
+        /// 是否有效
+        /// </summary>
+        public bool IsEnabled { get; set; } = true;
+        /// <summary>
+        /// 操作指令
+        /// </summary>
+        public Action CommandAction { get; set; }
+
+        #endregion
+
+        #region IBehaver
+        /// <summary>
+        /// 加载前
+        /// </summary>
+        public EventHandler OnLoading { get; set; }
+        /// <summary>
+        /// 显示前
+        /// </summary>
+        public EventHandler OnShowing { get; set; }
+        /// <summary>
+        /// 关闭前
+        /// </summary>
+        public EventHandler OnClosing { get; set; }
+        /// <summary>
+        /// 加载后
+        /// </summary>
+        public EventHandler OnLoaded { get; set; }
+        /// <summary>
+        /// 显示后
+        /// </summary>
+        public EventHandler OnShowed { get; set; }
+        /// <summary>
+        /// 关闭后
+        /// </summary>
+        public EventHandler OnClosed { get; set; }
+        /// <summary>
+        /// 操作指令
+        /// </summary>
+        public EventHandler<ContextResult> OnCommand { get; set; }
+        /// <summary>
+        /// 加载
+        /// </summary>
+        public virtual void Load() { }
+        /// <summary>
+        /// 显示 / 激活
+        /// </summary>
+        public virtual void Show() { }
+        /// <summary>
+        /// 关闭
+        /// </summary>
+        public virtual void Close() { }
+        #endregion
+
         public virtual void Dispose()
         {
         }
@@ -87,12 +150,18 @@ namespace Thunder.Blazor.Components
             Console.WriteLine(m);
         }
 
+        /// <summary>
+        /// 生成随机Id
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
         public string NewId(string key=null)
         {
             key = string.IsNullOrWhiteSpace(key) ? "t" : key;
             var r = new Random(DateTime.Now.Millisecond).Next(9999999).ToString("0000000");
             return $"{key}_{r}";
         }
+
     }
 
     /// <summary>
@@ -110,23 +179,31 @@ namespace Thunder.Blazor.Components
     }
 
     /// <summary>
-    /// 含数据上下文和视图的组件
-    /// </summary>
-    /// <typeparam name="TView">视图类型</typeparam>
-    /// <typeparam name="TModel">数据上下文</typeparam>
-    public abstract class TComponent<TModel, TView> : TComponent<TModel> where TModel : TContext<TView>, new()
-    {
-
-    }
-
-    /// <summary>
     /// 含上下文数据的组件
     /// </summary>
     /// <typeparam name="TModel"></typeparam>
     public abstract class TComponent<TModel> : TComponent where TModel : TContext, new()
     {
-        private TModel dataContext = new TModel();
+        protected TModel dataContext = new TModel();
 
+        #region IBaseBehaver
+        /// <summary>
+        /// 是否可见
+        /// </summary>
+        [Parameter] public new bool IsVisabled { get => dataContext?.IsVisabled ?? false; set => dataContext.IsVisabled = value; }
+        /// <summary>
+        /// 是否激活
+        /// </summary>
+        [Parameter] public new bool IsActived { get => dataContext?.IsActived ?? false; set => dataContext.IsActived = value; }
+        /// <summary>
+        /// 是否有效
+        /// </summary>
+        [Parameter] public new bool IsEnabled { get => dataContext?.IsEnabled??false; set => dataContext.IsEnabled = value; }
+        /// <summary>
+        /// 操作指令
+        /// </summary>
+        [Parameter] public new Action CommandAction { get => dataContext?.CommandAction; set => dataContext.CommandAction = value; }
+        #endregion
         [Parameter] public TModel DataContext {
             get => dataContext;
             set
@@ -156,13 +233,13 @@ namespace Thunder.Blazor.Components
             {
                 DataContext.StateHasChanged = StateHasChanged;
             }
-        }
+    }
 
-        /// <summary>
-        /// 设置子组件
-        /// </summary>
-        /// <param name="child">子组件数据</param>
-        public void SetChild(TContext child)
+    /// <summary>
+    /// 设置子组件
+    /// </summary>
+    /// <param name="child">子组件数据</param>
+    public void SetChild(TContext child)
         {
             DataContext.Child = child;
             ChildContent = DataContext.Child.ContextFragment;
@@ -176,18 +253,21 @@ namespace Thunder.Blazor.Components
     /// <typeparam name="TModel"></typeparam>
     public class TComponentContainer<TModel> : TComponent<TModel> where TModel : TContainer, new()
     {
+        public virtual void LoadItem(object value) { }
+        public virtual void ShowItem(object value) { }
+        public virtual void CloseItem(object value) { }
+
         protected override void OnInit()
         {
+            base.OnInit();
             DataContext.Load = Load;
             DataContext.Show = Show;
             DataContext.Close = Close;
 
-            base.OnInit();
+            DataContext.LoadItem = LoadItem;
+            DataContext.ShowItem = ShowItem;
+            DataContext.CloseItem = CloseItem;
         }
-
-        protected virtual void Load() { }
-        protected virtual void Show() { }
-        protected virtual void Close() { }
 
         public virtual void DoCommand(ContextResult result)
         {
@@ -199,27 +279,4 @@ namespace Thunder.Blazor.Components
             base.Dispose();
         }
     }
-
-    /// <summary>
-    /// 带容器的组件
-    /// </summary>
-    /// <typeparam name="TView"></typeparam>
-    /// <typeparam name="TModel"></typeparam>
-    public abstract class TComponentContainer<TModel,TCon>: TComponentContainer<TCon> where TCon : TContainer<TModel>, new() where TModel:TContext,new()
-    {
-        protected override void OnInit()
-        {
-            DataContext.LoadItem = LoadItem;
-            DataContext.ShowItem = ShowItem;
-            DataContext.CloseItem = CloseItem;
-
-            base.OnInit();
-        }
-
-        protected virtual void LoadItem(TModel value) { }
-        protected virtual void ShowItem(TModel value) { }
-        protected virtual void CloseItem(TModel value) { }
-
-    }
-
 }

@@ -57,21 +57,11 @@ namespace Thunder.Blazor.Components
         Action CommandAction { get; set; }
     }
 
-    public interface IBehaver
+    /// <summary>
+    /// 组件行为
+    /// </summary>
+    public interface IBehaverComponent
     {
-        /// <summary>
-        /// 加载
-        /// </summary>
-        Action Load { get; set; }
-        /// <summary>
-        /// 显示 / 激活
-        /// </summary>
-        Action Show { get; set; }
-        /// <summary>
-        /// 关闭
-        /// </summary>
-        Action Close { get; set; }
-
         /// <summary>
         /// 加载前
         /// </summary>
@@ -101,6 +91,35 @@ namespace Thunder.Blazor.Components
         /// 操作指令
         /// </summary>
         EventHandler<ContextResult> OnCommand { get; set; }
+        /// <summary>
+        /// 加载
+        /// </summary>
+        void Load();
+        /// <summary>
+        /// 显示 / 激活
+        /// </summary>
+        void Show();
+        /// <summary>
+        /// 关闭
+        /// </summary>
+        void Close();
+    }
+
+    public interface IBehaver
+    {
+        /// <summary>
+        /// 加载
+        /// </summary>
+        Action Load { get; set; }
+        /// <summary>
+        /// 显示 / 激活
+        /// </summary>
+        Action Show { get; set; }
+        /// <summary>
+        /// 关闭
+        /// </summary>
+        Action Close { get; set; }
+
     }
 
     /// <summary>

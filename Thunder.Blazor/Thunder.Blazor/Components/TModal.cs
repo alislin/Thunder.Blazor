@@ -28,18 +28,18 @@ namespace Thunder.Blazor.Components
             Show();
         }
 
-        protected override void Show()
+        public override void Show()
         {
             DataContext.IsVisabled = true;
             StateHasChanged();
         }
 
-        protected override void Load()
+        public override void Load()
         {
             Show();
         }
 
-        protected override void Close()
+        public override void Close()
         {
             Close(ContextResult.Cancel());
         }
@@ -75,7 +75,7 @@ namespace Thunder.Blazor.Components
         }
     }
 
-    public class TModalContext : TContainer<TContext> 
+    public class TModalContext : TContainer
     {
         public ButtonType ButtonType { get; set; }
         public new Action<TContext, string, ButtonType, string> Show { get; set; }

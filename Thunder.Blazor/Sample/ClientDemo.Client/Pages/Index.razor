@@ -10,6 +10,7 @@ Welcome to your new app.
 <Alert>警告内容, Alert infomation.</Alert>
 <button class="btn btn-primary" @onclick="@NotyInfo">提示消息 (Notice pop)</button>
 <button class="btn btn-primary" @onclick="@AnimateClick">动画演示 (Animate Demo)</button>
+<button class="btn btn-primary" @onclick="@AnimateClick">警告条幅 (Alert infomation)</button>
 
 @code{
     [Inject] protected NotifyService noty { get; set; }
@@ -29,5 +30,10 @@ Welcome to your new app.
     {
         // start animate
         animate.Start(new AnimateData { AnimateType = AnimateType.tada, id = titleId, resetOnEnd = true });
+    }
+
+    private void AlertShow()
+    {
+
     }
 }

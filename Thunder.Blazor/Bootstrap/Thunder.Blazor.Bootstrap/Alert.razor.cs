@@ -9,7 +9,10 @@ namespace Thunder.Blazor.Bootstrap
 {
     public class AlertBase:TAlert<TAlertContent>
     {
-        
+        public void Close()
+        {
+
+        }
     }
 
     public class AlertStyle : IStyleType

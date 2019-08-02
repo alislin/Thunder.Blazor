@@ -135,40 +135,52 @@ namespace Thunder.Blazor.Components
         /// 关闭
         /// </summary>
         public Action Close { get; set; }
-        /// <summary>
-        /// 加载前
-        /// </summary>
-        public EventHandler OnLoading { get; set; }
-        /// <summary>
-        /// 显示前
-        /// </summary>
-        public EventHandler OnShowing { get; set; }
-        /// <summary>
-        /// 关闭前
-        /// </summary>
-        public EventHandler OnClosing { get; set; }
-        /// <summary>
-        /// 加载后
-        /// </summary>
-        public EventHandler OnLoaded { get; set; }
-        /// <summary>
-        /// 显示后
-        /// </summary>
-        public EventHandler OnShowed { get; set; }
-        /// <summary>
-        /// 关闭后
-        /// </summary>
-        public EventHandler OnClosed { get; set; }
+        ///// <summary>
+        ///// 加载前
+        ///// </summary>
+        //public EventHandler OnLoading { get; set; }
+        ///// <summary>
+        ///// 显示前
+        ///// </summary>
+        //public EventHandler OnShowing { get; set; }
+        ///// <summary>
+        ///// 关闭前
+        ///// </summary>
+        //public EventHandler OnClosing { get; set; }
+        ///// <summary>
+        ///// 加载后
+        ///// </summary>
+        //public EventHandler OnLoaded { get; set; }
+        ///// <summary>
+        ///// 显示后
+        ///// </summary>
+        //public EventHandler OnShowed { get; set; }
+        ///// <summary>
+        ///// 关闭后
+        ///// </summary>
+        //public EventHandler OnClosed { get; set; }
         /// <summary>
         /// 操作指令
         /// </summary>
         public EventHandler<ContextResult> OnCommand { get; set; }
+        /// <summary>
+        /// 加载
+        /// </summary>
+        public Action<object> LoadItem { get; set; }
+        /// <summary>
+        /// 显示 / 激活
+        /// </summary>
+        public Action<object> ShowItem { get; set; }
+        /// <summary>
+        /// 关闭
+        /// </summary>
+        public Action<object> CloseItem { get; set; }
     }
 
     /// <summary>
     /// 容器组件
     /// </summary>
-    public abstract class TContainer<TModel> : TContainer, IBehaver<TModel>
+    public abstract class TContainer1<TModel> : TContainer, IBehaver<TModel>
     {
         /// <summary>
         /// 加载
@@ -184,7 +196,7 @@ namespace Thunder.Blazor.Components
         public Action<TModel> CloseItem { get; set; }
     }
 
-    public class TContainer<TModel, TView> : TContainer<TModel>
+    public class TContainer<TModel, TView> : TContainer1<TModel>
     {
         public override Type ContextType => typeof(TView);
     }
