@@ -1,7 +1,7 @@
-﻿@inherits AlertBase
+﻿@inherits StrapAlertBase
 @if (IsVisabled)
 {
-    <div id="@DomId" class="alert @DataContext?.Style" role="alert">
+    <div id="@DomId" class="@CssStyle">
         @if (string.IsNullOrWhiteSpace(DataContext?.Text))
         {
             @ChildContent

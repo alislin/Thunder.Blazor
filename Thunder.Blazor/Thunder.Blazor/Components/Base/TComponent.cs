@@ -19,6 +19,7 @@ namespace Thunder.Blazor.Components
             domId = NewId();
         }
 
+        #region IThunderObject
         /// <summary>
         /// 对象名称
         /// </summary>
@@ -27,11 +28,28 @@ namespace Thunder.Blazor.Components
         /// 自定义对象
         /// </summary>
         [Parameter] public object Tag { get; set; }
+        #endregion
+
+        /// <summary>
+        /// 说明文字
+        /// </summary>
+        [Parameter] public string Caption { get; set; }
+
+        /// <summary>
+        /// 样式类型
+        /// </summary>
+        [Parameter] public string StyleClass { get; set; }
         /// <summary>
         /// 自动Dom Id
         /// </summary>
         public string DomId => domId;
-
+        /// <summary>
+        /// 主要Css样式
+        /// </summary>
+        public virtual string CssStyle { get; protected set; }
+        /// <summary>
+        /// 完成初始化加载
+        /// </summary>
         public bool InitLoaded { get; set; }
         /// <summary>
         /// 启用动画
@@ -124,6 +142,7 @@ namespace Thunder.Blazor.Components
         /// 操作指令
         /// </summary>
         public EventHandler<ContextResult> OnCommand { get; set; }
+
         /// <summary>
         /// 加载
         /// </summary>
@@ -220,35 +239,156 @@ namespace Thunder.Blazor.Components
     /// <typeparam name="TModel"></typeparam>
     public abstract class TComponent<TModel> : TComponent where TModel : TContext, new()
     {
-        protected TModel dataContext = new TModel();
+        private TModel dataContext = new TModel();
+
+        //#region IThunderObject
+        ///// <summary>
+        ///// 对象名称
+        ///// </summary>
+        //public new string ObjectName
+        //{
+        //    get =>base.ObjectName;
+        //    set
+        //    {
+        //        if (base.ObjectName!=value)
+        //        {
+        //            dataContext.ObjectName = value;
+        //            base.ObjectName = value;
+        //        }
+        //    }
+        //}
+        ///// <summary>
+        ///// 自定义对象
+        ///// </summary>
+        //public new object Tag
+        //{
+        //    get => base.Tag;
+        //    set
+        //    {
+        //        if (base.Tag != value)
+        //        {
+        //            dataContext.Tag = value;
+        //            base.Tag = value;
+        //        }
+        //    }
+        //}
+        //#endregion
+
+        ///// <summary>
+        ///// 说明文字
+        ///// </summary>
+        //public new string Caption
+        //{
+        //    get => base.Caption;
+        //    set
+        //    {
+        //        if (base.Caption != value)
+        //        {
+        //            dataContext.Caption = value;
+        //            base.Caption = value;
+        //        }
+        //    }
+        //}
+
 
         //#region IBaseBehaver
         ///// <summary>
         ///// 是否可见
         ///// </summary>
-        //[Parameter] public new bool IsVisabled { get => dataContext?.IsVisabled ?? false; set => dataContext.IsVisabled = value; }
+        //public new bool IsVisabled
+        //{
+        //    get => base.IsVisabled;
+        //    set
+        //    {
+        //        if (base.IsVisabled != value)
+        //        {
+        //            dataContext.IsVisabled = value;
+        //            base.IsVisabled = value;
+        //        }
+        //    }
+        //}
+
         ///// <summary>
         ///// 是否激活
         ///// </summary>
-        //[Parameter] public new bool IsActived { get => dataContext?.IsActived ?? false; set => dataContext.IsActived = value; }
+        //public new bool IsActived
+        //{
+        //    get => base.IsActived;
+        //    set
+        //    {
+        //        if (base.IsActived != value)
+        //        {
+        //            dataContext.IsActived = value;
+        //            base.IsActived = value;
+        //        }
+        //    }
+        //}
+
         ///// <summary>
         ///// 是否有效
         ///// </summary>
-        //[Parameter] public new bool IsEnabled { get => dataContext?.IsEnabled??false; set => dataContext.IsEnabled = value; }
+        //public new bool IsEnabled
+        //{
+        //    get => base.IsEnabled;
+        //    set
+        //    {
+        //        if (base.IsEnabled != value)
+        //        {
+        //            dataContext.IsEnabled = value;
+        //            base.IsEnabled = value;
+        //        }
+        //    }
+        //}
+
         ///// <summary>
         ///// 操作指令
         ///// </summary>
-        //[Parameter] public new Action CommandAction { get => dataContext?.CommandAction; set => dataContext.CommandAction = value; }
+        //public new Action CommandAction
+        //{
+        //    get => base.CommandAction;
+        //    set
+        //    {
+        //        if (base.CommandAction != value)
+        //        {
+        //            dataContext.CommandAction = value;
+        //            base.CommandAction = value;
+        //        }
+        //    }
+        //}
+
         //#endregion
 
+        ///// <summary>
+        ///// 样式类型
+        ///// </summary>
+        //public new string StyleClass
+        //{
+        //    get => base.StyleClass;
+        //    set
+        //    {
+        //        if (base.StyleClass != value)
+        //        {
+        //            dataContext.StyleClass = value;
+        //            base.StyleClass = value;
+        //        }
+        //    }
+        //}
+
+
+
         [Parameter] public TModel DataContext {
-            get => dataContext;
+            get
+            {
+                UpdateDataContext();
+                return dataContext;
+            }
             set
             {
                 dataContext = value;
                 if (dataContext!=null)
                 {
-                    dataContext.StateHasChanged = StateHasChanged;
+                    GetDataContext();
+                    StateHasChanged();
                 }
             }
         }
@@ -272,20 +412,50 @@ namespace Thunder.Blazor.Components
             }
         }
 
-        protected void UpdateBehaver()
+        public void UpdateDataContext()
         {
-            dataContext.IsVisabled = IsVisabled;
-            dataContext.IsEnabled = IsEnabled;
-            dataContext.IsActived = IsActived;
-            //dataContext.CommandAction = CommandAction;
+            if (dataContext != null)
+            {
+                dataContext.ObjectName = ObjectName;
+                dataContext.Tag = Tag;
+                dataContext.StyleClass = StyleClass;
+                dataContext.IsVisabled = IsVisabled;
+                dataContext.IsActived = IsActived;
+                dataContext.IsEnabled = IsEnabled;
+                dataContext.CommandAction = CommandAction;
+                dataContext.Caption = Caption;
+
+                dataContext.DomId = DomId;
+                dataContext.StateHasChanged = StateHasChanged;
+
+            }
+            //dataContext.IsVisabled = IsVisabled;
+            //dataContext.IsEnabled = IsEnabled;
+            //dataContext.IsActived = IsActived;
+            ////dataContext.CommandAction = CommandAction;
         }
 
-        protected void UpdateBehaverValue()
+        public void GetDataContext()
         {
-            IsVisabled = dataContext.IsVisabled;
-            IsEnabled = dataContext.IsEnabled;
-            IsActived = dataContext.IsActived;
-            CommandAction = dataContext.CommandAction;
+            if (dataContext != null)
+            {
+                ObjectName = dataContext.ObjectName;
+                Tag = dataContext.Tag;
+                StyleClass = dataContext.StyleClass;
+                IsVisabled = dataContext.IsVisabled;
+                IsActived = dataContext.IsActived;
+                IsEnabled = dataContext.IsEnabled;
+                CommandAction = dataContext.CommandAction;
+                Caption = dataContext.Caption;
+
+                dataContext.DomId = DomId;
+                dataContext.StateHasChanged = StateHasChanged;
+            }
+
+            //IsVisabled = dataContext.IsVisabled;
+            //IsEnabled = dataContext.IsEnabled;
+            //IsActived = dataContext.IsActived;
+            //CommandAction = dataContext.CommandAction;
         }
 
         /// <summary>
@@ -300,9 +470,9 @@ namespace Thunder.Blazor.Components
         /// </summary>
         public override void Show()
         {
-            UpdateBehaverValue();
+            GetDataContext();
             base.Show();
-            UpdateBehaver();
+            UpdateDataContext();
             //dataContext.IsVisabled = base.IsVisabled;
         }
         /// <summary>
@@ -310,9 +480,9 @@ namespace Thunder.Blazor.Components
         /// </summary>
         public override void Close()
         {
-            UpdateBehaverValue();
+            GetDataContext();
             base.Close();
-            UpdateBehaver();
+            UpdateDataContext();
             //dataContext.IsVisabled = base.IsVisabled;
         }
 

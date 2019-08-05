@@ -11,6 +11,7 @@ namespace Thunder.Blazor.Components
     /// </summary>
     public  class TContext: IThunderObject, IVisual, IBaseBehaver
     {
+        public string DomId { get; set; }
         /// <summary>
         /// 说明文字
         /// </summary>
@@ -34,18 +35,6 @@ namespace Thunder.Blazor.Components
         /// </summary>
         public object Tag { get; set; }
 
-        /// <summary>
-        /// 背景
-        /// </summary>
-        public string Backgroud { get; set; }
-        /// <summary>
-        /// 字体颜色
-        /// </summary>
-        public string FontColor { get; set; }
-        /// <summary>
-        /// 尺寸
-        /// </summary>
-        public string Size { get; set; }
         /// <summary>
         /// 样式
         /// </summary>

@@ -20,6 +20,8 @@ namespace ClientDemo.Server
         {
             services.AddMvc().AddNewtonsoftJson();
             services.AddRazorPages();
+
+            //Add Server mode
             services.AddServerSideBlazor();
 
             services.AddResponseCompression(opts =>
@@ -27,6 +29,8 @@ namespace ClientDemo.Server
                 opts.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(
                     new[] { "application/octet-stream" });
             });
+
+            #region Add Server mode
 
             if (!services.Any(x => x.ServiceType == typeof(HttpClient)))
             {
@@ -43,6 +47,7 @@ namespace ClientDemo.Server
                 services.AddNotyScoped()
                .AddAnimateScoped();
             }
+            #endregion
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -62,7 +67,10 @@ namespace ClientDemo.Server
 
             app.UseEndpoints(endpoints =>
             {
+                #region Add Server mode
                 endpoints.MapBlazorHub<ClientDemo.Client.App>("app");
+                #endregion
+
                 endpoints.MapDefaultControllerRoute();
                 endpoints.MapFallbackToClientSideBlazor<Client.Startup>("index.html");
             });

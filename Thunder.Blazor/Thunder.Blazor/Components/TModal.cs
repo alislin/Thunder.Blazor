@@ -22,7 +22,6 @@ namespace Thunder.Blazor.Components
         protected void Show(TContext value,string caption=null,ButtonType button= ButtonType.OK,string size=null)
         {
             DataContext.Caption = caption ?? value.Caption;
-            DataContext.Size = size;
             DataContext.ButtonType = button;
             DataContext.Child = value;
             Show();

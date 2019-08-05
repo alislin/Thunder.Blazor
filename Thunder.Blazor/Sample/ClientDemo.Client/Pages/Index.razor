@@ -1,7 +1,7 @@
 ﻿@page "/"
 @inherits TComponent
 
-<Alert @ref="@alert" IsVisabled="false"></Alert>
+<StrapAlert @ref="@alert" IsVisabled="false"></StrapAlert>
 <h1 id="@titleId">Hello, world!</h1>
 
 Welcome to your new app.
@@ -17,7 +17,7 @@ Welcome to your new app.
     [Inject] protected AnimateService animate { get; set; }
     protected string titleId { get; set; }
 
-    Alert alert { get; set; }
+    StrapAlert alert { get; set; }
 
     protected override void OnInit()
     {
@@ -26,25 +26,25 @@ Welcome to your new app.
     }
     private void NotyInfo()
     {
-        noty.Show(new NotyData("这是一条测试的消息。<br> This is a test pop!", NotyType.error));
+        noty.Show(new NotyData("这是一条测试的消息。<br> This is a test pop!", NotyType.information));
     }
 
     private void AnimateClick()
     {
         // start animate
-        animate.Start(new AnimateData { AnimateType = AnimateType.tada, id = titleId, resetOnEnd = true });
+        animate.Start(new AnimateData { AnimateType = AnimateType.pulse, id = titleId, resetOnEnd = true });
     }
 
     private void AlertShow()
     {
-        var alertcontext = new AlertContext
+        var alertcontext = new StrapAlertContext
         {
             Text = $"[{DateTime.Now}] 警告内容, Alert infomation.",
             IsVisabled = false
         };
 
         alert.DataContext = alertcontext;
-        alert.OnShowed += (o, e) => { animate.Start(new AnimateData { AnimateType = AnimateType.slideInRight, id = alert.DomId }); };
+        //alert.OnShowed += (o, e) => { animate.Start(new AnimateData { AnimateType = AnimateType.fadeIn, id = alert.DomId }); };
         alert.Show();
 
     }
