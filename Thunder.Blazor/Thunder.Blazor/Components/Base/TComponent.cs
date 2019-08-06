@@ -387,8 +387,8 @@ namespace Thunder.Blazor.Components
                 dataContext = value;
                 if (dataContext!=null)
                 {
-                    GetDataContext();
-                    StateHasChanged();
+                    LoadDataContext();
+                    //StateHasChanged();
                 }
             }
         }
@@ -400,18 +400,22 @@ namespace Thunder.Blazor.Components
             {
                 try
                 {
-                    DataContext = Paramenters.Get<TModel>();
+                    dataContext = Paramenters.Get<TModel>();
                 }
                 catch
                 {
                 }
             }
-            if (DataContext != null)
+            if (dataContext != null)
             {
-                DataContext.StateHasChanged = StateHasChanged;
+                dataContext.SetViewAction<TComponent<TModel>, TModel>(this);
+                //DataContext.StateHasChanged = StateHasChanged;
             }
         }
 
+        /// <summary>
+        /// Udpate DataContext from view
+        /// </summary>
         public void UpdateDataContext()
         {
             if (dataContext != null)
@@ -426,8 +430,7 @@ namespace Thunder.Blazor.Components
                 dataContext.Caption = Caption;
 
                 dataContext.DomId = DomId;
-                dataContext.StateHasChanged = StateHasChanged;
-
+                dataContext.SetViewAction<TComponent<TModel>, TModel>(this);
             }
             //dataContext.IsVisabled = IsVisabled;
             //dataContext.IsEnabled = IsEnabled;
@@ -435,7 +438,10 @@ namespace Thunder.Blazor.Components
             ////dataContext.CommandAction = CommandAction;
         }
 
-        public void GetDataContext()
+        /// <summary>
+        /// Load datacontext to view
+        /// </summary>
+        public void LoadDataContext()
         {
             if (dataContext != null)
             {
@@ -449,7 +455,8 @@ namespace Thunder.Blazor.Components
                 Caption = dataContext.Caption;
 
                 dataContext.DomId = DomId;
-                dataContext.StateHasChanged = StateHasChanged;
+                dataContext.SetViewAction<TComponent<TModel>, TModel>(this);
+                //dataContext.StateHasChanged = StateHasChanged;
             }
 
             //IsVisabled = dataContext.IsVisabled;
@@ -470,7 +477,7 @@ namespace Thunder.Blazor.Components
         /// </summary>
         public override void Show()
         {
-            GetDataContext();
+            LoadDataContext();
             base.Show();
             UpdateDataContext();
             //dataContext.IsVisabled = base.IsVisabled;
@@ -480,10 +487,15 @@ namespace Thunder.Blazor.Components
         /// </summary>
         public override void Close()
         {
-            GetDataContext();
+            LoadDataContext();
             base.Close();
             UpdateDataContext();
             //dataContext.IsVisabled = base.IsVisabled;
+        }
+
+        public void Update()
+        {
+            StateHasChanged();
         }
 
         /// <summary>

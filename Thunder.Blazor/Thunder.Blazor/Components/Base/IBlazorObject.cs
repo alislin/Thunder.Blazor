@@ -148,7 +148,7 @@ namespace Thunder.Blazor.Components
     public interface IVisual
     {
         string StyleClass { get; set; }
-        Action StateHasChanged { get; set; }
+        Action StateHasChanged { get; }
     }
 
     /// <summary>

@@ -10,7 +10,8 @@ namespace Thunder.Blazor.Components
     {
         public void ToggleShow()
         {
-            DataContext.IsVisabled = !DataContext.IsVisabled;
+            IsVisabled = !IsVisabled;
+            UpdateDataContext();
         }
     }
 

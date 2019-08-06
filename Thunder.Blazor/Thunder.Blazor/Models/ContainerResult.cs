@@ -11,22 +11,26 @@ namespace Thunder.Blazor.Models
         /// <summary>
         /// 数据
         /// </summary>
-        public object Data { get; }
+        public object Data { get; set; }
         /// <summary>
         /// 数据类型
         /// </summary>
-        public Type DataType { get; }
+        public Type DataType { get; set; }
         /// <summary>
         /// 返回值
         /// </summary>
         public ContextResultValue Result { get; set; }
-        public bool Cancelled => Result == ContextResultValue.Cancel;
+        public bool Canceled => Result == ContextResultValue.Cancel;
 
         public ContextResult(object data, Type resultType, ContextResultValue result)
         {
             Data = data;
             DataType = resultType;
             Result = result;
+        }
+
+        public ContextResult()
+        {
         }
 
         public static ContextResult Ok<T>(T result) => new ContextResult(result, typeof(T), ContextResultValue.OK);

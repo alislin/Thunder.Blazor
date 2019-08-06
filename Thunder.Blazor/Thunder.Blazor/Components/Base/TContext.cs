@@ -67,7 +67,16 @@ namespace Thunder.Blazor.Components
         /// <summary>
         /// 状态已改变
         /// </summary>
-        public Action StateHasChanged { get; set; }
+        public Action StateHasChanged { get; protected set; }
+        /// <summary>
+        /// Udpate DataContext from view
+        /// </summary>
+        public Action UpdateDataContext { get; protected set; }
+        /// <summary>
+        /// Load datacontext to view
+        /// </summary>
+        public Action LoadDataContext { get; protected set; }
+
         /// <summary>
         /// 类型名称
         /// </summary>
@@ -87,6 +96,19 @@ namespace Thunder.Blazor.Components
         {
             CommandAction = action;
             return (T)this;
+        }
+
+        /// <summary>
+        /// View方法委托到Model
+        /// </summary>
+        /// <typeparam name="TView"></typeparam>
+        /// <typeparam name="TModel"></typeparam>
+        /// <param name="view"></param>
+        public void SetViewAction<TView,TModel>(TView view) where TView : TComponent<TModel> where TModel:TContext,new()
+        {
+            StateHasChanged = view.Update;
+            UpdateDataContext = view.UpdateDataContext;
+            LoadDataContext = view.LoadDataContext;
         }
     }
 

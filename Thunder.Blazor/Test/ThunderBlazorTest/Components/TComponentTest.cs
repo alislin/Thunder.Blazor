@@ -23,6 +23,7 @@ namespace ThunderBlazorTest.Components
             {
                 e = ContextResult.No("no");
                 tc.ObjectName = "test";
+                tc.LoadDataContext();
             };
         }
 
@@ -36,7 +37,10 @@ namespace ThunderBlazorTest.Components
         public void InitContent()
         {
             tcc.DataContext = tc;
+            Assert.IsTrue(tcc.DomId == tc.DomId);
             Assert.IsTrue(tcc.DataContext.Caption == tc.Caption);
+            tcc.Caption = "change 1";
+            Assert.IsTrue(tcc.Caption == tcc.DataContext.Caption);
             tc.OnCommand.Invoke(this, ContextResult.Cancel());
             Assert.IsTrue(tcc.DataContext.ObjectName == "test");
         }
