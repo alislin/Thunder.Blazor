@@ -35,6 +35,7 @@ namespace ThunderBlazorTest.Libs
             Assert.IsTrue("alert mt-4 btn top-row px-4" == css.Remove("notthis").Build().CssString);
             //移除队列
             Assert.IsTrue("alert mt-4 btn" == css.Remove("top-row px-4").Build().CssString);
+            
 
             //单个对比
             var listadd = new List<string>
@@ -66,7 +67,14 @@ namespace ThunderBlazorTest.Libs
             css.CssRemove.ForEach(x => Assert.IsTrue(listremove.Contains(x)));
             css.CssList.ForEach(x => Assert.IsTrue(listCss.Contains(x)));
 
+            Assert.IsTrue(css.AddNoList("cssok").Build().CssString == "alert mt-4 btn");
+            Assert.IsTrue(css.AddOnHasList("notalone").Build().CssString == "alert mt-4 btn notalone");
+
             Assert.IsTrue(css.Reset().Build().CssString == "");
+            Assert.IsTrue(css.AddOnHasList("notalone").Build().CssString == "");
+            Assert.IsTrue(css.AddNoList("cssok").Build().CssString == "cssok");
+
+
 
         }
     }

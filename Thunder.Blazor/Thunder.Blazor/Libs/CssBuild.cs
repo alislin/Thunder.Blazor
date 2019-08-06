@@ -77,14 +77,14 @@ namespace Thunder.Blazor.Libs
         /// </summary>
         /// <param name="css"></param>
         /// <returns></returns>
-        public CssBuild Add(List<string> css, bool condition = true)
+        public CssBuild Add(IList<string> css, bool condition = true)
         {
             if (!condition) return this;
             CssAdd = CssAdd.Union(css).ToList();
             return this;
         }
 
-        public CssBuild Remove(List<string> css, bool condition = true)
+        public CssBuild Remove(IList<string> css, bool condition = true)
         {
             if (!condition) return this;
             CssRemove = CssRemove.Union(css).ToList();

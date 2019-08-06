@@ -1,5 +1,14 @@
-﻿<h3>StrapButton</h3>
-
-@code {
-
+﻿@inherits StrapButtonBase
+@switch (ButtonTag)
+{
+    default:
+    case ButtonTag.button:
+        var disable = IsEnabled ? "" : "disabled";
+        var m = (MarkupString)disable;
+        <button type="button" class="@CssStyle">@Caption</button>
+        break;
+    case ButtonTag.a:
+        break;
+    case ButtonTag.input:
+        break;
 }

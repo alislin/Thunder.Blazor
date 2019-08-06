@@ -36,4 +36,26 @@ namespace Thunder.Blazor.Bootstrap
         [Description("list-group-item")]
         list_group_item
     }
+
+    public enum ButtonTag
+    {
+        button,
+        a,
+        input
+    }
+
+    public enum OutlineType
+    {
+        outline
+    }
+
+    public enum SizeType
+    {
+        [Description("")]
+        normal,
+        [Description("lg")]
+        large,
+        [Description("sm")]
+        small
+    }
 }
