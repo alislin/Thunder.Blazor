@@ -8,6 +8,7 @@ using System.ComponentModel;
 using System.Text;
 using System.Threading.Tasks;
 using Thunder.Blazor.Extensions;
+using Thunder.Blazor.Libs;
 using Thunder.Blazor.Services;
 
 namespace Thunder.Blazor.Services
@@ -131,12 +132,18 @@ namespace Thunder.Blazor.Services
         private string speed => AnimateSpeed.ToDescriptionString();
         private string[] GetAnimate()
         {
-            var result = new List<string>();
-            if (!string.IsNullOrWhiteSpace(type)) result.Add(type);
-            if (!string.IsNullOrWhiteSpace(delay)) result.Add(delay);
-            if (!string.IsNullOrWhiteSpace(speed)) result.Add(speed);
-            if (result.Count > 0) result.Add("animated");
-            return result.ToArray();
+            var css = CssBuild.New
+                .Add(type)
+                .Add(delay)
+                .Add(speed)
+                .AddOnHasList("animated")
+                .Build();
+            //var result = new List<string>();
+            //if (!string.IsNullOrWhiteSpace(type)) result.Add(type);
+            //if (!string.IsNullOrWhiteSpace(delay)) result.Add(delay);
+            //if (!string.IsNullOrWhiteSpace(speed)) result.Add(speed);
+            //if (result.Count > 0) result.Add("animated");
+            return css.CssList.ToArray() ;
         }
 
         public string ToString()

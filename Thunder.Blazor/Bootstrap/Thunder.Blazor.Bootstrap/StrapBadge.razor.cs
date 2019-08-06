@@ -16,8 +16,8 @@ namespace Thunder.Blazor.Bootstrap
         public override string CssStyle => ComponentType.badge
             .ToDescriptionString()
             .CssBuild(ComponentType.badge
-            .CssBuild(Style));
+            .CssBuild(Style))
+            .CssBuild(StyleClass);
 
-        public string ClassStyle { get; set; }
     }
 }

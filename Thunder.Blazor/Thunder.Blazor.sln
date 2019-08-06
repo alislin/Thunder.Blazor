@@ -37,6 +37,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Thunder.Blazor.BlockUI", "J
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Thunder.Blazor.SweetAlert", "jslibs\Thunder.Blazor.SweetAlert\Thunder.Blazor.SweetAlert.csproj", "{B0F9CCAB-8224-42BC-8FA4-32F723D855F4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Thunder.Blazor.CssBuilder", "Thunder.Blazor.CssBuilder\Thunder.Blazor.CssBuilder.csproj", "{B19D003E-5A61-4D3F-B593-BA123F8B9B42}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -87,6 +89,10 @@ Global
 		{B0F9CCAB-8224-42BC-8FA4-32F723D855F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B0F9CCAB-8224-42BC-8FA4-32F723D855F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B0F9CCAB-8224-42BC-8FA4-32F723D855F4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B19D003E-5A61-4D3F-B593-BA123F8B9B42}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B19D003E-5A61-4D3F-B593-BA123F8B9B42}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B19D003E-5A61-4D3F-B593-BA123F8B9B42}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B19D003E-5A61-4D3F-B593-BA123F8B9B42}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -104,6 +110,7 @@ Global
 		{6B855682-4894-4B54-BECC-D92CACDFED42} = {BA91EC08-B587-4BC8-AE0B-CB8A900C3EB5}
 		{4C623157-01FC-4C94-BDCD-CEBD2A8BAE61} = {CF57C840-C5CD-4E9A-87BF-9A655F04DA2B}
 		{B0F9CCAB-8224-42BC-8FA4-32F723D855F4} = {CF57C840-C5CD-4E9A-87BF-9A655F04DA2B}
+		{B19D003E-5A61-4D3F-B593-BA123F8B9B42} = {CF57C840-C5CD-4E9A-87BF-9A655F04DA2B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9CCFF833-7926-4C38-BE1B-794E12DDC4A7}

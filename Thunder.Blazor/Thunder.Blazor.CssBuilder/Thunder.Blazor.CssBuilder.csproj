@@ -22,19 +22,23 @@
     <Version>0.1.1-alpha</Version>
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
   </PropertyGroup>
-
-  <ItemGroup>
-    <None Remove="content\animate.min.css" />
-  </ItemGroup>
-
+  
   <ItemGroup>
     <EmbeddedResource Include="content\**\*.js" LogicalName="blazor:js:%(RecursiveDir)%(Filename)%(Extension)" />
     <EmbeddedResource Include="content\**\*.css" LogicalName="blazor:css:%(RecursiveDir)%(Filename)%(Extension)" />
     <EmbeddedResource Include="content\**" Exclude="**\*.js;**\*.css" LogicalName="blazor:file:%(RecursiveDir)%(Filename)%(Extension)" />
   </ItemGroup>
+  
+  <ItemGroup>
+    <EmbeddedResource Remove="content\*.ts" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <None Remove="content\*.ts" />
+  </ItemGroup>
 
   <ItemGroup>
-    <TypeScriptCompile Include="content\thunder.animate.ts">
+    <TypeScriptCompile Update="content\*.ts">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </TypeScriptCompile>
   </ItemGroup>
@@ -47,9 +51,4 @@
     </PackageReference>
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\Thunder.Blazor\Thunder.Blazor.csproj" />
-  </ItemGroup>
-  
-  
 </Project>

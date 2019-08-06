@@ -12,6 +12,7 @@ namespace Thunder.Blazor.Bootstrap
     /// </summary>
     public enum StyleType
     {
+        none,
         primary,
         secondary,
         success,
