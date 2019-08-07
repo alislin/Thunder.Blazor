@@ -59,7 +59,7 @@ namespace Thunder.Blazor.Libs
         /// <returns></returns>
         public CssBuild Add(string css, bool condition = true)
         {
-            if (!condition) return this;
+            if (!condition|| string.IsNullOrWhiteSpace(css)) return this;
             var csslist = new List<string>();
             var list = css.Split(' ');
             foreach (var item in list)
@@ -93,7 +93,7 @@ namespace Thunder.Blazor.Libs
 
         public CssBuild Remove(string css, bool condition = true)
         {
-            if (!condition) return this;
+            if (!condition || string.IsNullOrWhiteSpace(css)) return this;
             var csslist = new List<string>();
             var list = css.Split(' ');
             foreach (var item in list)

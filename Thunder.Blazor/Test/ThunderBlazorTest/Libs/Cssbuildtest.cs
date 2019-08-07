@@ -74,6 +74,9 @@ namespace ThunderBlazorTest.Libs
             Assert.IsTrue(css.AddOnHasList("notalone").Build().CssString == "");
             Assert.IsTrue(css.AddNoList("cssok").Build().CssString == "cssok");
 
+            //空值
+            string c = null;
+            Assert.IsTrue(css.Add(c).Build().CssString == "cssok");
 
 
         }

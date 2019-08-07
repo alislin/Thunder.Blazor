@@ -3,12 +3,12 @@
 {
     default:
     case ButtonTag.button:
-        var disable = IsEnabled ? "" : "disabled";
-        var m = (MarkupString)disable;
-        <button type="button" class="@CssStyle">@Caption</button>
+        <button class="@CssStyle" disabled="@(!IsEnabled)" @onclick="@OnClick">@Caption</button>
         break;
     case ButtonTag.a:
+        <a class="@CssStyle" href="#" role="button"  @onclick="@OnClick">@Caption</a>
         break;
     case ButtonTag.input:
+        <input class="@CssStyle" type="button" value="@Caption"  disabled="@(!IsEnabled)"  @onclick="@OnClick" />
         break;
 }

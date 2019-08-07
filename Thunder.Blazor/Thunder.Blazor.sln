@@ -37,7 +37,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Thunder.Blazor.BlockUI", "J
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Thunder.Blazor.SweetAlert", "jslibs\Thunder.Blazor.SweetAlert\Thunder.Blazor.SweetAlert.csproj", "{B0F9CCAB-8224-42BC-8FA4-32F723D855F4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Thunder.Blazor.CssBuilder", "Thunder.Blazor.CssBuilder\Thunder.Blazor.CssBuilder.csproj", "{B19D003E-5A61-4D3F-B593-BA123F8B9B42}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Thunder.Blazor.CssBuilder", "Thunder.Blazor.CssBuilder\Thunder.Blazor.CssBuilder.csproj", "{B19D003E-5A61-4D3F-B593-BA123F8B9B42}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

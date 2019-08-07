@@ -3,6 +3,7 @@
 using Microsoft.AspNetCore.Components;
 using System;
 using System.Collections.Generic;
+using Thunder.Blazor.Libs;
 using Thunder.Blazor.Models;
 
 namespace Thunder.Blazor.Components
@@ -13,6 +14,7 @@ namespace Thunder.Blazor.Components
     public class TComponent : ComponentBase, IDisposable,IThunderObject,IAnimate, IBehaverComponent
     {
         private string domId;
+        private CssBuild CssBuild = CssBuild.New;
 
         public TComponent()
         {
@@ -46,7 +48,8 @@ namespace Thunder.Blazor.Components
         /// <summary>
         /// 主要Css样式
         /// </summary>
-        public virtual string CssStyle { get; protected set; }
+        public virtual string CssStyle => GetCss();
+
         /// <summary>
         /// 完成初始化加载
         /// </summary>
@@ -83,7 +86,7 @@ namespace Thunder.Blazor.Components
         /// <summary>
         /// 点击回调
         /// </summary>
-        [Parameter] public EventCallback OnClick { get; set; }
+        [Parameter] public EventCallback<UIMouseEventArgs> OnClick { get; set; }
         /// <summary>
         /// 关闭回调
         /// </summary>
@@ -217,6 +220,22 @@ namespace Thunder.Blazor.Components
             }
         }
 
+        private string GetCss()
+        {
+            CssBuild.Add(StyleClass);
+            StyleBuild(CssBuild);
+            return CssBuild.Build().CssString;
+        }
+
+        /// <summary>
+        /// 生成 Style Class
+        /// </summary>
+        /// <param name="cssBuilder"></param>
+        protected virtual void StyleBuild(CssBuild cssBuilder)
+        {
+
+        }
+
     }
 
     /// <summary>
@@ -240,141 +259,6 @@ namespace Thunder.Blazor.Components
     public abstract class TComponent<TModel> : TComponent where TModel : TContext, new()
     {
         private TModel dataContext = new TModel();
-
-        //#region IThunderObject
-        ///// <summary>
-        ///// 对象名称
-        ///// </summary>
-        //public new string ObjectName
-        //{
-        //    get =>base.ObjectName;
-        //    set
-        //    {
-        //        if (base.ObjectName!=value)
-        //        {
-        //            dataContext.ObjectName = value;
-        //            base.ObjectName = value;
-        //        }
-        //    }
-        //}
-        ///// <summary>
-        ///// 自定义对象
-        ///// </summary>
-        //public new object Tag
-        //{
-        //    get => base.Tag;
-        //    set
-        //    {
-        //        if (base.Tag != value)
-        //        {
-        //            dataContext.Tag = value;
-        //            base.Tag = value;
-        //        }
-        //    }
-        //}
-        //#endregion
-
-        ///// <summary>
-        ///// 说明文字
-        ///// </summary>
-        //public new string Caption
-        //{
-        //    get => base.Caption;
-        //    set
-        //    {
-        //        if (base.Caption != value)
-        //        {
-        //            dataContext.Caption = value;
-        //            base.Caption = value;
-        //        }
-        //    }
-        //}
-
-
-        //#region IBaseBehaver
-        ///// <summary>
-        ///// 是否可见
-        ///// </summary>
-        //public new bool IsVisabled
-        //{
-        //    get => base.IsVisabled;
-        //    set
-        //    {
-        //        if (base.IsVisabled != value)
-        //        {
-        //            dataContext.IsVisabled = value;
-        //            base.IsVisabled = value;
-        //        }
-        //    }
-        //}
-
-        ///// <summary>
-        ///// 是否激活
-        ///// </summary>
-        //public new bool IsActived
-        //{
-        //    get => base.IsActived;
-        //    set
-        //    {
-        //        if (base.IsActived != value)
-        //        {
-        //            dataContext.IsActived = value;
-        //            base.IsActived = value;
-        //        }
-        //    }
-        //}
-
-        ///// <summary>
-        ///// 是否有效
-        ///// </summary>
-        //public new bool IsEnabled
-        //{
-        //    get => base.IsEnabled;
-        //    set
-        //    {
-        //        if (base.IsEnabled != value)
-        //        {
-        //            dataContext.IsEnabled = value;
-        //            base.IsEnabled = value;
-        //        }
-        //    }
-        //}
-
-        ///// <summary>
-        ///// 操作指令
-        ///// </summary>
-        //public new Action CommandAction
-        //{
-        //    get => base.CommandAction;
-        //    set
-        //    {
-        //        if (base.CommandAction != value)
-        //        {
-        //            dataContext.CommandAction = value;
-        //            base.CommandAction = value;
-        //        }
-        //    }
-        //}
-
-        //#endregion
-
-        ///// <summary>
-        ///// 样式类型
-        ///// </summary>
-        //public new string StyleClass
-        //{
-        //    get => base.StyleClass;
-        //    set
-        //    {
-        //        if (base.StyleClass != value)
-        //        {
-        //            dataContext.StyleClass = value;
-        //            base.StyleClass = value;
-        //        }
-        //    }
-        //}
-
-
 
         [Parameter] public TModel DataContext {
             get
@@ -507,6 +391,11 @@ namespace Thunder.Blazor.Components
             DataContext.Child = child;
             ChildContent = DataContext.Child.ContextFragment;
             ChildParamenters = DataContext.Child.ContextParameters;
+        }
+
+        protected void OnClickAction()
+        {
+            CommandAction?.Invoke();
         }
     }
 

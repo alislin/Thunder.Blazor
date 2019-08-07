@@ -14,17 +14,12 @@ namespace Thunder.Blazor.Bootstrap
     {
         [Parameter] public bool Rounded { get; set; }
         [Parameter] public StyleType Style { get; set; }
-        public override string CssStyle => GetCss();
         
-        private string GetCss()
+        protected override void StyleBuild(CssBuild cssBuilder)
         {
-            var css = CssBuild.New
-                .Add(ComponentType.badge)
+            cssBuilder.Add(ComponentType.badge)
                 .Add(ComponentType.badge.Css(Style))
-                .Add("badge-pill", Rounded)
-                .Add(StyleClass);
-
-            return css.CssString;
+                .Add("badge-pill", Rounded);
         }
     }
 }

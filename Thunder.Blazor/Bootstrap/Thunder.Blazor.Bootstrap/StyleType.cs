@@ -12,7 +12,6 @@ namespace Thunder.Blazor.Bootstrap
     /// </summary>
     public enum StyleType
     {
-        none,
         primary,
         secondary,
         success,
@@ -21,6 +20,8 @@ namespace Thunder.Blazor.Bootstrap
         info,
         light,
         dark,
+        link,
+        none,
     }
 
     public enum ComponentType
@@ -44,11 +45,17 @@ namespace Thunder.Blazor.Bootstrap
         input
     }
 
+    /// <summary>
+    /// 外描线
+    /// </summary>
     public enum OutlineType
     {
         outline
     }
 
+    /// <summary>
+    /// 尺寸
+    /// </summary>
     public enum SizeType
     {
         [Description("")]
@@ -57,5 +64,13 @@ namespace Thunder.Blazor.Bootstrap
         large,
         [Description("sm")]
         small
+    }
+
+    /// <summary>
+    /// 垂直
+    /// </summary>
+    public enum VerticalType
+    {
+        vertical
     }
 }

@@ -17,20 +17,15 @@ namespace Thunder.Blazor.Bootstrap
         [Parameter] public SizeType Size { get; set; }
         [Parameter] public ButtonTag ButtonTag { get; set; }
 
-        public override string CssStyle => GetCss();
-
-        private string GetCss()
+        protected override void StyleBuild(CssBuild cssBuilder)
         {
             var btn = ComponentType.button;
-            var css = CssBuild.New
-                .Add(btn)
-                .Add(btn.Css(Style),!Outline)
-                .Add(btn.Css(OutlineType.outline,Style), Outline)
-                .Add(btn.Css(Size),string.IsNullOrWhiteSpace(Size.ToDescriptionString()))
-                .Add("active",IsActived)
-                .Add(StyleClass);
-
-            return css.CssString;
+            cssBuilder.Add(btn)
+                .Add(btn.Css(Style), !Outline)
+                .Add(btn.Css(OutlineType.outline, Style), Outline)
+                .Add(btn.Css(Size), !string.IsNullOrWhiteSpace(Size.ToDescriptionString()))
+                .Add("active", IsActived)
+                .Add("disabled", ButtonTag == ButtonTag.a && !IsEnabled);
         }
     }
 }
