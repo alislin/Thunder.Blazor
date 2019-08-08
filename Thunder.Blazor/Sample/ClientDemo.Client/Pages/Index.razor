@@ -80,7 +80,7 @@
             <h5 class="card-header">下拉菜单 (Dropdown Demo)</h5>
             <div class="card-body">
                 <p class="card-text"></p>
-                <StrapDropdown Caption="下拉菜单">
+                <StrapDropdown Caption="下拉菜单" EnableDefaultMenu="true">
                     <StrapDropdownItem Caption="1 试一下 (Try)" CommandAction="@DropdownDemo"></StrapDropdownItem>
                     <StrapDropdown Caption="下拉菜单">
                         <StrapDropdownItem Caption="2 试一下 (Try)" CommandAction="@DropdownDemo"></StrapDropdownItem>
@@ -184,6 +184,16 @@
 
     private void DropdownDemo()
     {
-
+        var dropdown = new StrapDropdownMenuItem
+        {
+            Caption = "下拉菜单演示",
+            Style = StyleType.success,
+            EnableDefaultMenu = true
+        };
+        dropdown.Add(new StrapDropdownMenuItem
+        {
+            Caption = "第一项",
+            CommandAction = () => { BtnClick("第一项"); }
+        });
     }
 }

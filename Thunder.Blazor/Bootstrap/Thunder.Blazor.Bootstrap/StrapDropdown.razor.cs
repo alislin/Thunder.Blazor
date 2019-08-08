@@ -14,12 +14,13 @@ namespace Thunder.Blazor.Bootstrap
         /// <summary>
         /// 默认菜单操作，独立的下拉按钮
         /// </summary>
-        public bool EnableDefaultMenu { get; set; }
+        [Parameter] public bool EnableDefaultMenu { get; set; }
         [Parameter] public StyleType Style { get; set; }
         [Parameter] public bool Outline { get; set; }
         [Parameter] public SizeType Size { get; set; }
         public string DropMenuCss => GetDropMenuCss();
         public string DropCss => GetDropCss();
+        protected bool EnableDefaultMenuFlag => EnableDefaultMenu && (DataContext?.ChildNodes?.Count ?? 0) > 0;
 
         private string GetDropMenuCss()
         {
@@ -41,6 +42,18 @@ namespace Thunder.Blazor.Bootstrap
         {
             //cssBuilder.Add("dropdown");
         }
+
+        public override void UpdateDataContext()
+        {
+            DataContext.EnableDefaultMenu = EnableDefaultMenu;
+            base.UpdateDataContext();
+        }
+
+        public override void LoadDataContext()
+        {
+            EnableDefaultMenu = DataContext.EnableDefaultMenu;
+            base.LoadDataContext();
+        }
     }
 
     public class StrapDropdownMenuItem : TNode<StrapDropdownMenuItem>
@@ -49,5 +62,8 @@ namespace Thunder.Blazor.Bootstrap
         /// 默认菜单操作，独立的下拉按钮
         /// </summary>
         public bool EnableDefaultMenu { get; set; }
+        public StyleType Style { get; set; }
+        public bool Outline { get; set; }
+        public SizeType Size { get; set; }
     }
 }

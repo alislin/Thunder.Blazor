@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.JSInterop;
 using System;
 using System.Collections.Generic;
@@ -11,7 +13,7 @@ namespace Thunder.Blazor.Services
     /// <summary>
     /// 组件服务(含Js调用)
     /// </summary>
-    public class ComponentService<T> :IDisposable where T: TContext,new()
+    public class ComponentService :IDisposable
     {
         public ComponentService(IJSRuntime jsRuntime)
         {
@@ -20,40 +22,28 @@ namespace Thunder.Blazor.Services
 
         [Inject]
         public IJSRuntime JsRuntime { get; set; }
+        public List<Action> BlockContextCloseAction { get; set; } = new List<Action>();
 
-        public Guid Id { get; set; }
-        /// <summary>
-        /// 名称
-        /// </summary>
-        public string Name { get; set; }
-        /// <summary>
-        /// 加载
-        /// </summary>
-        public Action<T> Load { get; set; }
-        /// <summary>
-        /// 显示 / 刷新
-        /// </summary>
-        public Action<T> Show { get; set; }
-        /// <summary>
-        /// 关闭
-        /// </summary>
-        public Action<T> Close { get; set; }
-        /// <summary>
-        /// 在加载后
-        /// </summary>
-        public Action<T> OnLoaded { get; set; }
-        /// <summary>
-        /// 在显示后
-        /// </summary>
-        public Action<T> OnShowed { get; set; }
-        /// <summary>
-        /// 在关闭后
-        /// </summary>
-        public Action<T> OnClosed { get; set; }
+        public async Task CloseBlockContext()
+        {
+            foreach (var item in BlockContextCloseAction)
+            {
+                item?.Invoke();
+            }
+        }
 
         public virtual void Dispose()
         {
             
+        }
+    }
+
+    public static class ComponentServiceExtentsion
+    {
+        public static IServiceCollection AddDomServiceScoped(this IServiceCollection services)
+        {
+            services.TryAddScoped<ComponentService>();
+            return services;
         }
     }
 }
