@@ -15,6 +15,7 @@ namespace Thunder.Blazor.Components
     {
         private string domId;
         private CssBuild CssBuild = CssBuild.New;
+        private Random rnd= new Random(DateTime.Now.Millisecond);
 
         public TComponent()
         {
@@ -86,7 +87,7 @@ namespace Thunder.Blazor.Components
         /// <summary>
         /// 点击回调
         /// </summary>
-        [Parameter] public EventCallback<UIMouseEventArgs> OnClick { get; set; }
+        //[Parameter] public EventCallback<UIMouseEventArgs> OnClick { get; set; }
         /// <summary>
         /// 关闭回调
         /// </summary>
@@ -110,9 +111,9 @@ namespace Thunder.Blazor.Components
         /// </summary>
         [Parameter] public bool IsEnabled { get; set; } = true;
         /// <summary>
-        /// 操作指令
+        /// 默认操作指令
         /// </summary>
-        public Action CommandAction { get; set; }
+        [Parameter] public Action CommandAction { get; set; }
 
         #endregion
 
@@ -201,7 +202,7 @@ namespace Thunder.Blazor.Components
         public string NewId(string key=null)
         {
             key = string.IsNullOrWhiteSpace(key) ? "t" : key;
-            var r = new Random(DateTime.Now.Millisecond).Next(9999999).ToString("0000000");
+            var r = rnd.Next(9999999).ToString("0000000");
             return $"{key}_{r}";
         }
 
@@ -315,6 +316,7 @@ namespace Thunder.Blazor.Components
 
                 dataContext.DomId = DomId;
                 dataContext.SetViewAction<TComponent<TModel>, TModel>(this);
+                Console.WriteLine($"[UpdateDataContext]:{dataContext.Caption} = {Caption} [Caption]");
             }
             //dataContext.IsVisabled = IsVisabled;
             //dataContext.IsEnabled = IsEnabled;
@@ -341,6 +343,7 @@ namespace Thunder.Blazor.Components
                 dataContext.DomId = DomId;
                 dataContext.SetViewAction<TComponent<TModel>, TModel>(this);
                 //dataContext.StateHasChanged = StateHasChanged;
+                Console.WriteLine($"[LoadDataContext]:[Caption] {Caption} = {dataContext.Caption} ");
             }
 
             //IsVisabled = dataContext.IsVisabled;
@@ -377,6 +380,9 @@ namespace Thunder.Blazor.Components
             //dataContext.IsVisabled = base.IsVisabled;
         }
 
+        /// <summary>
+        /// 更新组件（调用 StateHasChanged）
+        /// </summary>
         public void Update()
         {
             StateHasChanged();
@@ -391,11 +397,6 @@ namespace Thunder.Blazor.Components
             DataContext.Child = child;
             ChildContent = DataContext.Child.ContextFragment;
             ChildParamenters = DataContext.Child.ContextParameters;
-        }
-
-        protected void OnClickAction()
-        {
-            CommandAction?.Invoke();
         }
     }
 

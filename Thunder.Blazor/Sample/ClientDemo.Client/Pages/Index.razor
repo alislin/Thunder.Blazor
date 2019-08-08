@@ -7,15 +7,15 @@
     <h5 class="card-header">按钮（Button）</h5>
     <div class="card-body">
         <p class="card-text">Style,Size,Outline</p>
-        <p class="card-text">@btnClickText</p>
-        <StrapButton Caption="Primary" DataContext="@(new TagBlockContext {Caption="Primary-1", CommandAction = () => BtnClick("Primary") })" @onclick="@(()=>BtnClick("Primary"))" Style="@StyleType.primary" ></StrapButton>
-        <StrapButton Caption="Secondary" @onclick="@(()=>BtnClick("Secondary"))" Style="@StyleType.secondary"></StrapButton>
-        <StrapButton Caption="Success" @onclick="@(()=>BtnClick("Success"))" Style="@StyleType.success"></StrapButton>
-        <StrapButton Caption="Danger[disable]" @onclick="@(()=>BtnClick("Danger"))" Style="@StyleType.danger" IsEnabled="false"></StrapButton>
-        <StrapButton Caption="Warning" @onclick="@(()=>BtnClick("Warning"))" Style="@StyleType.warning"></StrapButton>
-        <StrapButton Caption="Info" @onclick="@(()=>BtnClick("Info"))" Style="@StyleType.info" Size="SizeType.small"></StrapButton>
-        <StrapButton Caption="Link" @onclick="@(()=>BtnClick("Link"))" Style="@StyleType.link"></StrapButton>
-        <StrapButton Caption="Success" @onclick="@(()=>BtnClick("Success Outline"))" Style="@StyleType.success" Outline="true"></StrapButton>
+        <p class="card-text">@((MarkupString)btnClickText)</p>
+        <StrapButton Caption="Primary"  CommandAction="@(()=>BtnClick("Primary"))" Style="@StyleType.primary" ></StrapButton>
+        <StrapButton Caption="Secondary" CommandAction="@(()=>BtnClick("Secondary"))" Style="@StyleType.secondary"></StrapButton>
+        <StrapButton Caption="Success" CommandAction="@(()=>BtnClick("Success"))" Style="@StyleType.success"></StrapButton>
+        <StrapButton Caption="Danger[disable]" CommandAction="@(()=>BtnClick("Danger"))" Style="@StyleType.danger" IsEnabled="false"></StrapButton>
+        <StrapButton Caption="Warning" CommandAction="@(()=>BtnClick("Warning"))" Style="@StyleType.warning"></StrapButton>
+        <StrapButton Caption="Info" CommandAction="@(()=>BtnClick("Info"))" Style="@StyleType.info" Size="SizeType.small"></StrapButton>
+        <StrapButton Caption="Link" CommandAction="@(()=>BtnClick("Link"))" Style="@StyleType.link"></StrapButton>
+        <StrapButton Caption="Success" CommandAction="@(()=>BtnClick("Success Outline"))" Style="@StyleType.success" Outline="true"></StrapButton>
     </div>
 </div>
 <p></p>
@@ -24,15 +24,20 @@
     <div class="card-body">
         <p class="card-text"></p>
         <StrapButtongroup>
-            <StrapButton Caption="Primary" @onclick="@(()=>BtnClick("Primary"))" Style="@StyleType.primary"></StrapButton>
-            <StrapButton Caption="Secondary" @onclick="@(()=>BtnClick("Secondary"))" Style="@StyleType.secondary"></StrapButton>
-            <StrapButton Caption="Success" @onclick="@(()=>BtnClick("Success"))" Style="@StyleType.success"></StrapButton>
+            <StrapButton Caption="Primary" CommandAction="@(()=>BtnClick("Primary"))" Style="@StyleType.primary"></StrapButton>
+            <StrapButton Caption="Secondary" CommandAction="@(()=>BtnClick("Secondary"))" Style="@StyleType.secondary"></StrapButton>
+            <StrapButton Caption="Success" CommandAction="@(()=>BtnClick("Success"))" Style="@StyleType.success"></StrapButton>
         </StrapButtongroup>
         <StrapButtongroup StyleClass="ml-2" Size="SizeType.large">
-            <StrapButton Caption="Primary" @onclick="@(()=>BtnClick("Primary"))" Style="@StyleType.secondary"></StrapButton>
-            <StrapButton Caption="Secondary" @onclick="@(()=>BtnClick("Secondary"))" Style="@StyleType.secondary"></StrapButton>
-            <StrapButton Caption="Success" @onclick="@(()=>BtnClick("Success"))" Style="@StyleType.secondary"></StrapButton>
-            <StrapButton Caption="Danger[disable]" @onclick="@(()=>BtnClick("Danger"))" Style="@StyleType.secondary" IsEnabled="false"></StrapButton>
+            <StrapButton Caption="Primary" CommandAction="@(()=>BtnClick("Primary"))" Style="@StyleType.secondary"></StrapButton>
+            <StrapButton Caption="Secondary" CommandAction="@(()=>BtnClick("Secondary"))" Style="@StyleType.secondary"></StrapButton>
+            <StrapButton Caption="Success" CommandAction="@(()=>BtnClick("Success"))" Style="@StyleType.secondary"></StrapButton>
+            <StrapButton Caption="Danger[disable]" CommandAction="@(()=>BtnClick("Danger"))" Style="@StyleType.secondary" IsEnabled="false"></StrapButton>
+        </StrapButtongroup>
+        <StrapButtongroup Vertical="true" StyleClass="m-2">
+            <StrapButton Caption="1" CommandAction="@(()=>BtnClick("1"))" Style="@StyleType.primary"></StrapButton>
+            <StrapButton Caption="2" CommandAction="@(()=>BtnClick("2"))" Style="@StyleType.secondary"></StrapButton>
+            <StrapButton Caption="3" CommandAction="@(()=>BtnClick("3"))" Style="@StyleType.success"></StrapButton>
         </StrapButtongroup>
     </div>
 </div>
@@ -41,7 +46,7 @@
     <h5 class="card-header">提示消息 (Notice pop)</h5>
     <div class="card-body">
         <p></p>
-        <StrapButton Caption="试一下 (Try)" @onclick="@NotyInfo"></StrapButton>
+        <StrapButton Caption="试一下 (Try)" CommandAction="@NotyInfo"></StrapButton>
     </div>
 </div>
 <p></p>
@@ -49,7 +54,7 @@
     <h5 class="card-header">动画演示 (Animate Demo)</h5>
     <div class="card-body">
         <p class="card-text"></p>
-        <StrapButton Caption="试一下 (Try)" @onclick="@AnimateClick"></StrapButton>
+        <StrapButton Caption="试一下 (Try)" CommandAction="@AnimateClick"></StrapButton>
     </div>
 </div>
 <p></p>
@@ -57,7 +62,7 @@
     <h5 class="card-header">警告条幅 (Alert infomation)</h5>
     <div class="card-body">
         <p class="card-text"></p>
-        <StrapButton Caption="试一下 (Try)" @onclick="@AlertShow"></StrapButton>
+        <StrapButton Caption="试一下 (Try)" CommandAction="@AlertShow"></StrapButton>
     </div>
 </div>
 
@@ -77,7 +82,7 @@
 
     private void BtnClick(string text)
     {
-        btnClickText = $"Click button {text}";
+        btnClickText = $"Click button <large><strong>{text}</strong></large>";
     }
 
     private void NotyInfo()

@@ -3,12 +3,12 @@
 {
     default:
     case ButtonTag.button:
-        <button class="@CssStyle" disabled="@(!IsEnabled)" @onclick="@OnClick">@Caption</button>
+        <button class="@CssStyle" disabled="@(!IsEnabled)" @onclick="@CommandAction">@Caption</button>
         break;
     case ButtonTag.a:
-        <a class="@CssStyle" href="#" role="button"  @onclick="@OnClick">@Caption</a>
+        <a class="@CssStyle" href="#" role="button"  @onclick="@CommandAction">@Caption</a>
         break;
     case ButtonTag.input:
-        <input class="@CssStyle" type="button" value="@Caption"  disabled="@(!IsEnabled)"  @onclick="@OnClick" />
+        <input class="@CssStyle" type="button" value="@Caption"  disabled="@(!IsEnabled)"  @onclick="@CommandAction" />
         break;
 }

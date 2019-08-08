@@ -18,9 +18,9 @@ namespace Thunder.Blazor.Bootstrap
         protected override void StyleBuild(CssBuild cssBuilder)
         {
             var key = "btn-group";
-            cssBuilder.Add(key)
-                .Add(key.Css(Size.ToDescriptionString(), "-"), !string.IsNullOrWhiteSpace(Size.ToDescriptionString()))
-                .Add(key.Css(VerticalType.vertical.ToString(), "-"), Vertical);
+            cssBuilder.Add(key, !Vertical)
+                .Add(key.Css(VerticalType.vertical.ToString(), "-"), Vertical)
+                .Add(key.Css(Size.ToDescriptionString(), "-"), !string.IsNullOrWhiteSpace(Size.ToDescriptionString()));
 
         }
     }

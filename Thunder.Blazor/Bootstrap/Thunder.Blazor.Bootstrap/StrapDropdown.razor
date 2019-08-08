@@ -1,6 +1,6 @@
 ﻿@inherits StrapDropdownBase
 <div class="@CssStyle">
-    <StrapButton Caption="@DataContext.Caption" StyleClass="dropdown-toggle" @onclick="@ToggleDropdown" ></StrapButton>
+    <StrapButton Caption="@DataContext.Caption" StyleClass="dropdown-toggle" CommandAction="@ToggleDropdown" ></StrapButton>
     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
         @foreach (var item in DataContext.ChildNodes)
         {
@@ -11,7 +11,7 @@
             }
             else
             {
-                <StrapButton Caption="@item.Caption" @onclick="@item.CommandAction" Tag="ButtonTag.a"></StrapButton>
+                <StrapButton Caption="@item.Caption" CommandAction="@item.CommandAction" Tag="ButtonTag.a"></StrapButton>
             }
         }
     </div>
