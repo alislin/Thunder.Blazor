@@ -9,9 +9,9 @@ using Thunder.Blazor.Libs;
 
 namespace Thunder.Blazor.Services
 {
-    public class CssBuilderService
+    public class DomService
     {
-        public CssBuilderService(IJSRuntime jsRuntime)
+        public DomService(IJSRuntime jsRuntime)
         {
             JsRuntime = jsRuntime;
         }
@@ -23,7 +23,7 @@ namespace Thunder.Blazor.Services
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public async Task Update(string id,CssBuild css)
+        public async Task UpdateCss(string id,CssBuild css)
         {
             // 加载 DOMTokenList
             var src = await JsRuntime.InvokeAsync<CssData>("ThunderBlazor.CssBuilder.ClassList", id);
@@ -42,13 +42,12 @@ namespace Thunder.Blazor.Services
         public List<string> list { get; set; }
     }
 
-    public static class CssBuilderServiceExtentsion
+    public static class DomServiceExtentsion
     {
-        public static IServiceCollection AddCssBuilderScoped(this IServiceCollection services)
+        public static IServiceCollection AddDomServiceScoped(this IServiceCollection services)
         {
-            services.TryAddScoped<CssBuilderService>();
+            services.TryAddScoped<DomService>();
             return services;
         }
     }
-
 }

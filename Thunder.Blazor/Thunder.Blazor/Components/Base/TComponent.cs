@@ -264,7 +264,7 @@ namespace Thunder.Blazor.Components
         [Parameter] public TModel DataContext {
             get
             {
-                UpdateDataContext();
+                //UpdateDataContext();
                 return dataContext;
             }
             set
@@ -301,7 +301,7 @@ namespace Thunder.Blazor.Components
         /// <summary>
         /// Udpate DataContext from view
         /// </summary>
-        public void UpdateDataContext()
+        public virtual void UpdateDataContext()
         {
             if (dataContext != null)
             {
@@ -327,7 +327,7 @@ namespace Thunder.Blazor.Components
         /// <summary>
         /// Load datacontext to view
         /// </summary>
-        public void LoadDataContext()
+        public virtual void LoadDataContext()
         {
             if (dataContext != null)
             {

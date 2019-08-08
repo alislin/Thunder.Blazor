@@ -40,6 +40,7 @@ namespace ThunderBlazorTest.Components
             Assert.IsTrue(tcc.DomId == tc.DomId);
             Assert.IsTrue(tcc.DataContext.Caption == tc.Caption);
             tcc.Caption = "change 1";
+            tcc.UpdateDataContext();
             Assert.IsTrue(tcc.Caption == tcc.DataContext.Caption);
             tc.OnCommand.Invoke(this, ContextResult.Cancel());
             Assert.IsTrue(tcc.DataContext.ObjectName == "test");

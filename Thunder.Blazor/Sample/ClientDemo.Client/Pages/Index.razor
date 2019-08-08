@@ -2,69 +2,141 @@
 @inherits TComponent
 
 <StrapAlert @ref="@alert" IsVisabled="false"></StrapAlert>
+<div class="row">
+    <div class="col">
+        <div class="card m-2">
+            <h5 class="card-header">按钮（Button）</h5>
+            <div class="card-body">
+                <p class="card-text">Style,Size,Outline</p>
+                <p class="card-text">@((MarkupString)btnClickText)</p>
+                <StrapButton Caption="Primary" CommandAction="@(()=>BtnClick("Primary"))" Style="@StyleType.primary" DataContext="@(new TagBlockContext { Caption="P-1",CommandAction=()=>BtnClick("P-1")})"></StrapButton>
+                <StrapButton Caption="Secondary" CommandAction="@(()=>BtnClick("Secondary"))" Style="@StyleType.secondary"></StrapButton>
+                <StrapButton Caption="Success" CommandAction="@(()=>BtnClick("Success"))" Style="@StyleType.success"></StrapButton>
+                <StrapButton Caption="Danger[disable]" CommandAction="@(()=>BtnClick("Danger"))" Style="@StyleType.danger" IsEnabled="false"></StrapButton>
+                <StrapButton Caption="Warning" CommandAction="@(()=>BtnClick("Warning"))" Style="@StyleType.warning"></StrapButton>
+                <StrapButton Caption="Info" CommandAction="@(()=>BtnClick("Info"))" Style="@StyleType.info" Size="SizeType.small"></StrapButton>
+                <StrapButton Caption="Link" CommandAction="@(()=>BtnClick("Link"))" Style="@StyleType.link"></StrapButton>
+                <StrapButton Caption="Success" CommandAction="@(()=>BtnClick("Success Outline"))" Style="@StyleType.success" Outline="true"></StrapButton>
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="card m-2">
+            <h5 class="card-header">按钮组 (Button group)</h5>
+            <div class="card-body">
+                <p class="card-text"></p>
+                <StrapButtongroup>
+                    <StrapButton Caption="Primary" CommandAction="@(()=>BtnClick("Primary"))" Style="@StyleType.primary"></StrapButton>
+                    <StrapButton Caption="Secondary" CommandAction="@(()=>BtnClick("Secondary"))" Style="@StyleType.secondary"></StrapButton>
+                    <StrapButton Caption="Success" CommandAction="@(()=>BtnClick("Success"))" Style="@StyleType.success"></StrapButton>
+                </StrapButtongroup>
+                <StrapButtongroup StyleClass="ml-2" Size="SizeType.large">
+                    <StrapButton Caption="Primary" CommandAction="@(()=>BtnClick("Primary"))" Style="@StyleType.secondary"></StrapButton>
+                    <StrapButton Caption="Secondary" CommandAction="@(()=>BtnClick("Secondary"))" Style="@StyleType.secondary"></StrapButton>
+                    <StrapButton Caption="Success" CommandAction="@(()=>BtnClick("Success"))" Style="@StyleType.secondary"></StrapButton>
+                    <StrapButton Caption="Danger[disable]" CommandAction="@(()=>BtnClick("Danger"))" Style="@StyleType.secondary" IsEnabled="false"></StrapButton>
+                </StrapButtongroup>
+                <StrapButtongroup Vertical="true" StyleClass="m-2">
+                    <StrapButton Caption="1" CommandAction="@(()=>BtnClick("1"))" Style="@StyleType.primary"></StrapButton>
+                    <StrapButton Caption="2" CommandAction="@(()=>BtnClick("2"))" Style="@StyleType.secondary"></StrapButton>
+                    <StrapButton Caption="3" CommandAction="@(()=>BtnClick("3"))" Style="@StyleType.success"></StrapButton>
+                </StrapButtongroup>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <div class="card m-2">
+            <h5 class="card-header">警告条幅 (Alert infomation)</h5>
+            <div class="card-body">
+                <p class="card-text"></p>
+                <StrapButton Caption="试一下 (Try)" CommandAction="@AlertShow"></StrapButton>
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="card m-2">
+            <h5 class="card-header">提示消息 (Notice pop)</h5>
+            <div class="card-body">
+                <p></p>
+                <StrapButton Caption="试一下 (Try)" CommandAction="@NotyInfo"></StrapButton>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <div id="@titleId" class="card m-2">
+            <h5 class="card-header">动画演示 (Animate Demo)</h5>
+            <div class="card-body">
+                <p class="card-text"></p>
+                <StrapButton Caption="试一下 (Try)" CommandAction="@AnimateClick"></StrapButton>
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div id="@titleId" class="card m-2">
+            <h5 class="card-header">下拉菜单 (Dropdown Demo)</h5>
+            <div class="card-body">
+                <p class="card-text"></p>
+                <StrapDropdown Caption="下拉菜单">
+                    <StrapDropdownItem Caption="1 试一下 (Try)" CommandAction="@DropdownDemo"></StrapDropdownItem>
+                    <StrapDropdown Caption="下拉菜单">
+                        <StrapDropdownItem Caption="2 试一下 (Try)" CommandAction="@DropdownDemo"></StrapDropdownItem>
+                        <StrapDropdownItem Caption="2 试一下 (Try)" CommandAction="@DropdownDemo"></StrapDropdownItem>
+                        <StrapDropdownItem Caption="---试一下 (Try)" CommandAction="@DropdownDemo"></StrapDropdownItem>
+                        <StrapDropdownItem Caption="2 分隔一下" CommandAction="@DropdownDemo"></StrapDropdownItem>
+                    </StrapDropdown>
+                    <StrapDropdownItem Caption="1 试一下 (Try)" CommandAction="@DropdownDemo"></StrapDropdownItem>
+                    <StrapDropdownItem Caption="---试一下 (Try)" CommandAction="@DropdownDemo"></StrapDropdownItem>
+                    <StrapDropdownItem Caption="1 分隔一下" CommandAction="@DropdownDemo"></StrapDropdownItem>
+                </StrapDropdown>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <div id="@titleId" class="card m-2">
+            <h5 class="card-header">这是没用的卡片</h5>
+            <div class="card-body">
+                <p class="card-text">什么都没有……</p>
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div id="@titleId" class="card m-2">
+            <h5 class="card-header">这是没用的卡片</h5>
+            <div class="card-body">
+                <p class="card-text">什么都没有……</p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
 
-<div class="card">
-    <h5 class="card-header">按钮（Button）</h5>
-    <div class="card-body">
-        <p class="card-text">Style,Size,Outline</p>
-        <p class="card-text">@((MarkupString)btnClickText)</p>
-        <StrapButton Caption="Primary"  CommandAction="@(()=>BtnClick("Primary"))" Style="@StyleType.primary" ></StrapButton>
-        <StrapButton Caption="Secondary" CommandAction="@(()=>BtnClick("Secondary"))" Style="@StyleType.secondary"></StrapButton>
-        <StrapButton Caption="Success" CommandAction="@(()=>BtnClick("Success"))" Style="@StyleType.success"></StrapButton>
-        <StrapButton Caption="Danger[disable]" CommandAction="@(()=>BtnClick("Danger"))" Style="@StyleType.danger" IsEnabled="false"></StrapButton>
-        <StrapButton Caption="Warning" CommandAction="@(()=>BtnClick("Warning"))" Style="@StyleType.warning"></StrapButton>
-        <StrapButton Caption="Info" CommandAction="@(()=>BtnClick("Info"))" Style="@StyleType.info" Size="SizeType.small"></StrapButton>
-        <StrapButton Caption="Link" CommandAction="@(()=>BtnClick("Link"))" Style="@StyleType.link"></StrapButton>
-        <StrapButton Caption="Success" CommandAction="@(()=>BtnClick("Success Outline"))" Style="@StyleType.success" Outline="true"></StrapButton>
+    </div>
+    <div class="col">
+
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+
+    </div>
+    <div class="col">
+
     </div>
 </div>
 <p></p>
-<div class="card">
-    <h5 class="card-header">按钮组 (Button group)</h5>
-    <div class="card-body">
-        <p class="card-text"></p>
-        <StrapButtongroup>
-            <StrapButton Caption="Primary" CommandAction="@(()=>BtnClick("Primary"))" Style="@StyleType.primary"></StrapButton>
-            <StrapButton Caption="Secondary" CommandAction="@(()=>BtnClick("Secondary"))" Style="@StyleType.secondary"></StrapButton>
-            <StrapButton Caption="Success" CommandAction="@(()=>BtnClick("Success"))" Style="@StyleType.success"></StrapButton>
-        </StrapButtongroup>
-        <StrapButtongroup StyleClass="ml-2" Size="SizeType.large">
-            <StrapButton Caption="Primary" CommandAction="@(()=>BtnClick("Primary"))" Style="@StyleType.secondary"></StrapButton>
-            <StrapButton Caption="Secondary" CommandAction="@(()=>BtnClick("Secondary"))" Style="@StyleType.secondary"></StrapButton>
-            <StrapButton Caption="Success" CommandAction="@(()=>BtnClick("Success"))" Style="@StyleType.secondary"></StrapButton>
-            <StrapButton Caption="Danger[disable]" CommandAction="@(()=>BtnClick("Danger"))" Style="@StyleType.secondary" IsEnabled="false"></StrapButton>
-        </StrapButtongroup>
-        <StrapButtongroup Vertical="true" StyleClass="m-2">
-            <StrapButton Caption="1" CommandAction="@(()=>BtnClick("1"))" Style="@StyleType.primary"></StrapButton>
-            <StrapButton Caption="2" CommandAction="@(()=>BtnClick("2"))" Style="@StyleType.secondary"></StrapButton>
-            <StrapButton Caption="3" CommandAction="@(()=>BtnClick("3"))" Style="@StyleType.success"></StrapButton>
-        </StrapButtongroup>
-    </div>
-</div>
 <p></p>
-<div class="card">
-    <h5 class="card-header">提示消息 (Notice pop)</h5>
-    <div class="card-body">
-        <p></p>
-        <StrapButton Caption="试一下 (Try)" CommandAction="@NotyInfo"></StrapButton>
-    </div>
-</div>
 <p></p>
-<div id="@titleId" class="card">
-    <h5 class="card-header">动画演示 (Animate Demo)</h5>
-    <div class="card-body">
-        <p class="card-text"></p>
-        <StrapButton Caption="试一下 (Try)" CommandAction="@AnimateClick"></StrapButton>
-    </div>
-</div>
 <p></p>
-<div class="card">
-    <h5 class="card-header">警告条幅 (Alert infomation)</h5>
-    <div class="card-body">
-        <p class="card-text"></p>
-        <StrapButton Caption="试一下 (Try)" CommandAction="@AlertShow"></StrapButton>
-    </div>
-</div>
+<p></p>
+<p></p>
+<p></p>
 
 @code{
     [Inject] protected NotifyService noty { get; set; }
@@ -107,6 +179,11 @@
         alert.DataContext = alertcontext;
         //alert.OnShowed += (o, e) => { animate.Start(new AnimateData { AnimateType = AnimateType.fadeIn, id = alert.DomId }); };
         alert.Show();
+
+    }
+
+    private void DropdownDemo()
+    {
 
     }
 }

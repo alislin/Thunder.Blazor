@@ -38,7 +38,7 @@ namespace Thunder.Blazor.Bootstrap
         list_group_item
     }
 
-    public enum ButtonTag
+    public enum ActionItemTag
     {
         button,
         a,

@@ -10,12 +10,10 @@ using Thunder.Blazor.Libs;
 
 namespace Thunder.Blazor.Bootstrap
 {
-    public class StrapButtonBase: TComponent<TagBlockContext>
+    public class StrapButton: StrapActionItem
     {
-        [Parameter] public StyleType Style { get; set; }
         [Parameter] public bool Outline { get; set; }
         [Parameter] public SizeType Size { get; set; }
-        [Parameter] public ButtonTag ButtonTag { get; set; }
 
         protected override void StyleBuild(CssBuild cssBuilder)
         {
@@ -23,9 +21,9 @@ namespace Thunder.Blazor.Bootstrap
             cssBuilder.Add(btn)
                 .Add(btn.Css(Style), !Outline)
                 .Add(btn.Css(OutlineType.outline, Style), Outline)
-                .Add(btn.Css(Size), !string.IsNullOrWhiteSpace(Size.ToDescriptionString()))
-                .Add("active", IsActived)
-                .Add("disabled", ButtonTag == ButtonTag.a && !IsEnabled);
+                .Add(btn.Css(Size), !string.IsNullOrWhiteSpace(Size.ToDescriptionString()));
+
+            base.StyleBuild(cssBuilder);
         }
     }
 }
