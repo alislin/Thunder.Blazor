@@ -13,9 +13,9 @@ namespace Thunder.Blazor.Services
     /// <summary>
     /// 组件服务(含Js调用)
     /// </summary>
-    public class ComponentService :IDisposable
+    public class ThunderComponentService :IDisposable
     {
-        public ComponentService(IJSRuntime jsRuntime)
+        public ThunderComponentService(IJSRuntime jsRuntime)
         {
             JsRuntime = jsRuntime;
         }
@@ -40,9 +40,9 @@ namespace Thunder.Blazor.Services
 
     public static class ComponentServiceExtentsion
     {
-        public static IServiceCollection AddDomServiceScoped(this IServiceCollection services)
+        public static IServiceCollection AddComponentServiceScoped(this IServiceCollection services)
         {
-            services.TryAddScoped<ComponentService>();
+            services.TryAddScoped<ThunderComponentService>();
             return services;
         }
     }

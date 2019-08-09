@@ -5,22 +5,43 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Thunder.Blazor.Components;
+using Thunder.Blazor.Extensions;
 using Thunder.Blazor.Libs;
+using Thunder.Blazor.Services;
 
 namespace Thunder.Blazor.Bootstrap
 {
     public class StrapDropdownBase : TBlockContextBase<StrapDropdownMenuItem>
     {
+        //[Inject] public ComponentService ComponentService { get; set; }
+
         /// <summary>
         /// 默认菜单操作，独立的下拉按钮
         /// </summary>
         [Parameter] public bool EnableDefaultMenu { get; set; }
+        /// <summary>
+        /// 样式
+        /// </summary>
         [Parameter] public StyleType Style { get; set; }
+        /// <summary>
+        /// 外框线
+        /// </summary>
         [Parameter] public bool Outline { get; set; }
+        /// <summary>
+        /// 尺寸
+        /// </summary>
         [Parameter] public SizeType Size { get; set; }
+        /// <summary>
+        /// 展开方向
+        /// </summary>
+        [Parameter] public DropDirectionType DropDirection { get; set; }
+        /// <summary>
+        /// 子菜单
+        /// </summary>
+        [Parameter] public bool SubItem { get; set; }
         public string DropMenuCss => GetDropMenuCss();
         public string DropCss => GetDropCss();
-        protected bool EnableDefaultMenuFlag => EnableDefaultMenu && (DataContext?.ChildNodes?.Count ?? 0) > 0;
+        protected bool EnableDefaultMenuFlag => EnableDefaultMenu && (DataContext?.ChildNodes?.Count ?? 0) > 0 && !SubItem;
 
         private string GetDropMenuCss()
         {
@@ -32,7 +53,9 @@ namespace Thunder.Blazor.Bootstrap
 
         private string GetDropCss()
         {
-            return CssBuild.New.Add("dropdown")
+            return CssBuild.New.Add("dropdown",!EnableDefaultMenuFlag)
+                .Add("btn-group", EnableDefaultMenuFlag)
+                .Add(DropDirection.ToDescriptionString())
                 .Add("show",IsOpen)
                 .Build()
                 .CssString;
@@ -53,6 +76,12 @@ namespace Thunder.Blazor.Bootstrap
         {
             EnableDefaultMenu = DataContext.EnableDefaultMenu;
             base.LoadDataContext();
+        }
+
+        protected override void OnInit()
+        {
+            base.OnInit();
+            //OnShowing += (o, e) => { ComponentService.BlockContextCloseAction.Add(Close); };
         }
     }
 

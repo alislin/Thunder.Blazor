@@ -8,7 +8,8 @@ namespace ClientDemo.Client
     {
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddNotyScoped()
+            services.AddComponentServiceScoped()
+                .AddNotyScoped()
                 .AddAnimateScoped();
         }
 

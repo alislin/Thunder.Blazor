@@ -1,5 +1,5 @@
 ﻿@inherits StrapDropdownBase
-<div class="@DropCss">
+    <div class="@DropCss">
         @if (EnableDefaultMenuFlag)
         {
             var firstMenu = DataContext.ChildNodes.FirstOrDefault();
@@ -8,26 +8,33 @@
         }
         else
         {
-            <StrapButton Caption="@Caption" StyleClass="dropdown-toggle" CommandAction="@ToggleOpen"></StrapButton>
-        }
-<div class="@DropMenuCss">
-    @if (ChildContent == null)
-    {
-        @foreach (var item in DataContext.ChildNodes)
-        {
-            if (item.HasChildren)
+            if (SubItem)
             {
-                <StrapDropdown DataContext="@item"></StrapDropdown>
+                <StrapDropdownItem Caption="@Caption" CommandAction="@ToggleOpen" Tag="ActionItemTag.a" StyleClass="dropdown-toggle"></StrapDropdownItem>
             }
             else
             {
-                <StrapDropdownItem Caption="@item.Caption" CommandAction="@item.CommandAction" Tag="ActionItemTag.a"></StrapDropdownItem>
+                <StrapButton Caption="@Caption" StyleClass="dropdown-toggle" CommandAction="@ToggleOpen"></StrapButton>
             }
         }
-    }
-    else
-    {
-        @ChildContent
-    }
-</div>
-</div>
+        <div class="@DropMenuCss">
+            @if ((DataContext?.HasChildren ?? false))
+            {
+                @foreach (var item in DataContext.ChildNodes)
+                {
+                    if (item.HasChildren)
+                    {
+                        <StrapDropdown DataContext="@item" SubItem="true" DropDirection="@DropDirectionType.right"></StrapDropdown>
+                    }
+                    else
+                    {
+                        <StrapDropdownItem Caption="@item.Caption" CommandAction="@item.CommandAction" Tag="ActionItemTag.a"></StrapDropdownItem>
+                    }
+                }
+            }
+            else
+            {
+                @ChildContent
+            }
+        </div>
+    </div>

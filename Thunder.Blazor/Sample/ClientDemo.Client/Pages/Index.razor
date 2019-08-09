@@ -17,6 +17,11 @@
                 <StrapButton Caption="Info" CommandAction="@(()=>BtnClick("Info"))" Style="@StyleType.info" Size="SizeType.small"></StrapButton>
                 <StrapButton Caption="Link" CommandAction="@(()=>BtnClick("Link"))" Style="@StyleType.link"></StrapButton>
                 <StrapButton Caption="Success" CommandAction="@(()=>BtnClick("Success Outline"))" Style="@StyleType.success" Outline="true"></StrapButton>
+                @*<div class="highlight">
+                    <pre>
+                        <code class="html" data-lang="html">@btncode</code>
+                    </pre>
+                </div>*@
             </div>
         </div>
     </div>
@@ -80,18 +85,25 @@
             <h5 class="card-header">下拉菜单 (Dropdown Demo)</h5>
             <div class="card-body">
                 <p class="card-text"></p>
-                <StrapDropdown Caption="下拉菜单" EnableDefaultMenu="true">
-                    <StrapDropdownItem Caption="1 试一下 (Try)" CommandAction="@DropdownDemo"></StrapDropdownItem>
-                    <StrapDropdown Caption="下拉菜单">
-                        <StrapDropdownItem Caption="2 试一下 (Try)" CommandAction="@DropdownDemo"></StrapDropdownItem>
-                        <StrapDropdownItem Caption="2 试一下 (Try)" CommandAction="@DropdownDemo"></StrapDropdownItem>
-                        <StrapDropdownItem Caption="---试一下 (Try)" CommandAction="@DropdownDemo"></StrapDropdownItem>
-                        <StrapDropdownItem Caption="2 分隔一下" CommandAction="@DropdownDemo"></StrapDropdownItem>
-                    </StrapDropdown>
-                    <StrapDropdownItem Caption="1 试一下 (Try)" CommandAction="@DropdownDemo"></StrapDropdownItem>
-                    <StrapDropdownItem Caption="---试一下 (Try)" CommandAction="@DropdownDemo"></StrapDropdownItem>
-                    <StrapDropdownItem Caption="1 分隔一下" CommandAction="@DropdownDemo"></StrapDropdownItem>
-                </StrapDropdown>
+                <div class="row">
+                    <div class="col">
+                        <StrapDropdown @ref="@sdd" DataContext="@DropdownDemoItem"></StrapDropdown>
+                    </div>
+                    <div class="col">
+                        <StrapDropdown Caption="下拉菜单" EnableDefaultMenu="true">
+                            <StrapDropdownItem Caption="1 试一下 (Try)" CommandAction="@DropdownDemo"></StrapDropdownItem>
+                            <StrapDropdown Caption="二级菜单">
+                                <StrapDropdownItem Caption="2 试一下 (Try)" CommandAction="@DropdownDemo"></StrapDropdownItem>
+                                <StrapDropdownItem Caption="2 试一下 (Try)" CommandAction="@DropdownDemo"></StrapDropdownItem>
+                                <StrapDropdownItem Caption="---试一下 (Try)" CommandAction="@DropdownDemo"></StrapDropdownItem>
+                                <StrapDropdownItem Caption="2 分隔一下" CommandAction="@DropdownDemo"></StrapDropdownItem>
+                            </StrapDropdown>
+                            <StrapDropdownItem Caption="1 试一下 (Try)" CommandAction="@DropdownDemo"></StrapDropdownItem>
+                            <StrapDropdownItem Caption="---试一下 (Try)" CommandAction="@DropdownDemo"></StrapDropdownItem>
+                            <StrapDropdownItem Caption="1 分隔一下" CommandAction="@DropdownDemo"></StrapDropdownItem>
+                        </StrapDropdown>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -141,20 +153,39 @@
 @code{
     [Inject] protected NotifyService noty { get; set; }
     [Inject] protected AnimateService animate { get; set; }
+    [Inject] protected IJSRuntime jSRuntime { get; set; }
+    [Inject] protected ThunderComponentService ComponentService { get; set; }
+
     protected string titleId { get; set; }
     protected string btnClickText { get; set; } = "Click !!! ??";
+    protected StrapDropdownMenuItem DropdownDemoItem { get; set; }
+
+    string btncode = "<StrapButton Caption=\"Primary\" CommandAction=\"@(()=>BtnClick(\"Primary\"))\" Style=\"@StyleType.primary\" DataContext=\"@(new TagBlockContext { Caption=\"P-1\",CommandAction=()=>BtnClick(\"P-1\")})\"></StrapButton>";
+    StrapDropdown sdd;
 
     StrapAlert alert { get; set; }
 
     protected override void OnInit()
     {
         titleId = NewId();
+        DropdownDemoItem=GetDropdownDemo();
+
+        sdd = new StrapDropdown();
+        ComponentService.BlockContextCloseAction.Add(sdd.Close);
+
         base.OnInit();
+    }
+
+    protected override void OnAfterRender()
+    {
+        base.OnAfterRender();
+        jSRuntime.InvokeAsync<object>("hljs.initHighlightingOnLoad()", null);
     }
 
     private void BtnClick(string text)
     {
         btnClickText = $"Click button <large><strong>{text}</strong></large>";
+        StateHasChanged();
     }
 
     private void NotyInfo()
@@ -182,7 +213,12 @@
 
     }
 
-    private void DropdownDemo()
+    private void DropdownDemo(){
+        btnClickText = $"Click button <large><strong>下拉菜单[{DateTime.Now}]</strong></large>";
+        StateHasChanged();
+    }
+
+    private StrapDropdownMenuItem GetDropdownDemo()
     {
         var dropdown = new StrapDropdownMenuItem
         {
@@ -195,5 +231,51 @@
             Caption = "第一项",
             CommandAction = () => { BtnClick("第一项"); }
         });
+        dropdown.Add(new StrapDropdownMenuItem
+        {
+            Caption = "---",
+            CommandAction = () => { BtnClick("第二项"); }
+        });
+        dropdown.Add(new StrapDropdownMenuItem
+        {
+            Caption = "第二项",
+            CommandAction = () => { BtnClick("第二项"); }
+        });
+        dropdown.Add(new StrapDropdownMenuItem
+        {
+            Caption = "第三项",
+            CommandAction = () => { BtnClick("第三项"); }
+        });
+
+        var dropdown2 = new StrapDropdownMenuItem
+        {
+            Caption = "二级菜单演示",
+            Style = StyleType.success,
+            EnableDefaultMenu = true
+        };
+        dropdown2.Add(new StrapDropdownMenuItem
+        {
+            Caption = "第一项",
+            CommandAction = () => { BtnClick("第一项"); }
+        });
+        dropdown2.Add(new StrapDropdownMenuItem
+        {
+            Caption = "---",
+            CommandAction = () => { BtnClick("第二项"); }
+        });
+        dropdown2.Add(new StrapDropdownMenuItem
+        {
+            Caption = "第二项",
+            CommandAction = () => { BtnClick("第二项"); }
+        });
+        dropdown2.Add(new StrapDropdownMenuItem
+        {
+            Caption = "第三项",
+            CommandAction = () => { BtnClick("第三项"); }
+        });
+
+        dropdown.Add(dropdown2);
+
+        return dropdown;
     }
 }

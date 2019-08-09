@@ -73,4 +73,16 @@ namespace Thunder.Blazor.Bootstrap
     {
         vertical
     }
+
+    public enum DropDirectionType
+    {
+        [Description("")]
+        down,
+        [Description("dropup")]
+        up,
+        [Description("dropright")]
+        right,
+        [Description("dropleft")]
+        left
+    }
 }
