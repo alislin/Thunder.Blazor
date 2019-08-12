@@ -7,8 +7,6 @@
 <button class="btn btn-primary" @onclick="@IncrementCount">Click me</button>
 
 @code {
-    [Inject]
-    public ThunderComponentService ComponentService { get; set; }
     int currentCount = 0;
 
     void IncrementCount()
@@ -19,6 +17,5 @@
     protected override void OnInit()
     {
         base.OnInit();
-        ComponentService.CloseBlockContext();
     }
 }

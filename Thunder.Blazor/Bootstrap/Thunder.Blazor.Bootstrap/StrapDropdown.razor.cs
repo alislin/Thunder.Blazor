@@ -13,8 +13,6 @@ namespace Thunder.Blazor.Bootstrap
 {
     public class StrapDropdownBase : TBlockContextBase<StrapDropdownMenuItem>
     {
-        //[Inject] public ComponentService ComponentService { get; set; }
-
         /// <summary>
         /// 默认菜单操作，独立的下拉按钮
         /// </summary>
@@ -83,6 +81,7 @@ namespace Thunder.Blazor.Bootstrap
             base.OnInit();
             //OnShowing += (o, e) => { ComponentService.BlockContextCloseAction.Add(Close); };
         }
+
     }
 
     public class StrapDropdownMenuItem : TNode<StrapDropdownMenuItem>

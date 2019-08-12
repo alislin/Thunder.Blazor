@@ -44,8 +44,9 @@ namespace ClientDemo.Server
                         BaseAddress = new Uri(uriHelper.GetBaseUri())
                     };
                 });
-                services.AddNotyScoped()
-               .AddAnimateScoped();
+                services.AddComponentServiceScoped()
+                    .AddNotyScoped()
+                    .AddAnimateScoped();
             }
             #endregion
         }

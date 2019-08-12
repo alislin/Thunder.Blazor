@@ -3,7 +3,7 @@
         @if (EnableDefaultMenuFlag)
         {
             var firstMenu = DataContext.ChildNodes.FirstOrDefault();
-            <StrapButton Caption="@firstMenu.Caption" Style="@Style" Size="@Size" Outline="@Outline" CommandAction="@firstMenu.CommandAction"></StrapButton>
+            <StrapButton Caption="@firstMenu.Caption" Style="@Style" Size="@Size" Outline="@Outline" CommandAction="@(()=> { OpenItemClick(firstMenu.CommandAction); })"></StrapButton>
             <StrapButton Style="@Style" Size="@Size" Outline="@Outline" StyleClass="dropdown-toggle dropdown-toggle-split" CommandAction="@ToggleOpen"><span class="sr-only">Toggle Dropdown</span></StrapButton>
         }
         else
@@ -17,24 +17,27 @@
                 <StrapButton Caption="@Caption" StyleClass="dropdown-toggle" CommandAction="@ToggleOpen"></StrapButton>
             }
         }
-        <div class="@DropMenuCss">
-            @if ((DataContext?.HasChildren ?? false))
-            {
-                @foreach (var item in DataContext.ChildNodes)
+        @if (IsOpen)
+        {
+            <div class="@DropMenuCss">
+                @if ((DataContext?.HasChildren ?? false))
                 {
-                    if (item.HasChildren)
+                    @foreach (var item in DataContext.ChildNodes)
                     {
-                        <StrapDropdown DataContext="@item" SubItem="true" DropDirection="@DropDirectionType.right"></StrapDropdown>
-                    }
-                    else
-                    {
-                        <StrapDropdownItem Caption="@item.Caption" CommandAction="@item.CommandAction" Tag="ActionItemTag.a"></StrapDropdownItem>
+                        if (item.HasChildren)
+                        {
+                            <StrapDropdown DataContext="@item" SubItem="true" DropDirection="@DropDirectionType.right"></StrapDropdown>
+                        }
+                        else
+                        {
+                            <StrapDropdownItem Caption="@item.Caption" CommandAction="@(()=> { OpenItemClick(item.CommandAction); })" Tag="ActionItemTag.a"></StrapDropdownItem>
+                        }
                     }
                 }
-            }
-            else
-            {
-                @ChildContent
-            }
-        </div>
+                else
+                {
+                    @ChildContent
+                }
+            </div>
+        }
     </div>

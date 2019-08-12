@@ -103,6 +103,11 @@
                             <StrapDropdownItem Caption="1 分隔一下" CommandAction="@DropdownDemo"></StrapDropdownItem>
                         </StrapDropdown>
                     </div>
+                    <div class="col">
+                        <StrapDropdown Caption="计数器">
+                            <Counter></Counter>
+                        </StrapDropdown>
+                    </div>
                 </div>
             </div>
         </div>
@@ -154,7 +159,6 @@
     [Inject] protected NotifyService noty { get; set; }
     [Inject] protected AnimateService animate { get; set; }
     [Inject] protected IJSRuntime jSRuntime { get; set; }
-    [Inject] protected ThunderComponentService ComponentService { get; set; }
 
     protected string titleId { get; set; }
     protected string btnClickText { get; set; } = "Click !!! ??";
@@ -171,7 +175,6 @@
         DropdownDemoItem=GetDropdownDemo();
 
         sdd = new StrapDropdown();
-        ComponentService.BlockContextCloseAction.Add(sdd.Close);
 
         base.OnInit();
     }
