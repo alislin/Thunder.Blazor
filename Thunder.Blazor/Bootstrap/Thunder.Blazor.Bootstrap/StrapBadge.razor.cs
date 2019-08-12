@@ -18,7 +18,7 @@ namespace Thunder.Blazor.Bootstrap
         protected override void StyleBuild(CssBuild cssBuilder)
         {
             cssBuilder.Add(ComponentType.badge)
-                .Add(ComponentType.badge.Css(Style))
+                .Add(ComponentType.badge.CssJoin(Style))
                 .Add("badge-pill", Rounded);
         }
     }

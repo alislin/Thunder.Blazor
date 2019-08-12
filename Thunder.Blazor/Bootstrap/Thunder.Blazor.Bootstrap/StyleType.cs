@@ -85,4 +85,23 @@ namespace Thunder.Blazor.Bootstrap
         [Description("dropleft")]
         left
     }
+
+    /// <summary>
+    /// 对起模式
+    /// </summary>
+    public enum AlignmentType
+    {
+        [Description("")]
+        none,
+        [Description("left")]
+        left,
+        [Description("center")]
+        center,
+        [Description("right")]
+        right,
+        [Description("start")]
+        start,
+        [Description("end")]
+        end,
+    }
 }

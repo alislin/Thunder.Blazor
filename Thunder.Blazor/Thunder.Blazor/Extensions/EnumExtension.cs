@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
+using System.Linq;
 using System.Text;
 using Thunder.Blazor.Libs;
 
@@ -42,17 +43,6 @@ namespace Thunder.Blazor.Extensions
             return (TValue)Enum.Parse(typeof(TValue), value);
         }
 
-        /// <summary>
-        /// CSS生成
-        /// </summary>
-        /// <param name="s"></param>
-        /// <param name="add"></param>
-        /// <returns></returns>
-        public static string Css(this string s, string add)
-            => CssBuild.New
-            .Add(s)
-            .Add(add)
-            .Build().CssString;
 
         /// <summary>
         /// CSS生成
@@ -65,14 +55,25 @@ namespace Thunder.Blazor.Extensions
             .Build().CssString;
 
         /// <summary>
+        /// CSS生成
+        /// </summary>
+        /// <param name="s"></param>
+        /// <returns></returns>
+        public static string Css(this string s,string s1)
+            => CssBuild.New
+            .Add(s)
+            .Add(s1)
+            .Build().CssString;
+
+        /// <summary>
         /// 连接两个枚举值输出CSS
         /// </summary>
         /// <param name="val"></param>
         /// <param name="sub"></param>
         /// <param name="join"></param>
         /// <returns></returns>
-        public static string Css(this Enum val, Enum sub, string join = "-")
-            => val.ToDescriptionString().Css(sub.ToDescriptionString(), "-");
+        public static string CssJoin(this Enum val, Enum sub, string join = "-")
+            => join.Join(val.ToDescriptionString(), sub.ToDescriptionString());
 
         /// <summary>
         /// 连接三个枚举值输出CSS
@@ -81,34 +82,42 @@ namespace Thunder.Blazor.Extensions
         /// <param name="sub"></param>
         /// <param name="join"></param>
         /// <returns></returns>
-        public static string Css(this Enum val, Enum sub, Enum sub2, string join = "-")
-            => val.ToDescriptionString().Css(sub.ToDescriptionString(), sub2.ToDescriptionString(), "-");
+        public static string CssJoin(this Enum val, Enum sub, Enum sub2, string join = "-")
+            => join.Join(val.ToDescriptionString(), sub.ToDescriptionString(), sub2.ToDescriptionString());
 
         /// <summary>
-        /// 连接两个字串输出CSS
+        /// 连接字串队列
         /// </summary>
-        /// <param name="val"></param>
-        /// <param name="sub"></param>
-        /// <param name="join"></param>
+        /// <param name="joinchar"></param>
+        /// <param name="list"></param>
+        /// <param name="skipEmpty">如果队列存在空值，返回空值</param>
         /// <returns></returns>
-        public static string Css(this string val, string sub, string join = "-")
-            => val.Css(sub, "", join);
-
-        public static string Css(this string val, string sub,string sub2, string join = "-")
+        public static string Join(this string joinchar,IList<string> list,bool skipEmpty = true)
         {
-            var list = CssBuild.New.Add(val)
-                .Add(sub)
-                .Add(sub2)
-                .CssAdd;
-            if (list.Count>1)
-            {
-                return string.Join(join, list);
-            }
-            else
+            var check = list.Where(x => string.IsNullOrWhiteSpace(x)).Count();
+            var l = list.Where(x => !string.IsNullOrWhiteSpace(x)).ToList();
+            if (check>0)
             {
                 return string.Empty;
             }
+            else
+            {
+                return string.Join(joinchar, l);
+            }
         }
+
+        public static string Join(this string joinchar, string s1, string s2)
+            => joinchar.Join(new string[] { s1, s2 });
+
+        public static string Join(this string joinchar, string s1, string s2, string s3)
+            => joinchar.Join(new string[] { s1, s2, s3 });
+
+        public static string Join(this string joinchar, string s1, string s2, string s3, string s4)
+            => joinchar.Join(new string[] { s1, s2, s3, s4 });
+
+        public static string Join(this string joinchar, string s1, string s2, string s3, string s4, string s5)
+            => joinchar.Join(new string[] { s1, s2, s3, s4,s5 });
+
 
         public static CssBuild Add(this CssBuild css, Enum val, bool condition = true)
             => css.Add(val.ToDescriptionString(), condition);

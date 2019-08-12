@@ -72,16 +72,7 @@
 </div>
 <div class="row">
     <div class="col">
-        <div id="@titleId" class="card m-2">
-            <h5 class="card-header">动画演示 (Animate Demo)</h5>
-            <div class="card-body">
-                <p class="card-text"></p>
-                <StrapButton Caption="试一下 (Try)" CommandAction="@AnimateClick"></StrapButton>
-            </div>
-        </div>
-    </div>
-    <div class="col">
-        <div id="@titleId" class="card m-2">
+        <div class="card m-2">
             <h5 class="card-header">下拉菜单 (Dropdown Demo)</h5>
             <div class="card-body">
                 <p class="card-text"></p>
@@ -105,28 +96,66 @@
                     </div>
                     <div class="col">
                         <StrapDropdown Caption="计数器">
-                            <Counter></Counter>
+                            <div class="p-4">
+                                <Counter></Counter>
+                            </div>
+                        </StrapDropdown>
+                    </div>
+                    <div class="col">
+                        <StrapDropdown Caption="登陆">
+                            <form class="p-4">
+                                <div class="form-group">
+                                    <label for="exampleDropdownFormEmail2">Email address</label>
+                                    <input type="email" class="form-control" id="exampleDropdownFormEmail2" placeholder="email@example.com">
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleDropdownFormPassword2">Password</label>
+                                    <input type="password" class="form-control" id="exampleDropdownFormPassword2" placeholder="Password">
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" id="dropdownCheck2">
+                                    <label class="form-check-label" for="dropdownCheck2">
+                                        Remember me
+                                    </label>
+                                </div>
+                                <button type="button" class="btn btn-primary">Sign in</button>
+                            </form>
                         </StrapDropdown>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    <div class="col">
+        <div id="@titleId" class="card m-2">
+            <h5 class="card-header">动画演示 (Animate Demo)</h5>
+            <div class="card-body">
+                <p class="card-text"></p>
+                <StrapButton Caption="试一下 (Try)" CommandAction="@AnimateClick"></StrapButton>
+            </div>
+        </div>
+    </div>
 </div>
 <div class="row">
     <div class="col">
-        <div id="@titleId" class="card m-2">
-            <h5 class="card-header">这是没用的卡片</h5>
+        <div class="card m-2">
+            <h5 class="card-header">翻页组件（Pagination）</h5>
             <div class="card-body">
-                <p class="card-text">什么都没有……</p>
+                <p class="card-text">
+                    翻页组件
+                </p>
+                <StrapPagination DataContext="@PaginationItem"></StrapPagination>
+                <StrapPagination DataContext="@PaginationItem" Alignment="@AlignmentType.center"></StrapPagination>
+                <StrapPagination DataContext="@PaginationItem" Alignment="@AlignmentType.end"></StrapPagination>
             </div>
         </div>
     </div>
     <div class="col">
-        <div id="@titleId" class="card m-2">
-            <h5 class="card-header">这是没用的卡片</h5>
+        <div class="card m-2">
+            <h5 class="card-header">导航（Nav）</h5>
             <div class="card-body">
-                <p class="card-text">什么都没有……</p>
+                <p class="card-text">导航组件</p>
+                <StrapNav DataContext="StrapNavItemContext" IsPill="true" ></StrapNav>
             </div>
         </div>
     </div>
@@ -163,6 +192,8 @@
     protected string titleId { get; set; }
     protected string btnClickText { get; set; } = "Click !!! ??";
     protected StrapDropdownMenuItem DropdownDemoItem { get; set; }
+    protected StrapPaginationItem PaginationItem { get; set; }
+    protected StrapNavItemContext StrapNavItemContext { get; set; }
 
     string btncode = "<StrapButton Caption=\"Primary\" CommandAction=\"@(()=>BtnClick(\"Primary\"))\" Style=\"@StyleType.primary\" DataContext=\"@(new TagBlockContext { Caption=\"P-1\",CommandAction=()=>BtnClick(\"P-1\")})\"></StrapButton>";
     StrapDropdown sdd;
@@ -173,6 +204,8 @@
     {
         titleId = NewId();
         DropdownDemoItem=GetDropdownDemo();
+        InitPagination();
+        InitNav();
 
         sdd = new StrapDropdown();
 
@@ -280,5 +313,31 @@
         dropdown.Add(dropdown2);
 
         return dropdown;
+    }
+
+    private void InitPagination()
+    {
+        PaginationItem = new StrapPaginationItem
+        {
+            TotalPage = 100,
+            Index = 5,
+            ShowMax = 5,
+            Goto = x =>
+            {
+                BtnClick($"第 {x + 1} 页");
+                PaginationItem.Index = x;
+            }
+        };
+    }
+
+    private void InitNav()
+    {
+        StrapNavItemContext = new StrapNavItemContext
+        {
+            NavItems = new List<TagBlockContext>()
+        };
+        StrapNavItemContext.NavItems.Add(new TagBlockContext { Caption = "导航 1", CommandAction = () => BtnClick($"导航 1"),IsActived=true });
+        StrapNavItemContext.NavItems.Add(new TagBlockContext { Caption = "导航 2", CommandAction = () => BtnClick($"导航 2") });
+        StrapNavItemContext.NavItems.Add(new TagBlockContext { Caption = "导航 3", CommandAction = () => BtnClick($"导航 3"),IsEnabled=false });
     }
 }

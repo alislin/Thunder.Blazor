@@ -14,7 +14,7 @@ namespace Thunder.Blazor.Bootstrap
         public override string CssStyle => ComponentType.alert
             .ToDescriptionString()
             .Css(ComponentType.alert
-            .Css(DataContext?.Style ?? StyleType.danger))
+            .CssJoin(DataContext?.Style ?? StyleType.danger))
             .Css(StyleClass);
     }
 

@@ -19,8 +19,8 @@ namespace Thunder.Blazor.Bootstrap
         {
             var key = "btn-group";
             cssBuilder.Add(key, !Vertical)
-                .Add(key.Css(VerticalType.vertical.ToString(), "-"), Vertical)
-                .Add(key.Css(Size.ToDescriptionString(), "-"), !string.IsNullOrWhiteSpace(Size.ToDescriptionString()));
+                .Add("-".Join(key, VerticalType.vertical.ToString()), Vertical)
+                .Add("-".Join(key, Size.ToDescriptionString()), !string.IsNullOrWhiteSpace(Size.ToDescriptionString()));
 
         }
     }

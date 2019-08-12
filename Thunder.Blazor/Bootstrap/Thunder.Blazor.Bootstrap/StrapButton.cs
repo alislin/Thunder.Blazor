@@ -19,9 +19,9 @@ namespace Thunder.Blazor.Bootstrap
         {
             var btn = ComponentType.button;
             cssBuilder.Add(btn)
-                .Add(btn.Css(Style), !Outline)
-                .Add(btn.Css(OutlineType.outline, Style), Outline)
-                .Add(btn.Css(Size), !string.IsNullOrWhiteSpace(Size.ToDescriptionString()));
+                .Add(btn.CssJoin(Style), !Outline)
+                .Add(btn.CssJoin(OutlineType.outline, Style), Outline)
+                .Add(btn.CssJoin(Size), !string.IsNullOrWhiteSpace(Size.ToDescriptionString()));
 
             base.StyleBuild(cssBuilder);
         }
