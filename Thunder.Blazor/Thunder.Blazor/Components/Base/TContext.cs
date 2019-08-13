@@ -54,7 +54,7 @@ namespace Thunder.Blazor.Components
         /// <summary>
         /// 操作指令
         /// </summary>
-        public Action CommandAction { get; set; }
+        public Action CommandAction { get; set; } = () => { };
 
         /// <summary>
         /// 组件参数(级联传入)
@@ -67,15 +67,15 @@ namespace Thunder.Blazor.Components
         /// <summary>
         /// 状态已改变
         /// </summary>
-        public Action StateHasChanged { get; protected set; }
+        public Action StateHasChanged { get; protected set; } = () => { };
         /// <summary>
         /// Udpate DataContext from view
         /// </summary>
-        public Action UpdateDataContext { get; protected set; }
+        public Action UpdateDataContext { get; protected set; } = () => { };
         /// <summary>
         /// Load datacontext to view
         /// </summary>
-        public Action LoadDataContext { get; protected set; }
+        public Action LoadDataContext { get; protected set; } = () => { };
 
         /// <summary>
         /// 类型名称

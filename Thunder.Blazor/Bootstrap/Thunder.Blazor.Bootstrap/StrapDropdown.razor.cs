@@ -11,7 +11,7 @@ using Thunder.Blazor.Services;
 
 namespace Thunder.Blazor.Bootstrap
 {
-    public class StrapDropdownBase : TBlockContextBase<StrapDropdownMenuItem>
+    public class StrapDropdownBase : TBlockComponentBase<StrapDropdownMenuItem>
     {
         /// <summary>
         /// 默认菜单操作，独立的下拉按钮

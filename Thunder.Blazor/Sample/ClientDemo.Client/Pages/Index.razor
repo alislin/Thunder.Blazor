@@ -155,7 +155,9 @@
             <h5 class="card-header">导航（Nav）</h5>
             <div class="card-body">
                 <p class="card-text">导航组件</p>
-                <StrapNav DataContext="StrapNavItemContext" IsPill="true" ></StrapNav>
+                <StrapNav DataContext="StrapNavItemContext" IsPill="true" >
+                    <StrapDropdown DataContext="DropdownDemoItem" Style="StyleType.none" StyleClass="nav-link"></StrapDropdown>
+                </StrapNav>
             </div>
         </div>
     </div>
@@ -339,5 +341,6 @@
         StrapNavItemContext.NavItems.Add(new TagBlockContext { Caption = "导航 1", CommandAction = () => BtnClick($"导航 1"),IsActived=true });
         StrapNavItemContext.NavItems.Add(new TagBlockContext { Caption = "导航 2", CommandAction = () => BtnClick($"导航 2") });
         StrapNavItemContext.NavItems.Add(new TagBlockContext { Caption = "导航 3", CommandAction = () => BtnClick($"导航 3"),IsEnabled=false });
+        StrapNavItemContext.NavItems.Add(DropdownDemoItem);
     }
 }

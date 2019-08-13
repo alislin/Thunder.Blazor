@@ -20,11 +20,11 @@
         @if (IsOpen)
         {
             <div class="@DropMenuCss">
-                @if ((DataContext?.HasChildren ?? false))
+                @if ((DataContext?.HasChildNodes ?? false))
                 {
                     @foreach (var item in DataContext.ChildNodes)
                     {
-                        if (item.HasChildren)
+                        if (item.HasChildNodes)
                         {
                             <StrapDropdown DataContext="@item" SubItem="true" DropDirection="@DropDirectionType.right"></StrapDropdown>
                         }

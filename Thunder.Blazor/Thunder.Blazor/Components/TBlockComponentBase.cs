@@ -10,7 +10,7 @@ namespace Thunder.Blazor.Components
     /// 内容区域基础类
     /// </summary>
     /// <typeparam name="TModel"></typeparam>
-    public class TBlockContextBase<TModel> : TComponent<TModel> where TModel: TNode<TModel>, new()
+    public class TBlockComponentBase<TModel> : TComponent<TModel> where TModel: TNode<TModel>, new()
     {
         [Inject] public ComponentService ComponentService { get; set; }
         /// <summary>
@@ -38,6 +38,12 @@ namespace Thunder.Blazor.Components
                 IsOpen = DataContext.IsOpen;
             }
             base.LoadDataContext();
+        }
+
+        protected override void OnInit()
+        {
+            base.OnInit();
+            DataContext.Close = Close;
         }
 
         public void ToggleShow()
