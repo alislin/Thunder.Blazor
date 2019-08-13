@@ -10,13 +10,14 @@ using Thunder.Blazor.Libs;
 
 namespace Thunder.Blazor.Bootstrap
 {
-    public class StrapNavBase:TComponent<StrapNavItemContext>
+    public class StrapNavBase:TNav
     {
         [Parameter] public AlignmentType Alignment { get; set; }
         [Parameter] public bool IsVertical { get; set; }
         [Parameter] public bool IsTab { get; set; }
         [Parameter] public bool IsPill { get; set; }
         [Parameter] public bool IsFill { get; set; }
+        [Parameter] public string Brand { get; set; }
 
         protected override void StyleBuild(CssBuild cssBuilder)
         {
@@ -28,10 +29,27 @@ namespace Thunder.Blazor.Bootstrap
                 .Add("nav-fill", IsFill);
             base.StyleBuild(cssBuilder);
         }
+
+        protected StrapDropdownMenuItem TryGetDropdown(TagBlockContext item)
+        {
+            if (IsDropdown(item))
+            {
+                return (StrapDropdownMenuItem)item;
+            }
+            return null;
+        }
+
+        protected bool IsDropdown(TagBlockContext item)
+        {
+            return item.TypeName == "StrapDropdownMenuItem";
+        }
+
+        protected virtual string GetItemCss(TagBlockContext item)
+        {
+            return CssBuild.New.Add("nav-item")
+                .Add("dropdown", IsDropdown(item))
+                .Build().CssString;
+        }
     }
 
-    public class StrapNavItemContext : TContext
-    {
-        public List<TagBlockContext> NavItems { get; set; } = new List<TagBlockContext>();
-    }
 }

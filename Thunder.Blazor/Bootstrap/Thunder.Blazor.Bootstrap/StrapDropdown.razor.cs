@@ -11,8 +11,9 @@ using Thunder.Blazor.Services;
 
 namespace Thunder.Blazor.Bootstrap
 {
-    public class StrapDropdownBase : TBlockComponentBase<StrapDropdownMenuItem>
+    public class StrapDropdownBase : TBlockComponent<StrapDropdownMenuItem>
     {
+        [Parameter] public ActionItemTag ActionItemTag { get; set; }
         /// <summary>
         /// 默认菜单操作，独立的下拉按钮
         /// </summary>
@@ -37,6 +38,15 @@ namespace Thunder.Blazor.Bootstrap
         /// 子菜单
         /// </summary>
         [Parameter] public bool SubItem { get; set; }
+        /// <summary>
+        /// 禁用按钮样式
+        /// </summary>
+        [Parameter] public bool DisableButtonStyle { get; set; }
+        /// <summary>
+        /// 显示角标
+        /// </summary>
+        [Parameter] public bool ShowBadge { get; set; }
+
         public string DropMenuCss => GetDropMenuCss();
         public string DropCss => GetDropCss();
         protected bool EnableDefaultMenuFlag => EnableDefaultMenu && (DataContext?.ChildNodes?.Count ?? 0) > 0 && !SubItem;
@@ -55,6 +65,16 @@ namespace Thunder.Blazor.Bootstrap
                 .Add("btn-group", EnableDefaultMenuFlag)
                 .Add(DropDirection.ToDescriptionString())
                 .Add("show",IsOpen)
+                .Add(StyleClass)
+                .Build()
+                .CssString;
+        }
+
+        protected string GetToggleCss(bool spit=false)
+        {
+            return CssBuild.New.Add("dropdown-toggle")
+                .Add("dropdown-toggle-split",spit)
+                //.Add(CssStyle)
                 .Build()
                 .CssString;
         }

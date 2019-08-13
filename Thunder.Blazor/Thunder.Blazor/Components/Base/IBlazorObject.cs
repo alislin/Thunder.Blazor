@@ -147,7 +147,6 @@ namespace Thunder.Blazor.Components
     /// </summary>
     public interface IVisual
     {
-        string StyleClass { get; set; }
         Action StateHasChanged { get; }
     }
 
@@ -167,14 +166,29 @@ namespace Thunder.Blazor.Components
         /// <summary>
         /// 启用动画
         /// </summary>
-        public bool AnimateEnabled { get; set; }
+        bool AnimateEnabled { get; set; }
         /// <summary>
         /// 进入动画
         /// </summary>
-        public string AnimateEnter { get; set; }
+        string AnimateEnter { get; set; }
         /// <summary>
         /// 退出动画
         /// </summary>
-        public string AnimateExit { get; set; }
+        string AnimateExit { get; set; }
+    }
+
+    /// <summary>
+    /// 附加信息
+    /// </summary>
+    public interface IAttachment
+    {
+        /// <summary>
+        /// 附加信息
+        /// </summary>
+        string AttachmentInfo { get; set; }
+        /// <summary>
+        /// 标注信息
+        /// </summary>
+        string BadgeInfo { get; set; }
     }
 }

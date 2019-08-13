@@ -9,7 +9,7 @@ namespace Thunder.Blazor.Components
     /// <summary>
     /// 组件数据 (ViewModel)
     /// </summary>
-    public  class TContext: IThunderObject, IVisual, IBaseBehaver
+    public  class TContext: IThunderObject, IVisual, IBaseBehaver,IAttachment
     {
         public string DomId { get; set; }
         /// <summary>
@@ -38,7 +38,7 @@ namespace Thunder.Blazor.Components
         /// <summary>
         /// 样式
         /// </summary>
-        public string StyleClass { get; set; }
+        //public string StyleClass { get; set; }
         /// <summary>
         /// 是否可见
         /// </summary>
@@ -80,7 +80,16 @@ namespace Thunder.Blazor.Components
         /// <summary>
         /// 类型名称
         /// </summary>
-        public string TypeName => this.GetType().FullName;
+        public string TypeName => this.GetType().Name;
+
+        /// <summary>
+        /// 附加信息
+        /// </summary>
+        public string AttachmentInfo { get; set; }
+        /// <summary>
+        /// 标注信息
+        /// </summary>
+        public string BadgeInfo { get; set; }
 
         /// <summary>
         /// 自动生成参数

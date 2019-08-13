@@ -11,7 +11,7 @@ namespace Thunder.Blazor.Components
     /// <summary>
     /// 子组件基类 (View)
     /// </summary>
-    public class TComponent : ComponentBase, IDisposable,IThunderObject,IAnimate, IBehaverComponent
+    public class TComponent : ComponentBase, IDisposable,IThunderObject,IAnimate, IBehaverComponent,IAttachment
     {
         private string domId;
         private CssBuild CssBuild = CssBuild.New;
@@ -42,6 +42,10 @@ namespace Thunder.Blazor.Components
         /// 样式类型
         /// </summary>
         [Parameter] public string StyleClass { get; set; }
+        /// <summary>
+        /// 仅使用设置的Style样式，跳过自动Style
+        /// </summary>
+        [Parameter] public bool OnlyStyleClass { get; set; }
         /// <summary>
         /// 自动Dom Id
         /// </summary>
@@ -181,6 +185,18 @@ namespace Thunder.Blazor.Components
         }
         #endregion
 
+        #region IAttachment
+        /// <summary>
+        /// 附加信息
+        /// </summary>
+        public string AttachmentInfo { get; set; }
+        /// <summary>
+        /// 标注信息
+        /// </summary>
+        public string BadgeInfo { get; set; }
+
+        #endregion
+
         public virtual void Dispose()
         {
             Close();
@@ -225,7 +241,10 @@ namespace Thunder.Blazor.Components
         private string GetCss()
         {
             CssBuild.Add(StyleClass);
-            StyleBuild(CssBuild);
+            if (!OnlyStyleClass)
+            {
+                StyleBuild(CssBuild);
+            }
             return CssBuild.Build().CssString;
         }
 
@@ -308,12 +327,14 @@ namespace Thunder.Blazor.Components
             {
                 dataContext.ObjectName = ObjectName;
                 dataContext.Tag = Tag;
-                dataContext.StyleClass = StyleClass;
+                //dataContext.StyleClass = StyleClass;
                 dataContext.IsVisabled = IsVisabled;
                 dataContext.IsActived = IsActived;
                 dataContext.IsEnabled = IsEnabled;
                 dataContext.CommandAction = CommandAction;
                 dataContext.Caption = Caption;
+                dataContext.AttachmentInfo = AttachmentInfo;
+                dataContext.BadgeInfo = BadgeInfo;
 
                 dataContext.DomId = DomId;
                 dataContext.SetViewAction<TComponent<TModel>, TModel>(this);
@@ -334,12 +355,14 @@ namespace Thunder.Blazor.Components
             {
                 ObjectName = dataContext.ObjectName;
                 Tag = dataContext.Tag;
-                StyleClass = dataContext.StyleClass;
+                //StyleClass = dataContext.StyleClass;
                 IsVisabled = dataContext.IsVisabled;
                 IsActived = dataContext.IsActived;
                 IsEnabled = dataContext.IsEnabled;
                 CommandAction = dataContext.CommandAction;
                 Caption = dataContext.Caption;
+                AttachmentInfo = dataContext.AttachmentInfo;
+                BadgeInfo = dataContext.BadgeInfo;
 
                 dataContext.DomId = DomId;
                 dataContext.SetViewAction<TComponent<TModel>, TModel>(this);

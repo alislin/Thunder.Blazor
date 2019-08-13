@@ -7,7 +7,7 @@ namespace Thunder.Blazor.Components
     /// <summary>
     /// 翻页组件基础类
     /// </summary>
-    public class TPaginationBase<TModel>:TComponent<TModel> where TModel:TPaginationItem,new()
+    public class TPagination<TModel>:TComponent<TModel> where TModel:TPaginationItem,new()
     {
         protected void GotoPage(int index)
         {
@@ -15,7 +15,7 @@ namespace Thunder.Blazor.Components
         }
     }
 
-    public class TPaginationBase : TPaginationBase<TPaginationItem>
+    public class TPagination : TPagination<TPaginationItem>
     {
     }
 

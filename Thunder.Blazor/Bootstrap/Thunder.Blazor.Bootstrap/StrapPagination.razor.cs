@@ -6,7 +6,7 @@ using Thunder.Blazor.Libs;
 
 namespace Thunder.Blazor.Bootstrap
 {
-    public class StrapPaginationBase : TPaginationBase<StrapPaginationItem>
+    public class StrapPaginationBase : TPagination<StrapPaginationItem>
     {
         [Parameter] public SizeType Size { get; set; }
         [Parameter] public AlignmentType Alignment { get; set; }

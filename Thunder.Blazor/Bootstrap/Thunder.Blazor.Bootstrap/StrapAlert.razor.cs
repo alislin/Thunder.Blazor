@@ -6,16 +6,17 @@ using System.Collections.Generic;
 using System.Text;
 using Thunder.Blazor.Components;
 using Thunder.Blazor.Extensions;
+using Thunder.Blazor.Libs;
 
 namespace Thunder.Blazor.Bootstrap
 {
     public class StrapAlertBase : TAlert<StrapAlertContext>
     {
-        public override string CssStyle => ComponentType.alert
-            .ToDescriptionString()
-            .Css(ComponentType.alert
-            .CssJoin(DataContext?.Style ?? StyleType.danger))
-            .Css(StyleClass);
+        protected override void StyleBuild(CssBuild cssBuilder)
+        {
+            cssBuilder.Add(ComponentType.alert)
+                .Add("-".Join(ComponentType.alert.ToDescriptionString(), (DataContext?.Style ?? StyleType.danger).ToDescriptionString()));
+        }
     }
 
     public class StrapAlertContext : TAlertContext

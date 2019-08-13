@@ -1,7 +1,7 @@
 ﻿@page "/"
 @inherits TComponent
 
-<StrapAlert @ref="@alert" IsVisabled="false"></StrapAlert>
+<StrapAlert @ref="@alert" IsVisabled="false" StyleClass="m-2"></StrapAlert>
 <div class="row">
     <div class="col">
         <div class="card m-2">
@@ -30,12 +30,12 @@
             <h5 class="card-header">按钮组 (Button group)</h5>
             <div class="card-body">
                 <p class="card-text"></p>
-                <StrapButtongroup>
+                <StrapButtongroup StyleClass="m-2">
                     <StrapButton Caption="Primary" CommandAction="@(()=>BtnClick("Primary"))" Style="@StyleType.primary"></StrapButton>
                     <StrapButton Caption="Secondary" CommandAction="@(()=>BtnClick("Secondary"))" Style="@StyleType.secondary"></StrapButton>
                     <StrapButton Caption="Success" CommandAction="@(()=>BtnClick("Success"))" Style="@StyleType.success"></StrapButton>
                 </StrapButtongroup>
-                <StrapButtongroup StyleClass="ml-2" Size="SizeType.large">
+                <StrapButtongroup StyleClass="m-2" Size="SizeType.large">
                     <StrapButton Caption="Primary" CommandAction="@(()=>BtnClick("Primary"))" Style="@StyleType.secondary"></StrapButton>
                     <StrapButton Caption="Secondary" CommandAction="@(()=>BtnClick("Secondary"))" Style="@StyleType.secondary"></StrapButton>
                     <StrapButton Caption="Success" CommandAction="@(()=>BtnClick("Success"))" Style="@StyleType.secondary"></StrapButton>
@@ -78,12 +78,12 @@
                 <p class="card-text"></p>
                 <div class="row">
                     <div class="col">
-                        <StrapDropdown @ref="@sdd" DataContext="@DropdownDemoItem"></StrapDropdown>
+                        <StrapDropdown @ref="@sdd" DataContext="@DropdownDemoItem" StyleClass="m-2"></StrapDropdown>
                     </div>
                     <div class="col">
-                        <StrapDropdown Caption="下拉菜单" EnableDefaultMenu="true">
+                        <StrapDropdown Caption="1 Dropdown menu" EnableDefaultMenu="true" StyleClass="m-2">
                             <StrapDropdownItem Caption="1 试一下 (Try)" CommandAction="@DropdownDemo"></StrapDropdownItem>
-                            <StrapDropdown Caption="二级菜单">
+                            <StrapDropdown Caption="2 二级菜单">
                                 <StrapDropdownItem Caption="2 试一下 (Try)" CommandAction="@DropdownDemo"></StrapDropdownItem>
                                 <StrapDropdownItem Caption="2 试一下 (Try)" CommandAction="@DropdownDemo"></StrapDropdownItem>
                                 <StrapDropdownItem Caption="---试一下 (Try)" CommandAction="@DropdownDemo"></StrapDropdownItem>
@@ -95,14 +95,14 @@
                         </StrapDropdown>
                     </div>
                     <div class="col">
-                        <StrapDropdown Caption="计数器">
+                        <StrapDropdown Caption="Counter" StyleClass="m-2">
                             <div class="p-4">
                                 <Counter></Counter>
                             </div>
                         </StrapDropdown>
                     </div>
                     <div class="col">
-                        <StrapDropdown Caption="登陆">
+                        <StrapDropdown Caption="Login" StyleClass="m-2">
                             <form class="p-4">
                                 <div class="form-group">
                                     <label for="exampleDropdownFormEmail2">Email address</label>
@@ -156,7 +156,7 @@
             <div class="card-body">
                 <p class="card-text">导航组件</p>
                 <StrapNav DataContext="StrapNavItemContext" IsPill="true" >
-                    <StrapDropdown DataContext="DropdownDemoItem" Style="StyleType.none" StyleClass="nav-link"></StrapDropdown>
+                    <StrapDropdown DataContext="DropdownDemoItem" StyleClass="nav-link" DisableButtonStyle="true" ActionItemTag="@ActionItemTag.a"></StrapDropdown>
                 </StrapNav>
             </div>
         </div>
@@ -164,7 +164,13 @@
 </div>
 <div class="row">
     <div class="col">
-
+        <div class="card m-2">
+            <h5 class="card-header">标签页（Tab）</h5>
+            <div class="card-body">
+                <p class="card-text">标签页</p>
+                <StrapTab DataContext="@TabContext"></StrapTab>
+            </div>
+        </div>
     </div>
     <div class="col">
 
@@ -195,7 +201,8 @@
     protected string btnClickText { get; set; } = "Click !!! ??";
     protected StrapDropdownMenuItem DropdownDemoItem { get; set; }
     protected StrapPaginationItem PaginationItem { get; set; }
-    protected StrapNavItemContext StrapNavItemContext { get; set; }
+    protected TNavContext StrapNavItemContext { get; set; }
+    protected TTabContext TabContext { get; set; }
 
     string btncode = "<StrapButton Caption=\"Primary\" CommandAction=\"@(()=>BtnClick(\"Primary\"))\" Style=\"@StyleType.primary\" DataContext=\"@(new TagBlockContext { Caption=\"P-1\",CommandAction=()=>BtnClick(\"P-1\")})\"></StrapButton>";
     StrapDropdown sdd;
@@ -208,6 +215,7 @@
         DropdownDemoItem=GetDropdownDemo();
         InitPagination();
         InitNav();
+        InitTab();
 
         sdd = new StrapDropdown();
 
@@ -220,9 +228,10 @@
         jSRuntime.InvokeAsync<object>("hljs.initHighlightingOnLoad()", null);
     }
 
-    private void BtnClick(string text)
+    private void BtnClick(string text,Action action=null)
     {
         btnClickText = $"Click button <large><strong>{text}</strong></large>";
+        action?.Invoke();
         StateHasChanged();
     }
 
@@ -334,7 +343,7 @@
 
     private void InitNav()
     {
-        StrapNavItemContext = new StrapNavItemContext
+        StrapNavItemContext = new TNavContext
         {
             NavItems = new List<TagBlockContext>()
         };
@@ -342,5 +351,12 @@
         StrapNavItemContext.NavItems.Add(new TagBlockContext { Caption = "导航 2", CommandAction = () => BtnClick($"导航 2") });
         StrapNavItemContext.NavItems.Add(new TagBlockContext { Caption = "导航 3", CommandAction = () => BtnClick($"导航 3"),IsEnabled=false });
         StrapNavItemContext.NavItems.Add(DropdownDemoItem);
+    }
+
+    private void InitTab()
+    {
+        TabContext = new TTabContext();
+        TabContext.TabsItems.Add(new TTabItem { Header = new TagBlockContext { Caption = "Counter" }, Child = new TContext { ContextType = typeof(Counter) } });
+        TabContext.TabsItems.Add(new TTabItem { Header = new TagBlockContext { Caption = "Tab 1" }, Child = new TContext { ContextType = typeof(NavMenu) } });
     }
 }

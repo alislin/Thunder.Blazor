@@ -12,16 +12,29 @@ namespace Thunder.Blazor.Bootstrap
 {
     public class StrapButton: StrapActionItem
     {
+        /// <summary>
+        /// 外框线样式
+        /// </summary>
         [Parameter] public bool Outline { get; set; }
+        /// <summary>
+        /// 尺寸
+        /// </summary>
         [Parameter] public SizeType Size { get; set; }
+        /// <summary>
+        /// 禁用按钮样式
+        /// </summary>
+        [Parameter] public bool DisableButtonStyle { get; set; }
 
         protected override void StyleBuild(CssBuild cssBuilder)
         {
-            var btn = ComponentType.button;
-            cssBuilder.Add(btn)
-                .Add(btn.CssJoin(Style), !Outline)
-                .Add(btn.CssJoin(OutlineType.outline, Style), Outline)
-                .Add(btn.CssJoin(Size), !string.IsNullOrWhiteSpace(Size.ToDescriptionString()));
+            if (!DisableButtonStyle)
+            {
+                var btn = ComponentType.button;
+                cssBuilder.Add(btn)
+                    .Add(btn.CssJoin(Style), !Outline)
+                    .Add(btn.CssJoin(OutlineType.outline, Style), Outline)
+                    .Add(btn.CssJoin(Size), !string.IsNullOrWhiteSpace(Size.ToDescriptionString()));
+            }
 
             base.StyleBuild(cssBuilder);
         }

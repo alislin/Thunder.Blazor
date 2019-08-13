@@ -18,4 +18,5 @@ namespace Thunder.Blazor.Components
         public TAlertContext Alert { get; set; }
         public TModalContext Modal { get; set; }
     }
+
 }

@@ -10,7 +10,7 @@ namespace Thunder.Blazor.Components
     /// 内容区域基础类
     /// </summary>
     /// <typeparam name="TModel"></typeparam>
-    public class TBlockComponentBase<TModel> : TComponent<TModel> where TModel: TNode<TModel>, new()
+    public class TBlockComponent<TModel> : TComponent<TModel> where TModel: TNode<TModel>, new()
     {
         [Inject] public ComponentService ComponentService { get; set; }
         /// <summary>

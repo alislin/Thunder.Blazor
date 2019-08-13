@@ -1,4 +1,4 @@
-﻿<StrapNav DataContext="StrapNavItemContext" IsPill="true" Alignment="@AlignmentType.center"></StrapNav>
+﻿<StrapNav DataContext="StrapNavItemContext" IsPill="true" Alignment="@AlignmentType.center" Brand="Component Sample" StyleClass="bg-dark text-light"></StrapNav>
 
 
 <div class="@NavMenuCssClass" @onclick="@ToggleNavMenu">
@@ -33,11 +33,11 @@
         collapseNavMenu = !collapseNavMenu;
     }
 
-    protected StrapNavItemContext StrapNavItemContext { get; set; }
+    protected TNavContext StrapNavItemContext { get; set; }
 
     protected override void OnInit()
     {
-        StrapNavItemContext = new StrapNavItemContext();
+        StrapNavItemContext = new TNavContext();
         StrapNavItemContext.NavItems.Add(new TagBlockContext { Caption = "Home", CommandAction = () => UriHelper.NavigateTo("/") });
         StrapNavItemContext.NavItems.Add(new TagBlockContext { Caption = "Counter", CommandAction = () => UriHelper.NavigateTo("/Counter") });
 
