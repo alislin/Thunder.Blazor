@@ -28,7 +28,7 @@ namespace Thunder.Blazor.Components
     {
         public TModel ParentNode { get; set; }
         public IList<TModel> ChildNodes { get; set; } = new List<TModel>();
-        public bool HasChildren => (ChildNodes?.Count ?? 0) > 0;
+        public bool HasChildNodes => (ChildNodes?.Count ?? 0) > 0;
 
         public bool IsOpen { get; set; }
     }
@@ -39,18 +39,14 @@ namespace Thunder.Blazor.Components
     /// <typeparam name="TModel"></typeparam>
     public class TNode<TModel> : TNodeBase<TModel> where TModel:TNode<TModel>
     {
+        public Action Close { get; set; } = () => { };
         public void Add(TModel child, Action action = null)
         {
             child.ParentNode = (TModel)this;
             ChildNodes.Add(child);
         }
-
-        public void Close()
-        {
-            IsOpen = false;
-            ParentNode?.Close();
-        }
     }
 
+    public class TNode : TNodeBase<TagBlockContext> { }
 
 }

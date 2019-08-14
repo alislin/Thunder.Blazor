@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.JSInterop;
 using System;
 using System.Collections.Generic;
@@ -11,7 +13,7 @@ namespace Thunder.Blazor.Services
     /// <summary>
     /// 组件服务(含Js调用)
     /// </summary>
-    public class ComponentService<T> :IDisposable where T: TContext,new()
+    public class ComponentService :IDisposable
     {
         public ComponentService(IJSRuntime jsRuntime)
         {
@@ -20,40 +22,60 @@ namespace Thunder.Blazor.Services
 
         [Inject]
         public IJSRuntime JsRuntime { get; set; }
+        protected List<ActionStack> BlockContextCloseAction { get; set; } = new List<ActionStack>();
 
-        public Guid Id { get; set; }
         /// <summary>
-        /// 名称
+        /// 添加ACTION
         /// </summary>
-        public string Name { get; set; }
+        /// <param name="type"></param>
+        /// <param name="action"></param>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public void AddAction(string type,Action action,Guid? id = null)
+        {
+            var idv = id ?? Guid.NewGuid();
+            BlockContextCloseAction.Add(new ActionStack { Action = action, Type = type, Id = idv });
+        }
+
         /// <summary>
-        /// 加载
+        /// 执行
         /// </summary>
-        public Action<T> Load { get; set; }
-        /// <summary>
-        /// 显示 / 刷新
-        /// </summary>
-        public Action<T> Show { get; set; }
-        /// <summary>
-        /// 关闭
-        /// </summary>
-        public Action<T> Close { get; set; }
-        /// <summary>
-        /// 在加载后
-        /// </summary>
-        public Action<T> OnLoaded { get; set; }
-        /// <summary>
-        /// 在显示后
-        /// </summary>
-        public Action<T> OnShowed { get; set; }
-        /// <summary>
-        /// 在关闭后
-        /// </summary>
-        public Action<T> OnClosed { get; set; }
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public void DoAction(string type=null)
+        {
+            var all = string.IsNullOrWhiteSpace(type);
+            var list = BlockContextCloseAction.Where(x => all || x.Type == type);
+            foreach (var item in list)
+            {
+                item?.Action?.Invoke();
+            }
+            var idlist = list.Select(x => x.Id);
+            BlockContextCloseAction.RemoveAll(x => idlist.Contains(x.Id));
+        }
 
         public virtual void Dispose()
         {
             
+        }
+    }
+
+    /// <summary>
+    /// 待处理ACTION
+    /// </summary>
+    public class ActionStack
+    {
+        public Guid Id { get; set; }
+        public string Type { get; set; }
+        public Action Action { get; set; }
+    }
+
+    public static class ComponentServiceExtentsion
+    {
+        public static IServiceCollection AddComponentServiceScoped(this IServiceCollection services)
+        {
+            services.TryAddScoped<ComponentService>();
+            return services;
         }
     }
 }

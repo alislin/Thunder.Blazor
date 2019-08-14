@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Thunder.Blazor.Components;
@@ -8,33 +9,28 @@ namespace Thunder.Blazor.Components
 {
     public class TSelectBase : TComponent<SelectOptionContext>
     {
-        private string selectedValue;
         private SelectOption selectedItem;
         private string selectvalue;
         private bool InitSelected;
 
-        [Parameter] protected EventCallback<string> SelectedValueChanged { get; set; }
-        [Parameter] protected EventCallback<SelectOption> SelectedItemChanged { get; set; }
+        [Parameter] public EventCallback<string> SelectedValueChanged { get; set; }
+        [Parameter] public EventCallback<SelectOption> SelectedItemChanged { get; set; }
         /// <summary>
         /// 样式名称
         /// </summary>
-        [Parameter] protected string ClassName { get; set; }
+        [Parameter] public string ClassName { get; set; }
         /// <summary>
         /// 选择值
         /// </summary>
         [Parameter]
-        protected string SelectedValue
+        public string SelectedValue
         {
-            get => selectedValue;
+            get => selectedItem?.Value;
             set
             {
-                if (selectedValue != value)
+                if (selectedItem?.Value!=value)
                 {
-                    selectedValue = value;
-                    SelectedValueChanged.InvokeAsync(selectedValue);
-                    var m = DataContext.Items.FirstOrDefault(x => x.Value == selectedValue);
-                    selectedItem = m;
-                    SelectedItemChanged.InvokeAsync(m);
+                    SetSelectValue(value);
                 }
             }
         }
@@ -42,7 +38,7 @@ namespace Thunder.Blazor.Components
         /// 选择对象
         /// </summary>
         [Parameter]
-        protected SelectOption SelectedItem
+        public SelectOption SelectedItem
         {
             get
             {
@@ -50,18 +46,20 @@ namespace Thunder.Blazor.Components
             }
             set
             {
-                selectedItem = value;
+                if (selectedItem?.Value != value?.Value)
+                {
+                    SetSelectValue(value?.Value);
+                }
             }
         }
 
         protected bool HasGroup => (DataContext?.OptionList?.Count ?? 0) > 1;
 
-        protected override void OnInit()
+        protected override void OnInitialized()
         {
+            base.OnInitialized();
             InitSelected = true;
             selectvalue = DataContext.Items.FirstOrDefault(x => x.Selected).Value;
-            //Console.WriteLine($"init {selectvalue}");
-            base.OnInit();
         }
 
         protected override void OnAfterRender()
@@ -73,12 +71,36 @@ namespace Thunder.Blazor.Components
             }
             base.OnAfterRender();
         }
+
+        protected void SetSelectValue(string s)
+        {
+            DataContext.SelectedValue = s;
+            selectedItem = DataContext.SelectedItem;
+
+            SelectedValueChanged.InvokeAsync(selectedItem?.Value);
+            SelectedItemChanged.InvokeAsync(selectedItem);
+        }
     }
 
     public class SelectOptionContext : TContext
     {
-        public List<SelectOption> Items { get; set; } = new List<SelectOption>();
+        private string selectedValue;
+
+        public List<SelectOption> Items { get; set; }
         public List<IGrouping<string, SelectOption>> OptionList => Items.GroupBy(x => x.Group).ToList();
-        //public string SelectedValue { get; set; }
+        public override Type ContextType => typeof(ThunderSelect);
+        public string SelectedValue { get => GetSelectItem(selectedValue)?.Value; set => selectedValue = value; }
+        public SelectOption SelectedItem { get => GetSelectItem(selectedValue); set => selectedValue = value?.Value; }
+
+
+        protected SelectOption GetSelectItem(string s)
+        {
+            var result = Items?.FirstOrDefault(x => x.Value == s);
+            if (result == null)
+            {
+                result = Items?.FirstOrDefault();
+            }
+            return result;
+        }
     }
 }

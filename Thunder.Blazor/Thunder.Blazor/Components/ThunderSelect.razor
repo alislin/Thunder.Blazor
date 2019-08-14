@@ -1,5 +1,5 @@
 ﻿@inherits TSelectBase
-<select class="@DataContext?.StyleClass" @bind="@SelectedValue">
+<select class="@CssStyle" @bind="@SelectedValue">
     @{
         var vlist = DataContext?.OptionList ?? new List<IGrouping<string, Thunder.Standard.Lib.Model.SelectOption>>();
     }

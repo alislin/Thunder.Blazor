@@ -1,0 +1,27 @@
+﻿@inherits StrapNavBase
+    <ul class="@CssStyle">
+        @if (!string.IsNullOrWhiteSpace(Brand))
+        {
+            <div class="navbar-brand">@((MarkupString)Brand)</div>
+        }
+        @if ((DataContext.NavItems?.Count ?? 0) > 0)
+        {
+            foreach (var item in DataContext.NavItems)
+            {
+                Log(item.TypeName);
+                <li class="@GetItemCss(item)">
+                    @if (IsDropdown(item))
+                    {
+                        var r = TryGetDropdown(item);
+                        <StrapDropdown DataContext="r" StyleClass="nav-link" ActionItemTag="@ActionItemTag.a" DisableButtonStyle="true"></StrapDropdown>
+                    }
+                    else
+                    {
+                        <StrapNavItem Caption="@item.Caption" CommandAction="@item.CommandAction" ActionItemTag="@ActionItemTag.a" IsActived="item.IsActived" IsEnabled="item.IsEnabled"></StrapNavItem>
+                        @*<StrapButton Caption="@item.Caption" Style="@StyleType.none" CommandAction="@item.CommandAction" ActionItemTag="@ActionItemTag.button" IsActived="item.IsActived" IsEnabled="item.IsEnabled" StyleClass="nav-link"></StrapButton>*@
+                    }
+                </li>
+            }
+        }
+        @ChildContent
+    </ul>

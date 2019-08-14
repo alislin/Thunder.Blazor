@@ -9,8 +9,9 @@ namespace Thunder.Blazor.Components
     /// <summary>
     /// 组件数据 (ViewModel)
     /// </summary>
-    public  class TContext: IThunderObject, IVisual, IBaseBehaver
+    public  class TContext: IThunderObject, IVisual, IBaseBehaver,IAttachment
     {
+        public string DomId { get; set; }
         /// <summary>
         /// 说明文字
         /// </summary>
@@ -35,21 +36,9 @@ namespace Thunder.Blazor.Components
         public object Tag { get; set; }
 
         /// <summary>
-        /// 背景
-        /// </summary>
-        public string Backgroud { get; set; }
-        /// <summary>
-        /// 字体颜色
-        /// </summary>
-        public string FontColor { get; set; }
-        /// <summary>
-        /// 尺寸
-        /// </summary>
-        public string Size { get; set; }
-        /// <summary>
         /// 样式
         /// </summary>
-        public string StyleClass { get; set; }
+        //public string StyleClass { get; set; }
         /// <summary>
         /// 是否可见
         /// </summary>
@@ -65,7 +54,7 @@ namespace Thunder.Blazor.Components
         /// <summary>
         /// 操作指令
         /// </summary>
-        public Action CommandAction { get; set; }
+        public Action CommandAction { get; set; } = () => { };
 
         /// <summary>
         /// 组件参数(级联传入)
@@ -78,11 +67,29 @@ namespace Thunder.Blazor.Components
         /// <summary>
         /// 状态已改变
         /// </summary>
-        public Action StateHasChanged { get; set; }
+        public Action StateHasChanged { get; protected set; } = () => { };
+        /// <summary>
+        /// Udpate DataContext from view
+        /// </summary>
+        public Action UpdateDataContext { get; protected set; } = () => { };
+        /// <summary>
+        /// Load datacontext to view
+        /// </summary>
+        public Action LoadDataContext { get; protected set; } = () => { };
+
         /// <summary>
         /// 类型名称
         /// </summary>
-        public string TypeName => this.GetType().FullName;
+        public string TypeName => this.GetType().Name;
+
+        /// <summary>
+        /// 附加信息
+        /// </summary>
+        public string AttachmentInfo { get; set; }
+        /// <summary>
+        /// 标注信息
+        /// </summary>
+        public string BadgeInfo { get; set; }
 
         /// <summary>
         /// 自动生成参数
@@ -92,6 +99,25 @@ namespace Thunder.Blazor.Components
         {
             var p = new ComponentParamenter(TypeName, this);
             return p;
+        }
+
+        public T OnAction<T>(Action action) where T:TContext
+        {
+            CommandAction = action;
+            return (T)this;
+        }
+
+        /// <summary>
+        /// View方法委托到Model
+        /// </summary>
+        /// <typeparam name="TView"></typeparam>
+        /// <typeparam name="TModel"></typeparam>
+        /// <param name="view"></param>
+        public void SetViewAction<TView,TModel>(TView view) where TView : TComponent<TModel> where TModel:TContext,new()
+        {
+            StateHasChanged = view.Update;
+            UpdateDataContext = view.UpdateDataContext;
+            LoadDataContext = view.LoadDataContext;
         }
     }
 
@@ -129,40 +155,52 @@ namespace Thunder.Blazor.Components
         /// 关闭
         /// </summary>
         public Action Close { get; set; }
-        /// <summary>
-        /// 加载前
-        /// </summary>
-        public EventHandler OnLoading { get; set; }
-        /// <summary>
-        /// 显示前
-        /// </summary>
-        public EventHandler OnShowing { get; set; }
-        /// <summary>
-        /// 关闭前
-        /// </summary>
-        public EventHandler OnClosing { get; set; }
-        /// <summary>
-        /// 加载后
-        /// </summary>
-        public EventHandler OnLoaded { get; set; }
-        /// <summary>
-        /// 显示后
-        /// </summary>
-        public EventHandler OnShowed { get; set; }
-        /// <summary>
-        /// 关闭后
-        /// </summary>
-        public EventHandler OnClosed { get; set; }
+        ///// <summary>
+        ///// 加载前
+        ///// </summary>
+        //public EventHandler OnLoading { get; set; }
+        ///// <summary>
+        ///// 显示前
+        ///// </summary>
+        //public EventHandler OnShowing { get; set; }
+        ///// <summary>
+        ///// 关闭前
+        ///// </summary>
+        //public EventHandler OnClosing { get; set; }
+        ///// <summary>
+        ///// 加载后
+        ///// </summary>
+        //public EventHandler OnLoaded { get; set; }
+        ///// <summary>
+        ///// 显示后
+        ///// </summary>
+        //public EventHandler OnShowed { get; set; }
+        ///// <summary>
+        ///// 关闭后
+        ///// </summary>
+        //public EventHandler OnClosed { get; set; }
         /// <summary>
         /// 操作指令
         /// </summary>
         public EventHandler<ContextResult> OnCommand { get; set; }
+        /// <summary>
+        /// 加载
+        /// </summary>
+        public Action<object> LoadItem { get; set; }
+        /// <summary>
+        /// 显示 / 激活
+        /// </summary>
+        public Action<object> ShowItem { get; set; }
+        /// <summary>
+        /// 关闭
+        /// </summary>
+        public Action<object> CloseItem { get; set; }
     }
 
     /// <summary>
     /// 容器组件
     /// </summary>
-    public abstract class TContainer<TModel> : TContainer, IBehaver<TModel>
+    public abstract class TContainer1<TModel> : TContainer, IBehaver<TModel>
     {
         /// <summary>
         /// 加载
@@ -178,7 +216,7 @@ namespace Thunder.Blazor.Components
         public Action<TModel> CloseItem { get; set; }
     }
 
-    public class TContainer<TModel, TView> : TContainer<TModel>
+    public class TContainer<TModel, TView> : TContainer1<TModel>
     {
         public override Type ContextType => typeof(TView);
     }

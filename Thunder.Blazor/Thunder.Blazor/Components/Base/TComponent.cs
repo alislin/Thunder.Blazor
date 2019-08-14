@@ -3,6 +3,7 @@
 using Microsoft.AspNetCore.Components;
 using System;
 using System.Collections.Generic;
+using Thunder.Blazor.Libs;
 using Thunder.Blazor.Models;
 
 namespace Thunder.Blazor.Components
@@ -10,15 +11,18 @@ namespace Thunder.Blazor.Components
     /// <summary>
     /// 子组件基类 (View)
     /// </summary>
-    public class TComponent : ComponentBase, IDisposable,IThunderObject,IAnimate
+    public class TComponent : ComponentBase, IDisposable,IThunderObject,IAnimate, IBehaverComponent,IAttachment
     {
         private string domId;
+        private CssBuild CssBuild = CssBuild.New;
+        private Random rnd= new Random(DateTime.Now.Millisecond);
 
         public TComponent()
         {
             domId = NewId();
         }
 
+        #region IThunderObject
         /// <summary>
         /// 对象名称
         /// </summary>
@@ -27,11 +31,34 @@ namespace Thunder.Blazor.Components
         /// 自定义对象
         /// </summary>
         [Parameter] public object Tag { get; set; }
+        #endregion
+
+        /// <summary>
+        /// 说明文字
+        /// </summary>
+        [Parameter] public string Caption { get; set; }
+
+        /// <summary>
+        /// 样式类型
+        /// </summary>
+        [Parameter] public string StyleClass { get; set; }
+        /// <summary>
+        /// 仅使用设置的Style样式，跳过自动Style
+        /// </summary>
+        [Parameter] public bool OnlyStyleClass { get; set; }
         /// <summary>
         /// 自动Dom Id
         /// </summary>
         public string DomId => domId;
+        /// <summary>
+        /// 主要Css样式
+        /// </summary>
+        public virtual string CssStyle => GetCss();
 
+        /// <summary>
+        /// 完成初始化加载
+        /// </summary>
+        public bool InitLoaded { get; set; }
         /// <summary>
         /// 启用动画
         /// </summary>
@@ -64,7 +91,7 @@ namespace Thunder.Blazor.Components
         /// <summary>
         /// 点击回调
         /// </summary>
-        [Parameter] public EventCallback OnClick { get; set; }
+        //[Parameter] public EventCallback<UIMouseEventArgs> OnClick { get; set; }
         /// <summary>
         /// 关闭回调
         /// </summary>
@@ -74,8 +101,105 @@ namespace Thunder.Blazor.Components
         /// </summary>
         public bool HasParamenters => Paramenters != null;
 
+        #region IBaseBehaver
+        /// <summary>
+        /// 是否可见
+        /// </summary>
+        [Parameter] public bool IsVisabled { get; set; } = true;
+        /// <summary>
+        /// 是否激活
+        /// </summary>
+        [Parameter] public bool IsActived { get; set; }
+        /// <summary>
+        /// 是否有效
+        /// </summary>
+        [Parameter] public bool IsEnabled { get; set; } = true;
+        /// <summary>
+        /// 默认操作指令
+        /// </summary>
+        [Parameter] public Action CommandAction { get; set; }
+
+        #endregion
+
+        #region IBehaver
+        /// <summary>
+        /// 加载前
+        /// </summary>
+        public EventHandler OnLoading { get; set; }
+        /// <summary>
+        /// 显示前
+        /// </summary>
+        public EventHandler OnShowing { get; set; }
+        /// <summary>
+        /// 关闭前
+        /// </summary>
+        public EventHandler OnClosing { get; set; }
+        /// <summary>
+        /// 加载后
+        /// </summary>
+        public EventHandler OnLoaded { get; set; }
+        /// <summary>
+        /// 显示后
+        /// </summary>
+        public EventHandler OnShowed { get; set; }
+        /// <summary>
+        /// 关闭后
+        /// </summary>
+        public EventHandler OnClosed { get; set; }
+        /// <summary>
+        /// 操作指令
+        /// </summary>
+        public EventHandler<ContextResult> OnCommand { get; set; }
+
+        /// <summary>
+        /// 加载
+        /// </summary>
+        public virtual void Load()
+        {
+            Show();
+        }
+        /// <summary>
+        /// 显示 / 激活
+        /// </summary>
+        public virtual void Show()
+        {
+            if (!IsVisabled)
+            {
+                InitLoaded = false;
+            }
+            IsVisabled = true;
+            if (!InitLoaded)
+            {
+                OnShowing?.Invoke(this, new EventArgs());
+            }
+            StateHasChanged();
+        }
+
+        /// <summary>
+        /// 关闭
+        /// </summary>
+        public virtual void Close()
+        {
+            IsVisabled = false;
+            StateHasChanged();
+        }
+        #endregion
+
+        #region IAttachment
+        /// <summary>
+        /// 附加信息
+        /// </summary>
+        public string AttachmentInfo { get; set; }
+        /// <summary>
+        /// 标注信息
+        /// </summary>
+        public string BadgeInfo { get; set; }
+
+        #endregion
+
         public virtual void Dispose()
         {
+            Close();
         }
 
         /// <summary>
@@ -87,12 +211,52 @@ namespace Thunder.Blazor.Components
             Console.WriteLine(m);
         }
 
+        /// <summary>
+        /// 生成随机Id
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
         public string NewId(string key=null)
         {
             key = string.IsNullOrWhiteSpace(key) ? "t" : key;
-            var r = new Random(DateTime.Now.Millisecond).Next(9999999).ToString("0000000");
+            var r = rnd.Next(9999999).ToString("0000000");
             return $"{key}_{r}";
         }
+
+        protected override bool ShouldRender()
+        {
+            return base.ShouldRender();
+        }
+
+        protected override void OnAfterRender()
+        {
+            base.OnAfterRender();
+            if (!InitLoaded)
+            {
+                InitLoaded = true;
+                OnShowed?.Invoke(this, new EventArgs());
+            }
+        }
+
+        private string GetCss()
+        {
+            CssBuild.Add(StyleClass);
+            if (!OnlyStyleClass)
+            {
+                StyleBuild(CssBuild);
+            }
+            return CssBuild.Build().CssString;
+        }
+
+        /// <summary>
+        /// 生成 Style Class
+        /// </summary>
+        /// <param name="cssBuilder"></param>
+        protected virtual void StyleBuild(CssBuild cssBuilder)
+        {
+
+        }
+
     }
 
     /// <summary>
@@ -102,16 +266,11 @@ namespace Thunder.Blazor.Components
     public abstract class TComponentObject<TModel> : TComponent where TModel : new()
     {
         [Parameter] public TModel DataContext { get; set; } = new TModel();
-    }
 
-    /// <summary>
-    /// 含数据上下文和视图的组件
-    /// </summary>
-    /// <typeparam name="TView">视图类型</typeparam>
-    /// <typeparam name="TModel">数据上下文</typeparam>
-    public abstract class TComponent<TModel, TView> : TComponent<TModel> where TModel : TContext<TView>, new()
-    {
-
+        protected override void OnInitialized()
+        {
+            base.OnInitialized();
+        }
     }
 
     /// <summary>
@@ -123,34 +282,134 @@ namespace Thunder.Blazor.Components
         private TModel dataContext = new TModel();
 
         [Parameter] public TModel DataContext {
-            get => dataContext;
+            get
+            {
+                //UpdateDataContext();
+                return dataContext;
+            }
             set
             {
                 dataContext = value;
                 if (dataContext!=null)
                 {
-                    dataContext.StateHasChanged = StateHasChanged;
+                    LoadDataContext();
+                    //StateHasChanged();
                 }
             }
         }
 
-        protected override void OnInit()
+        protected override void OnInitialized()
         {
-            base.OnInit();
+            base.OnInitialized();
             if (HasParamenters)
             {
                 try
                 {
-                    DataContext = Paramenters.Get<TModel>();
+                    dataContext = Paramenters.Get<TModel>();
                 }
                 catch
                 {
                 }
             }
-            if (DataContext != null)
+            if (dataContext != null)
             {
-                DataContext.StateHasChanged = StateHasChanged;
+                dataContext.SetViewAction<TComponent<TModel>, TModel>(this);
+                //DataContext.StateHasChanged = StateHasChanged;
             }
+        }
+
+        /// <summary>
+        /// Udpate DataContext from view
+        /// </summary>
+        public virtual void UpdateDataContext()
+        {
+            if (dataContext != null)
+            {
+                dataContext.ObjectName = ObjectName;
+                dataContext.Tag = Tag;
+                //dataContext.StyleClass = StyleClass;
+                dataContext.IsVisabled = IsVisabled;
+                dataContext.IsActived = IsActived;
+                dataContext.IsEnabled = IsEnabled;
+                dataContext.CommandAction = CommandAction;
+                dataContext.Caption = Caption;
+                dataContext.AttachmentInfo = AttachmentInfo;
+                dataContext.BadgeInfo = BadgeInfo;
+
+                dataContext.DomId = DomId;
+                dataContext.SetViewAction<TComponent<TModel>, TModel>(this);
+                Console.WriteLine($"[UpdateDataContext]:{dataContext.Caption} = {Caption} [Caption]");
+            }
+            //dataContext.IsVisabled = IsVisabled;
+            //dataContext.IsEnabled = IsEnabled;
+            //dataContext.IsActived = IsActived;
+            ////dataContext.CommandAction = CommandAction;
+        }
+
+        /// <summary>
+        /// Load datacontext to view
+        /// </summary>
+        public virtual void LoadDataContext()
+        {
+            if (dataContext != null)
+            {
+                ObjectName = dataContext.ObjectName;
+                Tag = dataContext.Tag;
+                //StyleClass = dataContext.StyleClass;
+                IsVisabled = dataContext.IsVisabled;
+                IsActived = dataContext.IsActived;
+                IsEnabled = dataContext.IsEnabled;
+                CommandAction = dataContext.CommandAction;
+                Caption = dataContext.Caption;
+                AttachmentInfo = dataContext.AttachmentInfo;
+                BadgeInfo = dataContext.BadgeInfo;
+
+                dataContext.DomId = DomId;
+                dataContext.SetViewAction<TComponent<TModel>, TModel>(this);
+                //dataContext.StateHasChanged = StateHasChanged;
+                Console.WriteLine($"[LoadDataContext]:[Caption] {Caption} = {dataContext.Caption} ");
+            }
+
+            //IsVisabled = dataContext.IsVisabled;
+            //IsEnabled = dataContext.IsEnabled;
+            //IsActived = dataContext.IsActived;
+            //CommandAction = dataContext.CommandAction;
+        }
+
+        /// <summary>
+        /// 加载
+        /// </summary>
+        public override void Load()
+        {
+            Show();
+        }
+        /// <summary>
+        /// 显示 / 激活
+        /// </summary>
+        public override void Show()
+        {
+            LoadDataContext();
+            base.Show();
+            UpdateDataContext();
+            //dataContext.IsVisabled = base.IsVisabled;
+        }
+        /// <summary>
+        /// 关闭
+        /// </summary>
+        public override void Close()
+        {
+            LoadDataContext();
+            base.Close();
+            UpdateDataContext();
+            //dataContext.IsVisabled = base.IsVisabled;
+        }
+
+        /// <summary>
+        /// 更新组件（调用 StateHasChanged）
+        /// </summary>
+        public void Update()
+        {
+            StateHasChanged();
         }
 
         /// <summary>
@@ -171,18 +430,21 @@ namespace Thunder.Blazor.Components
     /// <typeparam name="TModel"></typeparam>
     public class TComponentContainer<TModel> : TComponent<TModel> where TModel : TContainer, new()
     {
-        protected override void OnInit()
+        public virtual void LoadItem(object value) { }
+        public virtual void ShowItem(object value) { }
+        public virtual void CloseItem(object value) { }
+
+        protected override void OnInitialized()
         {
+            base.OnInitialized();
             DataContext.Load = Load;
             DataContext.Show = Show;
             DataContext.Close = Close;
 
-            base.OnInit();
+            DataContext.LoadItem = LoadItem;
+            DataContext.ShowItem = ShowItem;
+            DataContext.CloseItem = CloseItem;
         }
-
-        protected virtual void Load() { }
-        protected virtual void Show() { }
-        protected virtual void Close() { }
 
         public virtual void DoCommand(ContextResult result)
         {
@@ -194,27 +456,4 @@ namespace Thunder.Blazor.Components
             base.Dispose();
         }
     }
-
-    /// <summary>
-    /// 带容器的组件
-    /// </summary>
-    /// <typeparam name="TView"></typeparam>
-    /// <typeparam name="TModel"></typeparam>
-    public abstract class TComponentContainer<TModel,TCon>: TComponentContainer<TCon> where TCon : TContainer<TModel>, new() where TModel:TContext,new()
-    {
-        protected override void OnInit()
-        {
-            DataContext.LoadItem = LoadItem;
-            DataContext.ShowItem = ShowItem;
-            DataContext.CloseItem = CloseItem;
-
-            base.OnInit();
-        }
-
-        protected virtual void LoadItem(TModel value) { }
-        protected virtual void ShowItem(TModel value) { }
-        protected virtual void CloseItem(TModel value) { }
-
-    }
-
 }

@@ -12,18 +12,18 @@ namespace ThunderBlazorTest.Components
     class TComponentTest
     {
         TestContent tc = new TestContent { Test = "ok" };
-        TestContainer tca;
         TestComponent tcc;
 
         [SetUp]
         public  void Init()
         {
             tcc = new TestComponent();
-            tca = new TestContainer { Caption = "OK" };
-            tca.OnCommand += (o, e) =>
+            tc = new TestContent { Caption = "OK" };
+            tc.OnCommand += (o, e) =>
             {
                 e = ContextResult.No("no");
-                tca.ObjectName = "test";
+                tc.ObjectName = "test";
+                tc.LoadDataContext();
             };
         }
 
@@ -36,24 +36,23 @@ namespace ThunderBlazorTest.Components
         [Test]
         public void InitContent()
         {
-            tcc.DataContext = tca;
-            Assert.IsTrue(tcc.DataContext.Caption == tca.Caption);
-            tca.OnCommand.Invoke(this, ContextResult.Cancel());
+            tcc.DataContext = tc;
+            Assert.IsTrue(tcc.DomId == tc.DomId);
+            Assert.IsTrue(tcc.DataContext.Caption == tc.Caption);
+            tcc.Caption = "change 1";
+            tcc.UpdateDataContext();
+            Assert.IsTrue(tcc.Caption == tcc.DataContext.Caption);
+            tc.OnCommand.Invoke(this, ContextResult.Cancel());
             Assert.IsTrue(tcc.DataContext.ObjectName == "test");
         }
     }
 
-    class TestContent : TContext
+    class TestContent : TContainer
     {
         public string Test { get; set; }
     }
 
-    class TestComponent : TComponent<TestContainer>
-    {
-
-    }
-
-    class TestContainer : TContainer<TestContent>
+    class TestComponent : TComponentContainer<TestContent>
     {
 
     }

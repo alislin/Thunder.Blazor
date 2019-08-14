@@ -1,0 +1,42 @@
+﻿@inherits StrapPaginationBase
+@using Thunder.Blazor.Libs
+@if (DataContext != null)
+{
+    var next = "下一页";
+    var prev = "上一页";
+    <ul class="@CssStyle">
+        @if (DataContext.AlwaysShowNextPrev || DataContext.ShowLeft)
+        {
+            <li class="@prevmark"><button class="page-link" @onclick="@(()=> { GotoPage(DataContext.Index - 1); })">@prev</button></li>
+        }
+        @for (int i = DataContext.MinPage; i <= DataContext.MaxPage; i++)
+        {
+            var x = i;  //翻页索引，不可去掉
+            <li class="@numberMark(DataContext.Index==i)"><button class="page-link" @onclick="@(() => { GotoPage(x); })">@(i + 1)</button></li>
+        }
+        @if (DataContext.AlwaysShowNextPrev || DataContext.ShowRight)
+        {
+            <li class="@nextmark"><button class="page-link" @onclick="@(()=> { GotoPage(DataContext.Index + 1); })">@next</button></li>
+        }
+    </ul>
+}
+@code{
+    string prevmark => CssBuild.New
+        .Add("page-item")
+        .Add("disabled", !DataContext.ShowLeft)
+        .Build().CssString;
+
+    string nextmark => CssBuild.New
+        .Add("page-item")
+        .Add("disabled", !DataContext.ShowRight)
+        .Build().CssString;
+
+    string numberMark(bool flag)
+    {
+        return CssBuild.New
+        .Add("page-item")
+        .Add("disabled", !DataContext.IsEnabled)
+        .Add("active", flag)
+        .Build().CssString;
+    }
+}

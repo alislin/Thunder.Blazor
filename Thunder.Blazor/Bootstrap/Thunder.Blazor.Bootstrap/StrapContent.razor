@@ -1,0 +1,21 @@
+﻿@inherits TComponent<TTabItem>
+<div class="@CssStyle">
+    <CascadingValue Value="@DataContext.Child.ContextParameters">
+        @if (DataContext?.Child != null)
+        {
+            @DataContext.Child.ContextFragment
+        }
+        else
+        {
+            @ChildContent
+        }
+    </CascadingValue>
+</div>
+
+@code{ 
+    protected override void StyleBuild(Libs.CssBuild cssBuilder)
+    {
+        cssBuilder.Add("active", IsActived)
+            .Add("show", IsActived);
+    }
+}

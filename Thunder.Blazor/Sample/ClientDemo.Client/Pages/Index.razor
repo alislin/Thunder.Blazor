@@ -1,32 +1,359 @@
 ﻿@page "/"
 @inherits TComponent
 
-<h1 id="@titleId">Hello, world!</h1>
+<StrapAlert @ref="alert" IsVisabled="false" StyleClass="m-2"></StrapAlert>
+<div class="row">
+    <div class="col">
+        <div class="card m-2">
+            <h5 class="card-header">按钮（Button）</h5>
+            <div class="card-body">
+                <p class="card-text">Style,Size,Outline</p>
+                <p class="card-text">@((MarkupString)btnClickText)</p>
+                <StrapButton Caption="Primary" CommandAction="@(()=>BtnClick("Primary"))" Style="@StyleType.primary" DataContext="@(new TagBlockContext { Caption="P-1",CommandAction=()=>BtnClick("P-1")})"></StrapButton>
+                <StrapButton Caption="Secondary" CommandAction="@(()=>BtnClick("Secondary"))" Style="@StyleType.secondary"></StrapButton>
+                <StrapButton Caption="Success" CommandAction="@(()=>BtnClick("Success"))" Style="@StyleType.success"></StrapButton>
+                <StrapButton Caption="Danger[disable]" CommandAction="@(()=>BtnClick("Danger"))" Style="@StyleType.danger" IsEnabled="false"></StrapButton>
+                <StrapButton Caption="Warning" CommandAction="@(()=>BtnClick("Warning"))" Style="@StyleType.warning"></StrapButton>
+                <StrapButton Caption="Info" CommandAction="@(()=>BtnClick("Info"))" Style="@StyleType.info" Size="SizeType.small"></StrapButton>
+                <StrapButton Caption="Link" CommandAction="@(()=>BtnClick("Link"))" Style="@StyleType.link"></StrapButton>
+                <StrapButton Caption="Success" CommandAction="@(()=>BtnClick("Success Outline"))" Style="@StyleType.success" Outline="true"></StrapButton>
+                @*<div class="highlight">
+                    <pre>
+                        <code class="html" data-lang="html">@btncode</code>
+                    </pre>
+                </div>*@
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="card m-2">
+            <h5 class="card-header">按钮组 (Button group)</h5>
+            <div class="card-body">
+                <p class="card-text"></p>
+                <StrapButtongroup StyleClass="m-2">
+                    <StrapButton Caption="Primary" CommandAction="@(()=>BtnClick("Primary"))" Style="@StyleType.primary"></StrapButton>
+                    <StrapButton Caption="Secondary" CommandAction="@(()=>BtnClick("Secondary"))" Style="@StyleType.secondary"></StrapButton>
+                    <StrapButton Caption="Success" CommandAction="@(()=>BtnClick("Success"))" Style="@StyleType.success"></StrapButton>
+                </StrapButtongroup>
+                <StrapButtongroup StyleClass="m-2" Size="SizeType.large">
+                    <StrapButton Caption="Primary" CommandAction="@(()=>BtnClick("Primary"))" Style="@StyleType.secondary"></StrapButton>
+                    <StrapButton Caption="Secondary" CommandAction="@(()=>BtnClick("Secondary"))" Style="@StyleType.secondary"></StrapButton>
+                    <StrapButton Caption="Success" CommandAction="@(()=>BtnClick("Success"))" Style="@StyleType.secondary"></StrapButton>
+                    <StrapButton Caption="Danger[disable]" CommandAction="@(()=>BtnClick("Danger"))" Style="@StyleType.secondary" IsEnabled="false"></StrapButton>
+                </StrapButtongroup>
+                <StrapButtongroup Vertical="true" StyleClass="m-2">
+                    <StrapButton Caption="1" CommandAction="@(()=>BtnClick("1"))" Style="@StyleType.primary"></StrapButton>
+                    <StrapButton Caption="2" CommandAction="@(()=>BtnClick("2"))" Style="@StyleType.secondary"></StrapButton>
+                    <StrapButton Caption="3" CommandAction="@(()=>BtnClick("3"))" Style="@StyleType.success"></StrapButton>
+                </StrapButtongroup>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <div class="card m-2">
+            <h5 class="card-header">警告条幅 (Alert infomation)</h5>
+            <div class="card-body">
+                <p class="card-text"></p>
+                <StrapButton Caption="试一下 (Try)" CommandAction="@AlertShow"></StrapButton>
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="card m-2">
+            <h5 class="card-header">提示消息 (Notice pop)</h5>
+            <div class="card-body">
+                <p></p>
+                <StrapButton Caption="试一下 (Try)" CommandAction="@NotyInfo"></StrapButton>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <div class="card m-2">
+            <h5 class="card-header">下拉菜单 (Dropdown Demo)</h5>
+            <div class="card-body">
+                <p class="card-text"></p>
+                <div class="row">
+                    <div class="col">
+                        <StrapDropdown DataContext="@DropdownDemoItem" StyleClass="m-2"></StrapDropdown>
+                    </div>
+                    <div class="col">
+                        <StrapDropdown Caption="1 Dropdown menu" EnableDefaultMenu="true" StyleClass="m-2">
+                            <StrapDropdownItem Caption="1 试一下 (Try)" CommandAction="@DropdownDemo"></StrapDropdownItem>
+                            <StrapDropdown Caption="2 二级菜单">
+                                <StrapDropdownItem Caption="2 试一下 (Try)" CommandAction="@DropdownDemo"></StrapDropdownItem>
+                                <StrapDropdownItem Caption="2 试一下 (Try)" CommandAction="@DropdownDemo"></StrapDropdownItem>
+                                <StrapDropdownItem Caption="---试一下 (Try)" CommandAction="@DropdownDemo"></StrapDropdownItem>
+                                <StrapDropdownItem Caption="2 分隔一下" CommandAction="@DropdownDemo"></StrapDropdownItem>
+                            </StrapDropdown>
+                            <StrapDropdownItem Caption="1 试一下 (Try)" CommandAction="@DropdownDemo"></StrapDropdownItem>
+                            <StrapDropdownItem Caption="---试一下 (Try)" CommandAction="@DropdownDemo"></StrapDropdownItem>
+                            <StrapDropdownItem Caption="1 分隔一下" CommandAction="@DropdownDemo"></StrapDropdownItem>
+                        </StrapDropdown>
+                    </div>
+                    <div class="col">
+                        <StrapDropdown Caption="Counter" StyleClass="m-2">
+                            <div class="p-4">
+                                <Counter></Counter>
+                            </div>
+                        </StrapDropdown>
+                    </div>
+                    <div class="col">
+                        <StrapDropdown Caption="Login" StyleClass="m-2">
+                            <form class="p-4">
+                                <div class="form-group">
+                                    <label for="exampleDropdownFormEmail2">Email address</label>
+                                    <input type="email" class="form-control" id="exampleDropdownFormEmail2" placeholder="email@example.com">
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleDropdownFormPassword2">Password</label>
+                                    <input type="password" class="form-control" id="exampleDropdownFormPassword2" placeholder="Password">
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" id="dropdownCheck2">
+                                    <label class="form-check-label" for="dropdownCheck2">
+                                        Remember me
+                                    </label>
+                                </div>
+                                <button type="button" class="btn btn-primary">Sign in</button>
+                            </form>
+                        </StrapDropdown>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div id="@titleId" class="card m-2">
+            <h5 class="card-header">动画演示 (Animate Demo)</h5>
+            <div class="card-body">
+                <p class="card-text"></p>
+                <StrapButton Caption="试一下 (Try)" CommandAction="@AnimateClick"></StrapButton>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <div class="card m-2">
+            <h5 class="card-header">翻页组件（Pagination）</h5>
+            <div class="card-body">
+                <p class="card-text">
+                    翻页组件
+                </p>
+                <StrapPagination DataContext="@PaginationItem"></StrapPagination>
+                <StrapPagination DataContext="@PaginationItem" Alignment="@AlignmentType.center"></StrapPagination>
+                <StrapPagination DataContext="@PaginationItem" Alignment="@AlignmentType.end"></StrapPagination>
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="card m-2">
+            <h5 class="card-header">导航（Nav）</h5>
+            <div class="card-body">
+                <p class="card-text">导航组件</p>
+                <StrapNav DataContext="StrapNavItemContext" IsPill="true" >
+                    <StrapDropdown DataContext="DropdownDemoItem" StyleClass="nav-link" DisableButtonStyle="true" ActionItemTag="@ActionItemTag.a"></StrapDropdown>
+                </StrapNav>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <div class="card m-2">
+            <h5 class="card-header">标签页（Tab）</h5>
+            <div class="card-body">
+                <p class="card-text">标签页</p>
+                <StrapTab DataContext="@TabContext"></StrapTab>
+            </div>
+        </div>
+    </div>
+    <div class="col">
 
-Welcome to your new app.
+    </div>
+</div>
+<div class="row">
+    <div class="col">
 
-<SurveyPrompt Title="How is Blazor working for you?" />
+    </div>
+    <div class="col">
 
-<button class="btn btn-primary" @onclick="@NotyInfo">提示消息 (Notice pop)</button>
-<button class="btn btn-primary" @onclick="@AnimateClick">动画演示 (Animate Demo)</button>
+    </div>
+</div>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
 
 @code{
     [Inject] protected NotifyService noty { get; set; }
     [Inject] protected AnimateService animate { get; set; }
+    [Inject] protected IJSRuntime jSRuntime { get; set; }
+
     protected string titleId { get; set; }
-    protected override void OnInit()
+    protected string btnClickText { get; set; } = "Click !!! ??";
+    protected StrapDropdownMenuItem DropdownDemoItem { get; set; }
+    protected StrapPaginationItem PaginationItem { get; set; }
+    protected TNavContext StrapNavItemContext { get; set; }
+    protected TTabContext TabContext { get; set; }
+
+    string btncode = "<StrapButton Caption=\"Primary\" CommandAction=\"@(()=>BtnClick(\"Primary\"))\" Style=\"@StyleType.primary\" DataContext=\"@(new TagBlockContext { Caption=\"P-1\",CommandAction=()=>BtnClick(\"P-1\")})\"></StrapButton>";
+
+    //StrapAlert alert;
+
+    protected override void OnInitialized()
     {
         titleId = NewId();
-        base.OnInit();
+        DropdownDemoItem=GetDropdownDemo();
+        InitPagination();
+        InitNav();
+        InitTab();
+
+        base.OnInitialized();
     }
+
+    protected override void OnAfterRender()
+    {
+        base.OnAfterRender();
+        jSRuntime.InvokeAsync<object>("hljs.initHighlightingOnLoad()", null);
+    }
+
+    private void BtnClick(string text,Action action=null)
+    {
+        btnClickText = $"Click button <large><strong>{text}</strong></large>";
+        action?.Invoke();
+        StateHasChanged();
+    }
+
     private void NotyInfo()
     {
-        noty.Show(new NotyData("这是一条测试的消息。<br> This is a test pop!", NotyType.error));
+        noty.Show(new NotyData("这是一条测试的消息。<br> This is a test pop!", NotyType.information));
     }
 
     private void AnimateClick()
     {
         // start animate
-        animate.Start(new AnimateData { AnimateType = AnimateType.tada, id = titleId, resetOnEnd = true });
+        animate.Start(new AnimateData { AnimateType = AnimateType.pulse, id = titleId, resetOnEnd = true });
+    }
+
+    private void AlertShow()
+    {
+        var alertcontext = new StrapAlertContext
+        {
+            Text = $"[{DateTime.Now}] 警告内容, Alert infomation.",
+            IsVisabled = false
+        };
+
+        //alert.DataContext = alertcontext;
+        ////alert.OnShowed += (o, e) => { animate.Start(new AnimateData { AnimateType = AnimateType.fadeIn, id = alert.DomId }); };
+        //alert.Show();
+
+    }
+
+    private void DropdownDemo(){
+        btnClickText = $"Click button <large><strong>下拉菜单[{DateTime.Now}]</strong></large>";
+        StateHasChanged();
+    }
+
+    private StrapDropdownMenuItem GetDropdownDemo()
+    {
+        var dropdown = new StrapDropdownMenuItem
+        {
+            Caption = "下拉菜单演示",
+            Style = StyleType.success,
+            EnableDefaultMenu = true
+        };
+        dropdown.Add(new StrapDropdownMenuItem
+        {
+            Caption = "第一项",
+            CommandAction = () => { BtnClick("第一项"); }
+        });
+        dropdown.Add(new StrapDropdownMenuItem
+        {
+            Caption = "---",
+            CommandAction = () => { BtnClick("第二项"); }
+        });
+        dropdown.Add(new StrapDropdownMenuItem
+        {
+            Caption = "第二项",
+            CommandAction = () => { BtnClick("第二项"); }
+        });
+        dropdown.Add(new StrapDropdownMenuItem
+        {
+            Caption = "第三项",
+            CommandAction = () => { BtnClick("第三项"); }
+        });
+
+        var dropdown2 = new StrapDropdownMenuItem
+        {
+            Caption = "二级菜单演示",
+            Style = StyleType.success,
+            EnableDefaultMenu = true
+        };
+        dropdown2.Add(new StrapDropdownMenuItem
+        {
+            Caption = "第一项",
+            CommandAction = () => { BtnClick("第一项"); }
+        });
+        dropdown2.Add(new StrapDropdownMenuItem
+        {
+            Caption = "---",
+            CommandAction = () => { BtnClick("第二项"); }
+        });
+        dropdown2.Add(new StrapDropdownMenuItem
+        {
+            Caption = "第二项",
+            CommandAction = () => { BtnClick("第二项"); }
+        });
+        dropdown2.Add(new StrapDropdownMenuItem
+        {
+            Caption = "第三项",
+            CommandAction = () => { BtnClick("第三项"); }
+        });
+
+        dropdown.Add(dropdown2);
+
+        return dropdown;
+    }
+
+    private void InitPagination()
+    {
+        PaginationItem = new StrapPaginationItem
+        {
+            TotalPage = 100,
+            Index = 5,
+            ShowMax = 5,
+            Goto = x =>
+            {
+                BtnClick($"第 {x + 1} 页");
+                PaginationItem.Index = x;
+            }
+        };
+    }
+
+    private void InitNav()
+    {
+        StrapNavItemContext = new TNavContext
+        {
+            NavItems = new List<TagBlockContext>()
+        };
+        StrapNavItemContext.NavItems.Add(new TagBlockContext { Caption = "导航 1", CommandAction = () => BtnClick($"导航 1"),IsActived=true });
+        StrapNavItemContext.NavItems.Add(new TagBlockContext { Caption = "导航 2", CommandAction = () => BtnClick($"导航 2") });
+        StrapNavItemContext.NavItems.Add(new TagBlockContext { Caption = "导航 3", CommandAction = () => BtnClick($"导航 3"),IsEnabled=false });
+        StrapNavItemContext.NavItems.Add(DropdownDemoItem);
+    }
+
+    private void InitTab()
+    {
+        TabContext = new TTabContext();
+        TabContext.TabsItems.Add(new TTabItem { Header = new TagBlockContext { Caption = "Counter" }, Child = new TContext { ContextType = typeof(Counter) } });
+        TabContext.TabsItems.Add(new TTabItem { Header = new TagBlockContext { Caption = "Tab 1" }, Child = new TContext { ContextType = typeof(NavMenu) } });
     }
 }

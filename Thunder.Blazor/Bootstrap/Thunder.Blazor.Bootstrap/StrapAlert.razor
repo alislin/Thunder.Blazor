@@ -1,0 +1,17 @@
+﻿@inherits StrapAlertBase
+@if (IsVisabled)
+{
+    <div id="@DomId" class="@CssStyle">
+        @if (string.IsNullOrWhiteSpace(DataContext?.Text))
+        {
+            @ChildContent
+        }
+        else
+        {
+            @DataContext?.Text
+        }
+        <button type="button" class="close" @onclick="@Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}

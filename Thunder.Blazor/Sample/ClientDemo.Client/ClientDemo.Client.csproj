@@ -8,11 +8,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Blazor" Version="3.0.0-preview7.19365.7" />
-    <PackageReference Include="Microsoft.AspNetCore.Blazor.Build" Version="3.0.0-preview7.19365.7" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.AspNetCore.Blazor" Version="3.0.0-preview8.19405.7" />
+    <PackageReference Include="Microsoft.AspNetCore.Blazor.Build" Version="3.0.0-preview8.19405.7" PrivateAssets="all" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Bootstrap\Thunder.Blazor.Bootstrap\Thunder.Blazor.Bootstrap.csproj" />
     <ProjectReference Include="..\..\JsLibs\Thunder.Blazor.Animate\Thunder.Blazor.Animate.csproj" />
     <ProjectReference Include="..\..\JsLibs\Thunder.Blazor.DomObject\Thunder.Blazor.DomObject.csproj" />
     <ProjectReference Include="..\..\JsLibs\Thunder.Blazor.Noty\Thunder.Blazor.Noty.csproj" />

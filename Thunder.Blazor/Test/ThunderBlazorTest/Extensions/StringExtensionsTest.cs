@@ -6,7 +6,7 @@ namespace Thunder.BlazorTest
 {
     public class StringExtensionsTest
     {
-        string v = "{\"Data\":\"test\",\"DataType\":\"System.String, System.Private.CoreLib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e\",\"Result\":1,\"Cancelled\":false}";
+        string v = "{\"Data\":\"test\",\"DataType\":\"System.String, System.Private.CoreLib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e\",\"Result\":1,\"Canceled\":false}";
         ContextResult result = ContextResult.Ok("test");
 
         [Test]
@@ -21,6 +21,7 @@ namespace Thunder.BlazorTest
         {
             var obj = v.FromJson<ContextResult>();
             Assert.IsTrue(obj.Result == result.Result);
+            Assert.IsTrue(obj.Result != null);
             Assert.IsTrue((string)obj.Data == (string)result.Data);
         }
     }

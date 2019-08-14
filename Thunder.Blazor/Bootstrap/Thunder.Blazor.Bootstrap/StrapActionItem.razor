@@ -1,0 +1,32 @@
+﻿@inherits StrapActionItemBase
+@if (!string.IsNullOrEmpty(Caption) && Caption.IndexOf("---") >= 0)
+{
+    //分割线
+    <div class="dropdown-divider"></div>
+}
+else
+{
+    @switch (ActionItemTag)
+    {
+        default:
+        case ActionItemTag.button:
+            <button class="@CssStyle" disabled="@(!IsEnabled)" @onclick="@CommandAction">
+                @if (ChildContent == null)
+                {@Caption}
+            else
+            {@ChildContent}
+            </button>
+            break;
+        case ActionItemTag.a:
+            <a class="@CssStyle" href="javascript:;" @onclick="@CommandAction">
+                @if (ChildContent == null)
+                {@Caption}
+            else
+            {@ChildContent}
+            </a>
+            break;
+        case ActionItemTag.input:
+            <input class="@CssStyle" type="button" value="@Caption" disabled="@(!IsEnabled)" @onclick="@CommandAction" />
+            break;
+    }
+}
