@@ -52,7 +52,7 @@ Include Common Control base class, and interactions associated logic. Separation
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Components.Browser" Version="3.0.0-preview7.19365.7" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="3.0.0-preview8.19405.7" />
     <PackageReference Include="Thunder.Standard.Lib" Version="1.0.4" />
     <PackageReference Include="Microsoft.TypeScript.MSBuild" Version="3.6.0">
       <PrivateAssets>all</PrivateAssets>

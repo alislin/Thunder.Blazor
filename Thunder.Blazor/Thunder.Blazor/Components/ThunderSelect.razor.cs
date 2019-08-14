@@ -13,17 +13,17 @@ namespace Thunder.Blazor.Components
         private string selectvalue;
         private bool InitSelected;
 
-        [Parameter] protected EventCallback<string> SelectedValueChanged { get; set; }
-        [Parameter] protected EventCallback<SelectOption> SelectedItemChanged { get; set; }
+        [Parameter] public EventCallback<string> SelectedValueChanged { get; set; }
+        [Parameter] public EventCallback<SelectOption> SelectedItemChanged { get; set; }
         /// <summary>
         /// 样式名称
         /// </summary>
-        [Parameter] protected string ClassName { get; set; }
+        [Parameter] public string ClassName { get; set; }
         /// <summary>
         /// 选择值
         /// </summary>
         [Parameter]
-        protected string SelectedValue
+        public string SelectedValue
         {
             get => selectedItem?.Value;
             set
@@ -38,7 +38,7 @@ namespace Thunder.Blazor.Components
         /// 选择对象
         /// </summary>
         [Parameter]
-        protected SelectOption SelectedItem
+        public SelectOption SelectedItem
         {
             get
             {
@@ -55,9 +55,9 @@ namespace Thunder.Blazor.Components
 
         protected bool HasGroup => (DataContext?.OptionList?.Count ?? 0) > 1;
 
-        protected override void OnInit()
+        protected override void OnInitialized()
         {
-            base.OnInit();
+            base.OnInitialized();
             InitSelected = true;
             selectvalue = DataContext.Items.FirstOrDefault(x => x.Selected).Value;
         }

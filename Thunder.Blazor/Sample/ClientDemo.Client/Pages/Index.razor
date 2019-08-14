@@ -1,7 +1,7 @@
 ﻿@page "/"
 @inherits TComponent
 
-<StrapAlert @ref="@alert" IsVisabled="false" StyleClass="m-2"></StrapAlert>
+<StrapAlert @ref="alert" IsVisabled="false" StyleClass="m-2"></StrapAlert>
 <div class="row">
     <div class="col">
         <div class="card m-2">
@@ -78,7 +78,7 @@
                 <p class="card-text"></p>
                 <div class="row">
                     <div class="col">
-                        <StrapDropdown @ref="@sdd" DataContext="@DropdownDemoItem" StyleClass="m-2"></StrapDropdown>
+                        <StrapDropdown DataContext="@DropdownDemoItem" StyleClass="m-2"></StrapDropdown>
                     </div>
                     <div class="col">
                         <StrapDropdown Caption="1 Dropdown menu" EnableDefaultMenu="true" StyleClass="m-2">
@@ -205,11 +205,10 @@
     protected TTabContext TabContext { get; set; }
 
     string btncode = "<StrapButton Caption=\"Primary\" CommandAction=\"@(()=>BtnClick(\"Primary\"))\" Style=\"@StyleType.primary\" DataContext=\"@(new TagBlockContext { Caption=\"P-1\",CommandAction=()=>BtnClick(\"P-1\")})\"></StrapButton>";
-    StrapDropdown sdd;
 
-    StrapAlert alert { get; set; }
+    //StrapAlert alert;
 
-    protected override void OnInit()
+    protected override void OnInitialized()
     {
         titleId = NewId();
         DropdownDemoItem=GetDropdownDemo();
@@ -217,9 +216,7 @@
         InitNav();
         InitTab();
 
-        sdd = new StrapDropdown();
-
-        base.OnInit();
+        base.OnInitialized();
     }
 
     protected override void OnAfterRender()
@@ -254,9 +251,9 @@
             IsVisabled = false
         };
 
-        alert.DataContext = alertcontext;
-        //alert.OnShowed += (o, e) => { animate.Start(new AnimateData { AnimateType = AnimateType.fadeIn, id = alert.DomId }); };
-        alert.Show();
+        //alert.DataContext = alertcontext;
+        ////alert.OnShowed += (o, e) => { animate.Start(new AnimateData { AnimateType = AnimateType.fadeIn, id = alert.DomId }); };
+        //alert.Show();
 
     }
 

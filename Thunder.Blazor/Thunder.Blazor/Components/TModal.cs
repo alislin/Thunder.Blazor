@@ -13,10 +13,10 @@ namespace Thunder.Blazor.Components
     /// <typeparam name="TModel"></typeparam>
     public class TModalBase<TModel>:TComponentContainer<TModel> where TModel:TModalContext,new()
     {
-        protected override void OnInit()
+        protected override void OnInitialized()
         {
             DataContext.Show = Show;
-            base.OnInit();
+            base.OnInitialized();
         }
 
         protected void Show(TContext value,string caption=null,ButtonType button= ButtonType.OK,string size=null)
@@ -103,7 +103,7 @@ namespace Thunder.Blazor.Components
         public TModalContext No(Action action, string title = null)
             => SetAction(action, ButtonTypeValue.No, title);
 
-        public TModalContext Close(Action action, string title = null)
+        public new TModalContext Close(Action action, string title = null)
             => SetAction(action, ButtonTypeValue.Close, title);
 
         /// <summary>

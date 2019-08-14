@@ -267,9 +267,9 @@ namespace Thunder.Blazor.Components
     {
         [Parameter] public TModel DataContext { get; set; } = new TModel();
 
-        protected override void OnInit()
+        protected override void OnInitialized()
         {
-            base.OnInit();
+            base.OnInitialized();
         }
     }
 
@@ -298,9 +298,9 @@ namespace Thunder.Blazor.Components
             }
         }
 
-        protected override void OnInit()
+        protected override void OnInitialized()
         {
-            base.OnInit();
+            base.OnInitialized();
             if (HasParamenters)
             {
                 try
@@ -434,9 +434,9 @@ namespace Thunder.Blazor.Components
         public virtual void ShowItem(object value) { }
         public virtual void CloseItem(object value) { }
 
-        protected override void OnInit()
+        protected override void OnInitialized()
         {
-            base.OnInit();
+            base.OnInitialized();
             DataContext.Load = Load;
             DataContext.Show = Show;
             DataContext.Close = Close;

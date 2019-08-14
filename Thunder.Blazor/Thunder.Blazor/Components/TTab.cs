@@ -30,9 +30,9 @@ namespace Thunder.Blazor.Components
         protected TTabItem MoreActivedItem { get => moreActivedItem; set => moreActivedItem = value; }
         protected TNavContext Headers { get => headers; set => headers = value; }
 
-        protected override void OnInit()
+        protected override void OnInitialized()
         {
-            base.OnInit();
+            base.OnInitialized();
             showMore = UpdateItems();
         }
 
@@ -66,6 +66,8 @@ namespace Thunder.Blazor.Components
             {
                 item.CommandAction = () => TabClick(null);
             }
+            LoadDataContext();
+
             var first = DataContext?.TabsItems.FirstOrDefault(x => x.IsActived);
             if (first == null)
             {

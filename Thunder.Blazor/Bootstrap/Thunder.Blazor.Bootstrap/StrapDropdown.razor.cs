@@ -96,9 +96,9 @@ namespace Thunder.Blazor.Bootstrap
             base.LoadDataContext();
         }
 
-        protected override void OnInit()
+        protected override void OnInitialized()
         {
-            base.OnInit();
+            base.OnInitialized();
             //OnShowing += (o, e) => { ComponentService.BlockContextCloseAction.Add(Close); };
         }
 

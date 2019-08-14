@@ -40,9 +40,9 @@ namespace Thunder.Blazor.Components
             base.LoadDataContext();
         }
 
-        protected override void OnInit()
+        protected override void OnInitialized()
         {
-            base.OnInit();
+            base.OnInitialized();
             DataContext.Close = Close;
         }
 

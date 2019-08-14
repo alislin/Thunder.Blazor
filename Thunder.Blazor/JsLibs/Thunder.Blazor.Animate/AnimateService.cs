@@ -146,7 +146,7 @@ namespace Thunder.Blazor.Services
             return css.CssList.ToArray() ;
         }
 
-        public string ToString()
+        public new string ToString()
         {
             return string.Join(" ", animateClass);
         }
