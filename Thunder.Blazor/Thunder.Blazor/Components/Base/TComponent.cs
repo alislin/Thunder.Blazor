@@ -240,7 +240,7 @@ namespace Thunder.Blazor.Components
 
         private string GetCss()
         {
-            CssBuild.Add(StyleClass);
+            CssBuild.Reset().Add(StyleClass);
             if (!OnlyStyleClass)
             {
                 StyleBuild(CssBuild);
@@ -281,7 +281,8 @@ namespace Thunder.Blazor.Components
     {
         private TModel dataContext = new TModel();
 
-        [Parameter] public TModel DataContext {
+        [Parameter] public TModel DataContext 
+        {
             get
             {
                 //UpdateDataContext();

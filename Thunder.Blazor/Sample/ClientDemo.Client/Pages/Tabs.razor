@@ -1,0 +1,33 @@
+﻿@page "/tabs"
+<div class="card m-2">
+    <h5 class="card-header">标签页（Tab）</h5>
+    <div class="card-body">
+        <p class="card-text">标签页</p>
+        <StrapButton CommandAction="AddTab" StyleClass="m-2">Add Tab</StrapButton>
+        <StrapTab DataContext="@TabContext" StyleClass="m-2" ShowCount="10"></StrapTab>
+    </div>
+</div>
+
+@code {
+    protected TTabContext TabContext { get; set; }
+
+    protected override void OnInitialized()
+    {
+        InitTab();
+
+    }
+
+    private void InitTab()
+    {
+        TabContext = new TTabContext();
+        TabContext.TabsItems.Add(new TTabItem { Caption = "Counter", Child = new TContext { ContextType = typeof(Counter) } });
+        TabContext.TabsItems.Add(new TTabItem { Caption = "Tab 1", Child = new TContext { ContextType = typeof(NavMenu) } });
+    }
+
+    private void AddTab()
+    {
+        var index = TabContext.TabsItems.Count;
+        var item = new TTabItem { Caption = $"Counter [{index}]", Child = new TContext { ContextType = typeof(Counter) } };
+        TabContext.LoadItem(item);
+    }
+}

@@ -155,25 +155,11 @@
             <h5 class="card-header">导航（Nav）</h5>
             <div class="card-body">
                 <p class="card-text">导航组件</p>
-                <StrapNav DataContext="StrapNavItemContext" IsPill="true" >
+                @*<StrapNav DataContext="StrapNavItemContext" IsPill="true" >
                     <StrapDropdown DataContext="DropdownDemoItem" StyleClass="nav-link" DisableButtonStyle="true" ActionItemTag="@ActionItemTag.a"></StrapDropdown>
-                </StrapNav>
+                </StrapNav>*@
             </div>
         </div>
-    </div>
-</div>
-<div class="row">
-    <div class="col">
-        <div class="card m-2">
-            <h5 class="card-header">标签页（Tab）</h5>
-            <div class="card-body">
-                <p class="card-text">标签页</p>
-                <StrapTab DataContext="@TabContext"></StrapTab>
-            </div>
-        </div>
-    </div>
-    <div class="col">
-
     </div>
 </div>
 <div class="row">
@@ -202,7 +188,6 @@
     protected StrapDropdownMenuItem DropdownDemoItem { get; set; }
     protected StrapPaginationItem PaginationItem { get; set; }
     protected TNavContext StrapNavItemContext { get; set; }
-    protected TTabContext TabContext { get; set; }
 
     string btncode = "<StrapButton Caption=\"Primary\" CommandAction=\"@(()=>BtnClick(\"Primary\"))\" Style=\"@StyleType.primary\" DataContext=\"@(new TagBlockContext { Caption=\"P-1\",CommandAction=()=>BtnClick(\"P-1\")})\"></StrapButton>";
 
@@ -214,7 +199,6 @@
         DropdownDemoItem=GetDropdownDemo();
         InitPagination();
         InitNav();
-        InitTab();
 
         base.OnInitialized();
     }
@@ -350,10 +334,4 @@
         StrapNavItemContext.NavItems.Add(DropdownDemoItem);
     }
 
-    private void InitTab()
-    {
-        TabContext = new TTabContext();
-        TabContext.TabsItems.Add(new TTabItem { Header = new TagBlockContext { Caption = "Counter" }, Child = new TContext { ContextType = typeof(Counter) } });
-        TabContext.TabsItems.Add(new TTabItem { Header = new TagBlockContext { Caption = "Tab 1" }, Child = new TContext { ContextType = typeof(NavMenu) } });
-    }
 }

@@ -14,7 +14,7 @@ namespace Thunder.Blazor.Components
         private TNode dropdownItems;
         private bool showMore;
         private TTabItem moreActivedItem;
-        private TNavContext headers;
+        private TNavContext headers=new TNavContext();
 
         /// <summary>
         /// 最大显示标签数
@@ -59,14 +59,14 @@ namespace Thunder.Blazor.Components
 
         private bool UpdateItems()
         {
-            headers = new TNavContext();
+            headers.NavItems.Clear();
             moreActivedItem = null;
             DataContext.TabsItems = DataContext?.TabsItems.OrderBy(x => x.Index).ToList();
             foreach (var item in DataContext.TabsItems)
             {
-                item.CommandAction = () => TabClick(null);
+                item.CommandAction = () => TabClick(item);
             }
-            LoadDataContext();
+            //LoadDataContext();
 
             var first = DataContext?.TabsItems.FirstOrDefault(x => x.IsActived);
             if (first == null)
@@ -75,7 +75,7 @@ namespace Thunder.Blazor.Components
                 if (first != null)
                 {
                     first.IsActived = true;
-                    first.Header.IsActived = true;
+                    //first.Header.IsActived = true;
                 }
             }
 
@@ -87,35 +87,37 @@ namespace Thunder.Blazor.Components
             }
 
             showItems = DataContext?.TabsItems.Take(showCount).ToList();
-            headers.NavItems.AddRange(showItems.Select(x => x.Header));
+            headers.NavItems.AddRange(showItems.Select(x => (TagBlockContext)x));
             if (!HasItems || DataContext.TabsItems.Count <= showCount) return false;
 
             dropdownItems = new TNode
             {
                 Text = "更多",
             };
-            dropdownItems.ChildNodes = DataContext?.TabsItems.Skip(showCount).Select(x =>
-             new TagBlockContext
-             {
-                 Id = x.Id,
-                 Index = x.Index,
-                 Caption = x.Header.Caption,
-                 IsActived = x.IsActived,
-                 CommandAction = () =>
-                 {
-                     SetActive(x.Id);
-                 }
-             }).ToList();
+            dropdownItems.ChildNodes = DataContext?.TabsItems.Skip(showCount).Select(x =>(TagBlockContext)x
+             //new TagBlockContext
+             //{
+             //    Id = x.Id,
+             //    Index = x.Index,
+             //    Caption = x.Header.Caption,
+             //    IsActived = x.IsActived,
+             //    CommandAction = () =>
+             //    {
+             //        SetActive(x.Id);
+             //    }
+             //}
+             ).ToList();
             headers.NavItems.Add(dropdownItems);
 
             dropdownItems.IsActived = dropdownItems.ChildNodes.FirstOrDefault(x => x.IsActived) != null;
             if (dropdownItems.IsActived)
             {
                 moreActivedItem = DataContext.TabsItems.FirstOrDefault(x => x.IsActived);
-                headers.NavItems.Add(moreActivedItem.Header);
+                headers.NavItems.Add(moreActivedItem);
             }
 
-            
+            //headers.NavItems.Clear();
+            //headers.NavItems = DataContext.TabsItems.Select(x => (TagBlockContext)x).ToList();
 
             return true;
         }
@@ -125,13 +127,13 @@ namespace Thunder.Blazor.Components
             foreach (var item in DataContext.TabsItems)
             {
                 item.IsActived = false;
-                item.Header.IsActived = false;
+                //item.Header.IsActived = false;
             }
             var r = DataContext.TabsItems.FirstOrDefault(x => x.Id == id);
             if (r != null)
             {
                 r.IsActived = true;
-                r.Header.IsActived = true;
+                //r.Header.IsActived = true;
             }
         }
 
@@ -139,14 +141,14 @@ namespace Thunder.Blazor.Components
         {
             var v = (TTabItem)obj;
             SetActive(v.Id);
-            Update();
+            StateHasChanged();
         }
 
         protected void DropTabClick(object obj)
         {
             var v = (TagBlockContext)obj;
             SetActive(v.Id);
-            Update();
+            StateHasChanged();
         }
 
         protected void TabClose(object obj)
@@ -159,6 +161,12 @@ namespace Thunder.Blazor.Components
         {
             LoadItem((TTabItem)value);
         }
+
+        public override void LoadDataContext()
+        {
+            base.LoadDataContext();
+            showMore = UpdateItems();
+        }
     }
 
     public class TTabContext : TContainer
@@ -166,16 +174,13 @@ namespace Thunder.Blazor.Components
         public List<TTabItem> TabsItems { get; set; } = new List<TTabItem>();
     }
 
-    public class TTabItem : TContext
+    public class TTabItem : TagBlockContext
     {
-        /// <summary>
-        /// Id
-        /// </summary>
-        public Guid Id { get; set; }
-        /// <summary>
-        /// 索引
-        /// </summary>
-        public int Index { get; set; }
+        public TTabItem()
+        {
+            Id = Guid.NewGuid();
+        }
+
         /// <summary>
         /// 是否可以关闭
         /// </summary>
@@ -183,6 +188,6 @@ namespace Thunder.Blazor.Components
         /// <summary>
         /// 标签头部
         /// </summary>
-        public TagBlockContext Header { get; set; }
+        //public TagBlockContext Header { get; set; }
     }
 }

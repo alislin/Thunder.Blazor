@@ -1,8 +1,7 @@
-﻿<StrapNav DataContext="StrapNavItemContext" IsPill="true" Alignment="@AlignmentType.center" Brand="Component Sample" StyleClass="bg-dark text-light"></StrapNav>
+﻿<StrapNav DataContext="StrapNavItemContext" IsPill="true" Alignment="@AlignmentType.center" Brand="Component Demo" StyleClass="bg-dark text-light"></StrapNav>
 
 
 <div class="@NavMenuCssClass" @onclick="@ToggleNavMenu">
-    <StrapNav DataContext="StrapNavItemContext" IsVertical="true"></StrapNav>
     <ul class="nav flex-column">
         <li class="nav-item px-3">
             <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
@@ -39,7 +38,8 @@
     {
         StrapNavItemContext = new TNavContext();
         StrapNavItemContext.NavItems.Add(new TagBlockContext { Caption = "Home", CommandAction = () => UriHelper.NavigateTo("/") });
-        StrapNavItemContext.NavItems.Add(new TagBlockContext { Caption = "Counter", CommandAction = () => UriHelper.NavigateTo("/Counter") });
+        StrapNavItemContext.NavItems.Add(new TagBlockContext { Caption = "Tabs", CommandAction = () => UriHelper.NavigateTo("/tabs") });
+        //StrapNavItemContext.NavItems.Add(new TagBlockContext { Caption = "Counter", CommandAction = () => UriHelper.NavigateTo("/Counter") });
 
         base.OnInitialized();
     }
