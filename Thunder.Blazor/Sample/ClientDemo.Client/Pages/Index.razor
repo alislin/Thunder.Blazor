@@ -185,7 +185,7 @@
 
     protected string titleId { get; set; }
     protected string btnClickText { get; set; } = "Click !!! ??";
-    protected StrapDropdownMenuItem DropdownDemoItem { get; set; }
+    protected Node<TagBlockContext> DropdownDemoItem { get; set; }
     protected StrapPaginationItem PaginationItem { get; set; }
     protected TNavContext StrapNavItemContext { get; set; }
 
@@ -246,14 +246,14 @@
         StateHasChanged();
     }
 
-    private StrapDropdownMenuItem GetDropdownDemo()
+    private Node<TagBlockContext> GetDropdownDemo()
     {
-        var dropdown = new StrapDropdownMenuItem
+        var dropdown = new Node<TagBlockContext>(new StrapDropdownMenuItem
         {
             Caption = "下拉菜单演示",
             Style = StyleType.success,
             EnableDefaultMenu = true
-        };
+        });
         dropdown.Add(new StrapDropdownMenuItem
         {
             Caption = "第一项",
@@ -275,12 +275,12 @@
             CommandAction = () => { BtnClick("第三项"); }
         });
 
-        var dropdown2 = new StrapDropdownMenuItem
+        var dropdown2 =new Node<TagBlockContext>( new StrapDropdownMenuItem
         {
             Caption = "二级菜单演示",
             Style = StyleType.success,
             EnableDefaultMenu = true
-        };
+        });
         dropdown2.Add(new StrapDropdownMenuItem
         {
             Caption = "第一项",

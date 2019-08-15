@@ -30,18 +30,20 @@ namespace Thunder.Blazor.Bootstrap
             base.StyleBuild(cssBuilder);
         }
 
-        protected StrapDropdownMenuItem TryGetDropdown(TagBlockContext item)
+        protected Node<TagBlockContext> TryGetDropdown(TagBlockContext item)
         {
             if (IsDropdown(item))
             {
-                return (StrapDropdownMenuItem)item;
+                var v = (Node<TagBlockContext>)item;
+                return v;
             }
             return null;
         }
 
         protected bool IsDropdown(TagBlockContext item)
         {
-            return item.TypeName == "StrapDropdownMenuItem";
+            Log(item.TypeName);
+            return item.TypeName == "StrapDropdownMenuItem" || item.TypeName.Contains("Node");
         }
 
         protected virtual string GetItemCss(TagBlockContext item)

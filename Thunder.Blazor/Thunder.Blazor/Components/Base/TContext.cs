@@ -90,6 +90,9 @@ namespace Thunder.Blazor.Components
         /// 标注信息
         /// </summary>
         public string BadgeInfo { get; set; }
+        public Guid Id { get; set; }
+        public int Index { get; set; }
+        public string Text { get; set; }
 
         /// <summary>
         /// 自动生成参数
@@ -113,7 +116,7 @@ namespace Thunder.Blazor.Components
         /// <typeparam name="TView"></typeparam>
         /// <typeparam name="TModel"></typeparam>
         /// <param name="view"></param>
-        public void SetViewAction<TView,TModel>(TView view) where TView : TComponent<TModel> where TModel:TContext,new()
+        public void SetViewAction<TView>(TView view) where TView : TComponent
         {
             StateHasChanged = view.Update;
             UpdateDataContext = view.UpdateDataContext;

@@ -53,11 +53,11 @@ Include Common Control base class, and interactions associated logic. Separation
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="3.0.0-preview8.19405.7" />
-    <PackageReference Include="Thunder.Standard.Lib" Version="1.0.4" />
     <PackageReference Include="Microsoft.TypeScript.MSBuild" Version="3.6.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Thunder.Standard.Lib" Version="1.0.5" />
   </ItemGroup>
 
 </Project>

@@ -11,7 +11,7 @@ namespace Thunder.Blazor.Components
     public class TTab : TComponentContainer<TTabContext>
     {
         private List<TTabItem> showItems;
-        private TNode dropdownItems;
+        private Node<TagBlockContext> dropdownItems;
         private bool showMore;
         private TTabItem moreActivedItem;
         private TNavContext headers=new TNavContext();
@@ -26,7 +26,7 @@ namespace Thunder.Blazor.Components
         protected bool ShowMore { get => showMore; set => showMore = value; }
 
         protected List<TTabItem> ShowItems { get => showItems; set => showItems = value; }
-        protected TNode DropdownItems { get => dropdownItems; set => dropdownItems = value; }
+        protected Node<TagBlockContext> DropdownItems { get => dropdownItems; set => dropdownItems = value; }
         protected TTabItem MoreActivedItem { get => moreActivedItem; set => moreActivedItem = value; }
         protected TNavContext Headers { get => headers; set => headers = value; }
 
@@ -90,23 +90,22 @@ namespace Thunder.Blazor.Components
             headers.NavItems.AddRange(showItems.Select(x => (TagBlockContext)x));
             if (!HasItems || DataContext.TabsItems.Count <= showCount) return false;
 
-            dropdownItems = new TNode
-            {
-                Text = "更多",
-            };
-            dropdownItems.ChildNodes = DataContext?.TabsItems.Skip(showCount).Select(x =>(TagBlockContext)x
-             //new TagBlockContext
-             //{
-             //    Id = x.Id,
-             //    Index = x.Index,
-             //    Caption = x.Header.Caption,
-             //    IsActived = x.IsActived,
-             //    CommandAction = () =>
-             //    {
-             //        SetActive(x.Id);
-             //    }
-             //}
+            dropdownItems = new Node<TagBlockContext>(new TagBlockContext { Caption = "更多" });
+
+            var menus = DataContext?.TabsItems.Skip(showCount).Select(x =>
+               new TagBlockContext
+               {
+                   Id = x.Id,
+                   Index = x.Index,
+                   Caption = x.Caption,
+                   IsActived = x.IsActived,
+                   CommandAction = () =>
+                   {
+                       SetActive(x.Id);
+                   }
+               }
              ).ToList();
+            dropdownItems.Add(menus);
             headers.NavItems.Add(dropdownItems);
 
             dropdownItems.IsActived = dropdownItems.ChildNodes.FirstOrDefault(x => x.IsActived) != null;
