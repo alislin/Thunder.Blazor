@@ -33,7 +33,7 @@ namespace Thunder.Blazor.Components
         protected override void OnInitialized()
         {
             base.OnInitialized();
-            showMore = UpdateItems();
+            showMore = UpdateHeads();
         }
 
         public override void LoadItem(object obj)
@@ -46,18 +46,16 @@ namespace Thunder.Blazor.Components
             item.Index = max;
             DataContext.TabsItems.Add(item);
             SetActive(item.Id);
-            showMore = UpdateItems();
-            StateHasChanged();
         }
 
         public override void CloseItem(object item)
         {
             var k = DataContext.TabsItems.RemoveAll(x => x.Id == ((TTabItem)item).Id);
-            showMore = UpdateItems();
+            showMore = UpdateHeads();
             StateHasChanged();
         }
 
-        private bool UpdateItems()
+        private bool UpdateHeads()
         {
             headers.NavItems.Clear();
             moreActivedItem = null;
@@ -115,9 +113,6 @@ namespace Thunder.Blazor.Components
                 headers.NavItems.Add(moreActivedItem);
             }
 
-            //headers.NavItems.Clear();
-            //headers.NavItems = DataContext.TabsItems.Select(x => (TagBlockContext)x).ToList();
-
             return true;
         }
 
@@ -126,28 +121,27 @@ namespace Thunder.Blazor.Components
             foreach (var item in DataContext.TabsItems)
             {
                 item.IsActived = false;
-                //item.Header.IsActived = false;
             }
             var r = DataContext.TabsItems.FirstOrDefault(x => x.Id == id);
             if (r != null)
             {
                 r.IsActived = true;
-                //r.Header.IsActived = true;
             }
+
+            showMore = UpdateHeads();
+            StateHasChanged();
         }
 
         protected void TabClick(object obj)
         {
             var v = (TTabItem)obj;
             SetActive(v.Id);
-            StateHasChanged();
         }
 
         protected void DropTabClick(object obj)
         {
             var v = (TagBlockContext)obj;
             SetActive(v.Id);
-            StateHasChanged();
         }
 
         protected void TabClose(object obj)
@@ -164,7 +158,7 @@ namespace Thunder.Blazor.Components
         public override void LoadDataContext()
         {
             base.LoadDataContext();
-            showMore = UpdateItems();
+            showMore = UpdateHeads();
         }
     }
 
