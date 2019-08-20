@@ -78,7 +78,7 @@
                 <p class="card-text"></p>
                 <div class="row">
                     <div class="col">
-                        <StrapDropdown DataContext="@DropdownDemoItem" StyleClass="m-2"></StrapDropdown>
+                        <StrapDropdown DataContext="@DropdownDemoItem" StyleClass="m-2" EnableDefaultMenu="true"></StrapDropdown>
                     </div>
                     <div class="col">
                         <StrapDropdown Caption="1 Dropdown menu" EnableDefaultMenu="true" StyleClass="m-2">
@@ -267,8 +267,8 @@
         dropdown.Add(new StrapDropdownMenuItem
         {
             Caption = "第二项",
-            CommandAction = () => { BtnClick("第二项"); }
-        });
+            CommandAction = () => { BtnClick("第二项"); },IsActived=true
+        });;
         dropdown.Add(new StrapDropdownMenuItem
         {
             Caption = "第三项",
