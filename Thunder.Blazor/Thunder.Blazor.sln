@@ -39,6 +39,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Thunder.Blazor.SweetAlert",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Thunder.Blazor.CssBuilder", "Thunder.Blazor.CssBuilder\Thunder.Blazor.CssBuilder.csproj", "{B19D003E-5A61-4D3F-B593-BA123F8B9B42}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Thunder.Blazor.JQuery", "Thunder.Blazor.JQuery\Thunder.Blazor.JQuery.csproj", "{21801B4A-F118-4053-94F6-92B4333770B2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -93,6 +95,10 @@ Global
 		{B19D003E-5A61-4D3F-B593-BA123F8B9B42}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B19D003E-5A61-4D3F-B593-BA123F8B9B42}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B19D003E-5A61-4D3F-B593-BA123F8B9B42}.Release|Any CPU.Build.0 = Release|Any CPU
+		{21801B4A-F118-4053-94F6-92B4333770B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{21801B4A-F118-4053-94F6-92B4333770B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{21801B4A-F118-4053-94F6-92B4333770B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{21801B4A-F118-4053-94F6-92B4333770B2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -111,6 +117,7 @@ Global
 		{4C623157-01FC-4C94-BDCD-CEBD2A8BAE61} = {CF57C840-C5CD-4E9A-87BF-9A655F04DA2B}
 		{B0F9CCAB-8224-42BC-8FA4-32F723D855F4} = {CF57C840-C5CD-4E9A-87BF-9A655F04DA2B}
 		{B19D003E-5A61-4D3F-B593-BA123F8B9B42} = {CF57C840-C5CD-4E9A-87BF-9A655F04DA2B}
+		{21801B4A-F118-4053-94F6-92B4333770B2} = {CF57C840-C5CD-4E9A-87BF-9A655F04DA2B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9CCFF833-7926-4C38-BE1B-794E12DDC4A7}

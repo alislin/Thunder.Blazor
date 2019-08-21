@@ -1,5 +1,6 @@
 ﻿/* Ceated by Ya Lin. 2019/7/11 14:18:28 */
 
+using Microsoft.AspNetCore.Components;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -11,17 +12,21 @@ namespace Thunder.Blazor.Components
     /// Modal 窗口
     /// </summary>
     /// <typeparam name="TModel"></typeparam>
-    public class TModalBase<TModel>:TComponentContainer<TModel> where TModel:TModalContext,new()
+    public class TModal<TModel>:TComponentContainer<TModel> where TModel:TModalContext,new()
     {
+        [Parameter] public string Title { get; set; }
+        [Parameter] public ComponentParamenter Parameters { get; set; }
+        [Parameter] public ButtonType ButtonType { get; set; }
+
         protected override void OnInitialized()
         {
             DataContext.Show = Show;
             base.OnInitialized();
         }
 
-        protected void Show(TContext value,string caption=null,ButtonType button= ButtonType.OK,string size=null)
+        public void Show(TContext value,string caption=null,ButtonType button= ButtonType.OK)
         {
-            DataContext.Caption = caption ?? value.Caption;
+            DataContext.Caption = caption ?? value?.Caption;
             DataContext.ButtonType = button;
             DataContext.Child = value;
             Show();
@@ -77,7 +82,7 @@ namespace Thunder.Blazor.Components
     public class TModalContext : TContainer
     {
         public ButtonType ButtonType { get; set; }
-        public new Action<TContext, string, ButtonType, string> Show { get; set; }
+        public new Action<TContext, string, ButtonType> Show { get; set; }
 
         public string OKTitle { get; set; } = "确定";
         public string CancelTitle { get; set; } = "取消";

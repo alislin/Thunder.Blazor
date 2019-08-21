@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using Thunder.Blazor.Components;
 using Thunder.Blazor.Libs;
 
 namespace Thunder.Blazor.Extensions
@@ -96,7 +97,7 @@ namespace Thunder.Blazor.Extensions
         {
             var check = list.Where(x => string.IsNullOrWhiteSpace(x)).Count();
             var l = list.Where(x => !string.IsNullOrWhiteSpace(x)).ToList();
-            if (check>0)
+            if (check>0 && skipEmpty)
             {
                 return string.Empty;
             }
@@ -121,5 +122,12 @@ namespace Thunder.Blazor.Extensions
 
         public static CssBuild Add(this CssBuild css, Enum val, bool condition = true)
             => css.Add(val.ToDescriptionString(), condition);
+
+        public static bool IsButtonType(this ButtonType val, ButtonTypeValue tar)
+        {
+            var a = (int)val & (int)tar;
+            return a != 0;
+        }
+
     }
 }

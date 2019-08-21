@@ -13,9 +13,9 @@ namespace Thunder.Blazor.Components
     /// </summary>
     public class TComponent : ComponentBase, IDisposable,IThunderObject,IAnimate, IBehaverComponent,IAttachment
     {
-        private string domId;
-        private CssBuild CssBuild = CssBuild.New;
-        private Random rnd= new Random(DateTime.Now.Millisecond);
+        private readonly string domId;
+        private readonly CssBuild CssBuild = CssBuild.New;
+        private readonly Random rnd= new Random(DateTime.Now.Millisecond);
 
         public TComponent()
         {
@@ -197,16 +197,23 @@ namespace Thunder.Blazor.Components
 
         #endregion
 
-        public virtual void Dispose()
+        // The bulk of the clean-up code is implemented in Dispose(bool)
+        protected virtual void Dispose(bool disposing)
+        {
+        }
+
+        public void Dispose()
         {
             Close();
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
 
         /// <summary>
         /// 日志输入
         /// </summary>
         /// <param name="m"></param>
-        protected void Log(string m)
+        protected static void Log(string m)
         {
             Console.WriteLine(m);
         }
@@ -345,7 +352,6 @@ namespace Thunder.Blazor.Components
 
                 dataContext.DomId = DomId;
                 dataContext.SetViewAction(this);
-                Console.WriteLine($"[UpdateDataContext]:{dataContext.Caption} = {Caption} [Caption]");
             }
             //dataContext.IsVisabled = IsVisabled;
             //dataContext.IsEnabled = IsEnabled;
@@ -373,7 +379,6 @@ namespace Thunder.Blazor.Components
 
                 dataContext.DomId = DomId;
                 dataContext.SetViewAction(this);
-                Console.WriteLine($"[LoadDataContext]:[Caption] {Caption} = {dataContext.Caption} ");
             }
 
             //IsVisabled = dataContext.IsVisabled;
@@ -492,7 +497,7 @@ namespace Thunder.Blazor.Components
             DataContext.OnCommand?.Invoke(this, result);
         }
 
-        public override void Dispose()
+        protected override void Dispose(bool disponsing)
         {
             base.Dispose();
         }

@@ -118,6 +118,10 @@ namespace Thunder.Blazor.Components
         /// <param name="view"></param>
         public void SetViewAction<TView>(TView view) where TView : TComponent
         {
+            if (view == null)
+            {
+                return;
+            }
             StateHasChanged = view.Update;
             UpdateDataContext = view.UpdateDataContext;
             LoadDataContext = view.LoadDataContext;
@@ -129,6 +133,10 @@ namespace Thunder.Blazor.Components
     {
         public static TModel ToViewModel<TModel, TView>(this TModel model) where TModel : TContext
         {
+            if (model == null)
+            {
+                return model;
+            }
             model.ContextType = typeof(TView);
             return model;
         }
@@ -200,27 +208,4 @@ namespace Thunder.Blazor.Components
         public Action<object> CloseItem { get; set; }
     }
 
-    /// <summary>
-    /// 容器组件
-    /// </summary>
-    public abstract class TContainer1<TModel> : TContainer, IBehaver<TModel>
-    {
-        /// <summary>
-        /// 加载
-        /// </summary>
-        public Action<TModel> LoadItem { get; set; }
-        /// <summary>
-        /// 显示 / 激活
-        /// </summary>
-        public Action<TModel> ShowItem { get; set; }
-        /// <summary>
-        /// 关闭
-        /// </summary>
-        public Action<TModel> CloseItem { get; set; }
-    }
-
-    public class TContainer<TModel, TView> : TContainer1<TModel>
-    {
-        public override Type ContextType => typeof(TView);
-    }
 }

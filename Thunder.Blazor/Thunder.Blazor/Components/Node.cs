@@ -24,12 +24,12 @@ namespace Thunder.Blazor.Components
         public bool HasChildNodes => (ChildNodes?.Count ?? 0) > 0;
         public bool IsOpen { get; set; }
         public Action Close { get; set; } = () => { };
-        public void Add(Node<TModel> child, Action action = null)
+        public void Add(Node<TModel> child)
         {
             ChildNodes.Add(child);
         }
 
-        public void Add(TModel item,Action action = null)
+        public void Add(TModel item)
         {
             var child = new Node<TModel>(item);
             ChildNodes.Add(child);
@@ -46,6 +46,10 @@ namespace Thunder.Blazor.Components
         public virtual void SetValue(TModel value)
         {
             context = value;
+            if (value == null)
+            {
+                return;
+            }
             Id = value.Id;
             Index = value.Index;
             Text = value.Text;

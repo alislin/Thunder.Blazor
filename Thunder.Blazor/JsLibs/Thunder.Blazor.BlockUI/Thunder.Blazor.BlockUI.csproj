@@ -37,4 +37,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\Thunder.Blazor.JQuery\Thunder.Blazor.JQuery.csproj" />
+  </ItemGroup>
+
 </Project>

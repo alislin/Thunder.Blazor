@@ -1,5 +1,6 @@
 ﻿@page "/"
 @inherits TComponent
+@using System.Threading
 
 <StrapAlert @ref="alert" IsVisabled="false" StyleClass="m-2"></StrapAlert>
 <div class="row">
@@ -152,12 +153,19 @@
     </div>
     <div class="col">
         <div class="card m-2">
-            <h5 class="card-header">导航（Nav）</h5>
+            <h5 class="card-header">进度条（Progress）</h5>
             <div class="card-body">
-                <p class="card-text">导航组件</p>
-                @*<StrapNav DataContext="StrapNavItemContext" IsPill="true" >
-                    <StrapDropdown DataContext="DropdownDemoItem" StyleClass="nav-link" DisableButtonStyle="true" ActionItemTag="@ActionItemTag.a"></StrapDropdown>
-                </StrapNav>*@
+                <p class="card-text">进度条</p>
+                <StrapProgress StyleClass="m-2" Value="300" Max="900"></StrapProgress>
+                <StrapProgress StyleClass="m-2" Value="420" Max="900" Style="StyleType.danger"></StrapProgress>
+                <StrapProgress StyleClass="m-2" Value="520" Max="900" IsStriped="true"></StrapProgress>
+                <StrapProgress StyleClass="m-2" Value="620" Max="900" IsStriped="true" ShowAnimate="true" Style="StyleType.info"></StrapProgress>
+                <StrapProgress StyleClass="m-2" Value="720" Max="900" ShowValue="true" Style="StyleType.secondary"></StrapProgress>
+                <StrapProgress StyleClass="m-2" Value="820" Max="900" IsStriped="true" ShowAnimate="true" ShowValue="true" Caption="运行中"></StrapProgress>
+                <StrapProgress StyleClass="m-2" Height="1" Value="820" Max="900"></StrapProgress>
+                <p></p>
+                <StrapButton Caption="开始加载 (Try Load)" CommandAction="ProgressDemo"></StrapButton>
+                <StrapProgress StyleClass="m-2" IsStriped="true" ShowAnimate="true" ShowValue="true" @ref="ProgressData" @ref:suppressField></StrapProgress>
             </div>
         </div>
     </div>
@@ -192,6 +200,7 @@
     string btncode = "<StrapButton Caption=\"Primary\" CommandAction=\"@(()=>BtnClick(\"Primary\"))\" Style=\"@StyleType.primary\" DataContext=\"@(new TagBlockContext { Caption=\"P-1\",CommandAction=()=>BtnClick(\"P-1\")})\"></StrapButton>";
 
     //StrapAlert alert;
+    StrapProgress ProgressData;
 
     protected override void OnInitialized()
     {
@@ -334,4 +343,21 @@
         StrapNavItemContext.NavItems.Add(DropdownDemoItem);
     }
 
+    private void ProgressDemo()
+    {
+        var pdata = new TProgressContext { Max = 50 };
+        ProgressData.DataContext = pdata;
+
+        Task.Run(() =>
+        {
+            for (int i = 0; i <= pdata.Max; i++)
+            {
+                pdata.Value = i;
+                pdata.LoadDataContext();
+                pdata.StateHasChanged();
+                Thread.Sleep(100);
+                Log($"ProgressDemo:{i}");
+            }
+        });
+    }
 }

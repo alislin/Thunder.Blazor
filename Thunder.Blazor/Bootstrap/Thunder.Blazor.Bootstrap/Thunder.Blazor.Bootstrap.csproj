@@ -26,6 +26,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="3.0.0-preview8.19405.7" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Thunder.Blazor.JQuery\Thunder.Blazor.JQuery.csproj" />
     <ProjectReference Include="..\..\Thunder.Blazor\Thunder.Blazor.csproj" />
   </ItemGroup>
   <ItemGroup>

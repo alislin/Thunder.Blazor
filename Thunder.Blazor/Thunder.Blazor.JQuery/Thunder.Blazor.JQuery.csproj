@@ -3,9 +3,11 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <Authors>Ya Lin</Authors>
-    <Description>Blazor framework for rapid development of the program.
+    <Description>
+      Blazor framework for rapid development of the program.
 
-Include Common Control base class, and interactions associated logic. Separation of interface and business logic. As a basic framework to use.</Description>
+      Include Common Control base class, and interactions associated logic. Separation of interface and business logic. As a basic framework to use.
+    </Description>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <PackageLicenseFile></PackageLicenseFile>
@@ -20,16 +22,6 @@ Include Common Control base class, and interactions associated logic. Separation
     <Version>0.1.1-alpha</Version>
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Content Remove="_Imports.razor" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Remove="Components\_Imports.razor" />
-    <None Remove="content\cssbuild.js" />
-    <None Remove="content\cssbuild.js.map" />
-  </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="content\**\*.js" LogicalName="blazor:js:%(RecursiveDir)%(Filename)%(Extension)" />
@@ -53,15 +45,10 @@ Include Common Control base class, and interactions associated logic. Separation
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="3.0.0-preview8.19405.7" />
-    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.4">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
     <PackageReference Include="Microsoft.TypeScript.MSBuild" Version="3.6.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Thunder.Standard.Lib" Version="1.0.5" />
   </ItemGroup>
 
 </Project>
