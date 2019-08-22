@@ -61,6 +61,7 @@ Include Common Control base class, and interactions associated logic. Separation
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="PropertyChanged.Fody" Version="3.1.0" />
     <PackageReference Include="Thunder.Standard.Lib" Version="1.0.5" />
   </ItemGroup>
 

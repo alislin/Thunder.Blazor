@@ -164,7 +164,7 @@
                 <StrapProgress StyleClass="m-2" Value="820" Max="900" IsStriped="true" ShowAnimate="true" ShowValue="true" Caption="运行中"></StrapProgress>
                 <StrapProgress StyleClass="m-2" Height="1" Value="820" Max="900"></StrapProgress>
                 <p></p>
-                <StrapButton Caption="开始加载 (Try Load)" CommandAction="ProgressDemo"></StrapButton>
+                <StrapButton Caption="开始加载 (Try Load)" CommandAction="@(async()=> {await ProgressDemo(); })"></StrapButton>
                 <StrapProgress StyleClass="m-2" IsStriped="true" ShowAnimate="true" ShowValue="true" @ref="ProgressData" @ref:suppressField></StrapProgress>
             </div>
         </div>
@@ -343,18 +343,24 @@
         StrapNavItemContext.NavItems.Add(DropdownDemoItem);
     }
 
-    private void ProgressDemo()
+    private async Task ProgressDemo()
     {
-        var pdata = new TProgressContext { Max = 50 };
+        var pdata = new TProgressContext { Max = 30 };
         ProgressData.DataContext = pdata;
+        pdata.Value = (new Random(DateTime.Now.Millisecond)).Next(30);
+        pdata.LoadDataContext();
+        Log($"ProgressDemo:{pdata.Value}");
+        //pdata.StateHasChanged();
+        //return;
 
-        Task.Run(() =>
+        await Task.Run(() =>
         {
             for (int i = 0; i <= pdata.Max; i++)
             {
                 pdata.Value = i;
                 pdata.LoadDataContext();
-                pdata.StateHasChanged();
+                //this.InvokeAsync(pdata.StateHasChanged);
+                //pdata.StateHasChanged();
                 Thread.Sleep(100);
                 Log($"ProgressDemo:{i}");
             }

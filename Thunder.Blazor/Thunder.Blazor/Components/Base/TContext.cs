@@ -9,7 +9,7 @@ namespace Thunder.Blazor.Components
     /// <summary>
     /// 组件数据 (ViewModel)
     /// </summary>
-    public  class TContext: IThunderObject, IVisual, IBaseBehaver,IAttachment
+    public  class TContext:NotifyChanged, IThunderObject, IVisual, IBaseBehaver,IAttachment
     {
         public string DomId { get; set; }
         /// <summary>
