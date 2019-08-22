@@ -35,7 +35,9 @@ namespace Thunder.Blazor.Bootstrap
         [Description("bg")]
         background,
         [Description("list-group-item")]
-        list_group_item
+        list_group_item,
+        [Description("text")]
+        text
     }
 
     public enum ActionItemTag
@@ -104,4 +106,5 @@ namespace Thunder.Blazor.Bootstrap
         [Description("end")]
         end,
     }
+
 }

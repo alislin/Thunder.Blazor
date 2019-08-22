@@ -9,6 +9,7 @@ namespace Thunder.Blazor.Components
         [Parameter] public int Value { get; set; }
         [Parameter] public int Max { get; set; } = 100;
         [Parameter] public int Min { get; set; }
+        protected double Percent => GetProgressPercent();
 
         protected double GetProgressPercent()
         {

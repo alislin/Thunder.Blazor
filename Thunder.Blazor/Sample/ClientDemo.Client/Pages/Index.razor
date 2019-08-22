@@ -345,22 +345,32 @@
 
     private async Task ProgressDemo()
     {
-        var pdata = new TProgressContext { Max = 30 };
+        var pdata = new TProgressContext { Max = 50 };
         ProgressData.DataContext = pdata;
-        pdata.Value = (new Random(DateTime.Now.Millisecond)).Next(30);
-        pdata.LoadDataContext();
-        Log($"ProgressDemo:{pdata.Value}");
-        //pdata.StateHasChanged();
-        //return;
+        pdata.StateHasChanged();
 
         await Task.Run(() =>
         {
             for (int i = 0; i <= pdata.Max; i++)
             {
                 pdata.Value = i;
+                if (i<20)
+                {
+                    pdata.Caption = "开始加载……";
+                }
+                else if (i < pdata.Max - 20){
+                    pdata.Caption = "正在努力加载……";
+                }
+                else if(i<pdata.Max)
+                {
+                    pdata.Caption = "还差一点点";
+                }
+                else
+                {
+                    pdata.Caption = "完成";
+                }
                 pdata.LoadDataContext();
-                //this.InvokeAsync(pdata.StateHasChanged);
-                //pdata.StateHasChanged();
+                this.InvokeAsync(pdata.StateHasChanged);
                 Thread.Sleep(100);
                 Log($"ProgressDemo:{i}");
             }

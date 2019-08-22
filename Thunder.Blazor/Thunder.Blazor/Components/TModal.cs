@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Thunder.Blazor.Models;
+using Thunder.Blazor.Services;
 
 namespace Thunder.Blazor.Components
 {
@@ -14,12 +15,15 @@ namespace Thunder.Blazor.Components
     /// <typeparam name="TModel"></typeparam>
     public class TModal<TModel>:TComponentContainer<TModel> where TModel:TModalContext,new()
     {
+        [Inject] public ModalService ModalService { get; set; }
         [Parameter] public string Title { get; set; }
         [Parameter] public ComponentParamenter Parameters { get; set; }
         [Parameter] public ButtonType ButtonType { get; set; }
 
         protected override void OnInitialized()
         {
+            ModalService.ShowAction = Show;
+            ModalService.ShowContextAction = Show;
             DataContext.Show = Show;
             base.OnInitialized();
         }
@@ -32,9 +36,16 @@ namespace Thunder.Blazor.Components
             Show();
         }
 
+        public void Show(object value)
+        {
+            DataContext = (TModel)value;
+            Show();
+        }
+
         public override void Show()
         {
             DataContext.IsVisabled = true;
+            LoadDataContext();
             StateHasChanged();
         }
 

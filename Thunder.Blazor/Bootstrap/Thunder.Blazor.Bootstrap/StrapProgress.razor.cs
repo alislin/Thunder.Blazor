@@ -36,8 +36,7 @@ namespace Thunder.Blazor.Bootstrap
 
         private new string GetProgressPercent()
         {
-            var p = base.GetProgressPercent();
-            return $"{p.ToString("F1")}%";
+            return $"{Percent.ToString("F1")}%";
         }
 
         protected override void StyleBuild(CssBuild cssBuilder)
