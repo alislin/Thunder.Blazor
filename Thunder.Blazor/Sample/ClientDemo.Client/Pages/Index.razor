@@ -257,59 +257,17 @@
 
     private Node<TagBlockContext> GetDropdownDemo()
     {
-        var dropdown = new Node<TagBlockContext>(new StrapDropdownMenuItem
-        {
-            Caption = "下拉菜单演示",
-            Style = StyleType.success,
-            EnableDefaultMenu = true
-        });
-        dropdown.Add(new StrapDropdownMenuItem
-        {
-            Caption = "第一项",
-            CommandAction = () => { BtnClick("第一项"); }
-        });
-        dropdown.Add(new StrapDropdownMenuItem
-        {
-            Caption = "---",
-            CommandAction = () => { BtnClick("第二项"); }
-        });
-        dropdown.Add(new StrapDropdownMenuItem
-        {
-            Caption = "第二项",
-            CommandAction = () => { BtnClick("第二项"); },IsActived=true
-        });;
-        dropdown.Add(new StrapDropdownMenuItem
-        {
-            Caption = "第三项",
-            CommandAction = () => { BtnClick("第三项"); }
-        });
+        var dropdown = new Node<TagBlockContext>(new StrapDropdownMenuItem { Caption = "下拉菜单演示", Style = StyleType.success, EnableDefaultMenu = true });
+        dropdown.Add(new StrapDropdownMenuItem { Caption = "第一项", CommandAction = () => { BtnClick("第一项"); } });
+        dropdown.Add(new StrapDropdownMenuItem { Caption = "---", CommandAction = () => { BtnClick("第二项"); } });
+        dropdown.Add(new StrapDropdownMenuItem { Caption = "第二项", CommandAction = () => { BtnClick("第二项"); }, IsActived = true });
+        dropdown.Add(new StrapDropdownMenuItem { Caption = "第三项", CommandAction = () => { BtnClick("第三项"); } });
 
-        var dropdown2 =new Node<TagBlockContext>( new StrapDropdownMenuItem
-        {
-            Caption = "二级菜单演示",
-            Style = StyleType.success,
-            EnableDefaultMenu = true
-        });
-        dropdown2.Add(new StrapDropdownMenuItem
-        {
-            Caption = "第一项",
-            CommandAction = () => { BtnClick("第一项"); }
-        });
-        dropdown2.Add(new StrapDropdownMenuItem
-        {
-            Caption = "---",
-            CommandAction = () => { BtnClick("第二项"); }
-        });
-        dropdown2.Add(new StrapDropdownMenuItem
-        {
-            Caption = "第二项",
-            CommandAction = () => { BtnClick("第二项"); }
-        });
-        dropdown2.Add(new StrapDropdownMenuItem
-        {
-            Caption = "第三项",
-            CommandAction = () => { BtnClick("第三项"); }
-        });
+        var dropdown2 = new Node<TagBlockContext>(new StrapDropdownMenuItem { Caption = "二级菜单演示", Style = StyleType.success, EnableDefaultMenu = true });
+        dropdown2.Add(new StrapDropdownMenuItem { Caption = "第一项(2)", CommandAction = () => { BtnClick("第一项(2)"); } });
+        dropdown2.Add(new StrapDropdownMenuItem { Caption = "---", CommandAction = () => { BtnClick("第二项(2)"); } });
+        dropdown2.Add(new StrapDropdownMenuItem { Caption = "第二项(2)", CommandAction = () => { BtnClick("第二项(2)"); } });
+        dropdown2.Add(new StrapDropdownMenuItem { Caption = "第三项(2)", CommandAction = () => { BtnClick("第三项(2)"); } });
 
         dropdown.Add(dropdown2);
 
@@ -351,6 +309,7 @@
 
         await Task.Run(() =>
         {
+            Thread.Sleep(2000);
             for (int i = 0; i <= pdata.Max; i++)
             {
                 pdata.Value = i;
