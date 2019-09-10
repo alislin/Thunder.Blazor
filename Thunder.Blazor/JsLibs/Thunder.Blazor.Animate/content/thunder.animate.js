@@ -48,7 +48,7 @@ var Thunder;
                 Animate: new Animate()
             };
             if (window.ThunderBlazor) {
-                window.ThunderBlazor = __assign({}, window.ThunderBlazor, obj);
+                window.ThunderBlazor = __assign(__assign({}, window.ThunderBlazor), obj);
             }
             else {
                 window.ThunderBlazor = __assign({}, obj);

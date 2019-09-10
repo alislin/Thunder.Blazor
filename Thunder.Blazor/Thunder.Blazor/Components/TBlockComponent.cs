@@ -121,6 +121,4 @@ namespace Thunder.Blazor.Components
         }
 
     }
-
-
 }

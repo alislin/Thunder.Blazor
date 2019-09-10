@@ -12,6 +12,7 @@ namespace Thunder.Blazor.Bootstrap
         protected override void StyleBuild(CssBuild cssBuilder)
         {
             cssBuilder.Add("dropdown-item");
+            base.StyleBuild(cssBuilder);
         }
     }
 }

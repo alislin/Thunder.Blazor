@@ -8,12 +8,11 @@
         {
             foreach (var item in DataContext.NavItems)
             {
-                Log(item.TypeName);
                 <li class="@GetItemCss(item)">
                     @if (IsDropdown(item))
                     {
-                        var r = TryGetDropdown(item);
-                        <StrapDropdown DataContext="r" StyleClass="nav-link" ActionItemTag="@ActionItemTag.a" DisableButtonStyle="true"></StrapDropdown>
+                        var dropdownItem = TryGetDropdown(item);
+                        <StrapDropdown DataContext="dropdownItem" StyleClass="nav-link" ActionItemTag="@ActionItemTag.a" DisableButtonStyle="true" IsActived="item.IsActived" IsEnabled="item.IsEnabled"></StrapDropdown>
                     }
                     else
                     {

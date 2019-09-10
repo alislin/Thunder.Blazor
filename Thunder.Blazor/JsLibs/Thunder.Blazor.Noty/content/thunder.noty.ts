@@ -3,7 +3,7 @@ namespace Thunder.NotyJs {
 
     declare var window: Window & { ThunderBlazor: ThunderBlazor }
 
-    class ThunderBlazor {}
+    class ThunderBlazor { }
 
     export function Init(): void {
         const obj = {
@@ -31,10 +31,10 @@ namespace Thunder.NotyJs {
         public CloseAll() {
             Noty.closeAll();
         }
-        
+
     }
 
-    class NotyData implements  Noty.Options {
+    class NotyData implements Noty.Options {
         text?: string;
         timeout?: number;
         layout?: Noty.Layout;

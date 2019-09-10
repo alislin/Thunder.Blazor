@@ -5,17 +5,15 @@ using Microsoft.JSInterop;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Text;
 using System.Threading.Tasks;
 using Thunder.Blazor.Extensions;
 using Thunder.Blazor.Libs;
-using Thunder.Blazor.Services;
 
 namespace Thunder.Blazor.Services
 {
     public partial class AnimateService
     {
-        private Dictionary<string, (AnimateData data,Task task)> Data = new Dictionary<string, (AnimateData, Task)>();
+        private Dictionary<string, (AnimateData data, ValueTask<object> task)> Data = new Dictionary<string, (AnimateData, ValueTask<object>)>();
 
         public AnimateService(IJSRuntime jsRuntime)
         {
@@ -36,7 +34,7 @@ namespace Thunder.Blazor.Services
         /// <param name="data">动画参数</param>
         /// <param name="callback">动画执行完后回调</param>
         /// <returns></returns>
-        public async Task Start(AnimateData data, Action callback=null)
+        public async Task Start(AnimateData data, Action callback = null)
         {
             await Reset(data);
             //Console.WriteLine($"开始动画。{data.AnimateType.ToString()}");
@@ -58,8 +56,8 @@ namespace Thunder.Blazor.Services
             //{
             //    cb = null;
             //}
-            var task= JsRuntime.InvokeAsync<object>("ThunderBlazor.Animate.Start", new object[] { data, cb });
-            Data.Add(data.id, (data,task));
+            var task = JsRuntime.InvokeAsync<object>("ThunderBlazor.Animate.Start", new object[] { data, cb });
+            Data.Add(data.id, (data, task));
         }
 
         /// <summary>
@@ -72,13 +70,13 @@ namespace Thunder.Blazor.Services
             if (Data.ContainsKey(data.id))
             {
                 var ani = Data[data.id];
-                if (ani.task.Status != TaskStatus.RanToCompletion)
+                if (!ani.task.IsCompleted)
                 {
                     //Console.WriteLine($"等待动画结束。{ani.data.AnimateType.ToString()}");
-                    ani.task.Wait();
+                    ani.task.AsTask().Wait();
                 }
             }
-            if (Data.ContainsKey(data.id)||forceRemove)
+            if (Data.ContainsKey(data.id) || forceRemove)
             {
                 var ani = Data[data.id];
                 await JsRuntime.InvokeAsync<object>("ThunderBlazor.Animate.Reset", ani.data);
@@ -143,7 +141,7 @@ namespace Thunder.Blazor.Services
             //if (!string.IsNullOrWhiteSpace(delay)) result.Add(delay);
             //if (!string.IsNullOrWhiteSpace(speed)) result.Add(speed);
             //if (result.Count > 0) result.Add("animated");
-            return css.CssList.ToArray() ;
+            return css.CssList.ToArray();
         }
 
         public new string ToString()
@@ -238,14 +236,14 @@ namespace Thunder.Blazor.Services
         [Description("")]
         delay1s = 1,
         [Description("delay-2s")]
-        delay2s=2,   //2s
+        delay2s = 2,   //2s
         [Description("delay-3s")]
-        delay3s=3,   //3s
+        delay3s = 3,   //3s
         [Description("delay-4s")]
-        delay4s=4,   //4s
+        delay4s = 4,   //4s
         [Description("delay-5s")]
-        delay5s=5,    //5s
-        keepalways=9999
+        delay5s = 5,    //5s
+        keepalways = 9999
     }
 
     public enum Speed

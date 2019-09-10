@@ -2,7 +2,9 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Text;
+using Thunder.Standard.Lib.Extension;
 
 namespace Thunder.Blazor.Components
 {
@@ -11,13 +13,16 @@ namespace Thunder.Blazor.Components
     /// </summary>
     public class TagBlockContext : TContext
     {
-        public Guid Id { get; set; }
-        public int Index { get; set; }
-        public string Text { get; set; }
         public string Icon { get; set; }
         public int Count { get; set; }
+    }
 
-        //public virtual void Close() { }
+    /// <summary>
+    /// 多级节点标签
+    /// </summary>
+    public class TagBlockNode : Node<TagBlockContext>
+    {
+
     }
 
     /// <summary>
@@ -31,6 +36,7 @@ namespace Thunder.Blazor.Components
         public bool HasChildNodes => (ChildNodes?.Count ?? 0) > 0;
 
         public bool IsOpen { get; set; }
+
     }
 
     /// <summary>
@@ -47,6 +53,6 @@ namespace Thunder.Blazor.Components
         }
     }
 
-    public class TNode : TNodeBase<TagBlockContext> { }
+    public class TNode : TNode<TNode> { }
 
 }

@@ -1,0 +1,14 @@
+﻿@inherits StrapProgressBase
+    <div class="@CssStyle" style="@CssHeight">
+        <div class="@CssProgress" style="width: @ProgressPercent">
+            @if (ShowLabel)
+            {
+                @Caption
+            }
+
+            @if (ShowValue)
+            {
+                @ProgressPercent
+            }
+        </div>
+    </div>

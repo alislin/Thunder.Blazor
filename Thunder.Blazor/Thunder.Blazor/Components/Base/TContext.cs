@@ -9,7 +9,7 @@ namespace Thunder.Blazor.Components
     /// <summary>
     /// 组件数据 (ViewModel)
     /// </summary>
-    public  class TContext: IThunderObject, IVisual, IBaseBehaver,IAttachment
+    public  class TContext:NotifyChanged, IThunderObject, IVisual, IBaseBehaver,IAttachment
     {
         public string DomId { get; set; }
         /// <summary>
@@ -90,6 +90,9 @@ namespace Thunder.Blazor.Components
         /// 标注信息
         /// </summary>
         public string BadgeInfo { get; set; }
+        public Guid Id { get; set; }
+        public int Index { get; set; }
+        public string Text { get; set; }
 
         /// <summary>
         /// 自动生成参数
@@ -113,8 +116,12 @@ namespace Thunder.Blazor.Components
         /// <typeparam name="TView"></typeparam>
         /// <typeparam name="TModel"></typeparam>
         /// <param name="view"></param>
-        public void SetViewAction<TView,TModel>(TView view) where TView : TComponent<TModel> where TModel:TContext,new()
+        public void SetViewAction<TView>(TView view) where TView : TComponent
         {
+            if (view == null)
+            {
+                return;
+            }
             StateHasChanged = view.Update;
             UpdateDataContext = view.UpdateDataContext;
             LoadDataContext = view.LoadDataContext;
@@ -126,6 +133,10 @@ namespace Thunder.Blazor.Components
     {
         public static TModel ToViewModel<TModel, TView>(this TModel model) where TModel : TContext
         {
+            if (model == null)
+            {
+                return model;
+            }
             model.ContextType = typeof(TView);
             return model;
         }
@@ -197,27 +208,4 @@ namespace Thunder.Blazor.Components
         public Action<object> CloseItem { get; set; }
     }
 
-    /// <summary>
-    /// 容器组件
-    /// </summary>
-    public abstract class TContainer1<TModel> : TContainer, IBehaver<TModel>
-    {
-        /// <summary>
-        /// 加载
-        /// </summary>
-        public Action<TModel> LoadItem { get; set; }
-        /// <summary>
-        /// 显示 / 激活
-        /// </summary>
-        public Action<TModel> ShowItem { get; set; }
-        /// <summary>
-        /// 关闭
-        /// </summary>
-        public Action<TModel> CloseItem { get; set; }
-    }
-
-    public class TContainer<TModel, TView> : TContainer1<TModel>
-    {
-        public override Type ContextType => typeof(TView);
-    }
 }

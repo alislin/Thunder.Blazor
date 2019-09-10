@@ -11,7 +11,7 @@ using Thunder.Blazor.Services;
 
 namespace Thunder.Blazor.Bootstrap
 {
-    public class StrapDropdownBase : TBlockComponent<StrapDropdownMenuItem>
+    public class StrapDropdownBase : TNodeComponent<TagBlockContext>
     {
         [Parameter] public ActionItemTag ActionItemTag { get; set; }
         /// <summary>
@@ -86,13 +86,13 @@ namespace Thunder.Blazor.Bootstrap
 
         public override void UpdateDataContext()
         {
-            DataContext.EnableDefaultMenu = EnableDefaultMenu;
+            //DataContext.EnableDefaultMenu = EnableDefaultMenu;
             base.UpdateDataContext();
         }
 
         public override void LoadDataContext()
         {
-            EnableDefaultMenu = DataContext.EnableDefaultMenu;
+            //EnableDefaultMenu = DataContext.EnableDefaultMenu;
             base.LoadDataContext();
         }
 
@@ -104,7 +104,7 @@ namespace Thunder.Blazor.Bootstrap
 
     }
 
-    public class StrapDropdownMenuItem : TNode<StrapDropdownMenuItem>
+    public class StrapDropdownMenuItem : TagBlockContext
     {
         /// <summary>
         /// 默认菜单操作，独立的下拉按钮

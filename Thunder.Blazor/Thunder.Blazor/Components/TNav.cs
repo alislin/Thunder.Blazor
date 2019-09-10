@@ -25,6 +25,7 @@ namespace Thunder.Blazor.Components
         public virtual void SetActice(TagBlockContext item)
         {
             NavItems.ForEach(x => x.IsActived = item.DomId == x.DomId);
+            LoadDataContext();
         }
     }
 

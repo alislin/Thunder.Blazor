@@ -5,7 +5,7 @@
     <div class="tab-content">
         @foreach (var item in DataContext.TabsItems)
         {
-            <StrapContent StyleClass="tab-pane fade" DataContext="@item"></StrapContent>
+            <StrapContent StyleClass="tab-pane fade" DataContext="@item" IsActived="item.IsActived" IsEnabled="item.IsEnabled" IsVisabled="item.IsVisabled"></StrapContent>
         }
     </div>
 }
