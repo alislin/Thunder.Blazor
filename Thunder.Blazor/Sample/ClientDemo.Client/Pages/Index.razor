@@ -19,10 +19,10 @@
                 <StrapButton Caption="Link" CommandAction="@(()=>BtnClick("Link"))" Style="@StyleType.link"></StrapButton>
                 <StrapButton Caption="Success" CommandAction="@(()=>BtnClick("Success Outline"))" Style="@StyleType.success" Outline="true"></StrapButton>
                 @*<div class="highlight">
-                    <pre>
-                        <code class="html" data-lang="html">@btncode</code>
-                    </pre>
-                </div>*@
+                        <pre>
+                            <code class="html" data-lang="html">@btncode</code>
+                        </pre>
+                    </div>*@
             </div>
         </div>
     </div>
@@ -165,7 +165,7 @@
                 <StrapProgress StyleClass="m-2" Height="1" Value="820" Max="900"></StrapProgress>
                 <p></p>
                 <StrapButton Caption="开始加载 (Try Load)" CommandAction="@(async()=> {await ProgressDemo(); })"></StrapButton>
-                <StrapProgress StyleClass="m-2" IsStriped="true" ShowAnimate="true" ShowValue="true" @ref="ProgressData" @ref:suppressField></StrapProgress>
+                <StrapProgress StyleClass="m-2" IsStriped="true" ShowAnimate="true" ShowValue="true" @ref="ProgressData"></StrapProgress>
             </div>
         </div>
     </div>
@@ -199,26 +199,27 @@
 
     string btncode = "<StrapButton Caption=\"Primary\" CommandAction=\"@(()=>BtnClick(\"Primary\"))\" Style=\"@StyleType.primary\" DataContext=\"@(new TagBlockContext { Caption=\"P-1\",CommandAction=()=>BtnClick(\"P-1\")})\"></StrapButton>";
 
-    //StrapAlert alert;
+    StrapAlert alert;
     StrapProgress ProgressData;
 
     protected override void OnInitialized()
     {
         titleId = NewId();
-        DropdownDemoItem=GetDropdownDemo();
+        DropdownDemoItem = GetDropdownDemo();
         InitPagination();
         InitNav();
 
         base.OnInitialized();
     }
 
-    protected override void OnAfterRender()
+    protected override void OnAfterRender(bool firstRender)
     {
-        base.OnAfterRender();
-        jSRuntime.InvokeAsync<object>("hljs.initHighlightingOnLoad()", null);
+        base.OnAfterRender(firstRender);
+        if (firstRender)
+            jSRuntime.InvokeAsync<object>("hljs.initHighlightingOnLoad()", null);
     }
 
-    private void BtnClick(string text,Action action=null)
+    private void BtnClick(string text, Action action = null)
     {
         btnClickText = $"Click button <large><strong>{text}</strong></large>";
         action?.Invoke();
@@ -250,7 +251,8 @@
 
     }
 
-    private void DropdownDemo(){
+    private void DropdownDemo()
+    {
         btnClickText = $"Click button <large><strong>下拉菜单[{DateTime.Now}]</strong></large>";
         StateHasChanged();
     }
@@ -295,9 +297,9 @@
         {
             NavItems = new List<TagBlockContext>()
         };
-        StrapNavItemContext.NavItems.Add(new TagBlockContext { Caption = "导航 1", CommandAction = () => BtnClick($"导航 1"),IsActived=true });
+        StrapNavItemContext.NavItems.Add(new TagBlockContext { Caption = "导航 1", CommandAction = () => BtnClick($"导航 1"), IsActived = true });
         StrapNavItemContext.NavItems.Add(new TagBlockContext { Caption = "导航 2", CommandAction = () => BtnClick($"导航 2") });
-        StrapNavItemContext.NavItems.Add(new TagBlockContext { Caption = "导航 3", CommandAction = () => BtnClick($"导航 3"),IsEnabled=false });
+        StrapNavItemContext.NavItems.Add(new TagBlockContext { Caption = "导航 3", CommandAction = () => BtnClick($"导航 3"), IsEnabled = false });
         StrapNavItemContext.NavItems.Add(DropdownDemoItem);
     }
 
@@ -313,14 +315,15 @@
             for (int i = 0; i <= pdata.Max; i++)
             {
                 pdata.Value = i;
-                if (i<20)
+                if (i < 20)
                 {
                     pdata.Caption = "开始加载……";
                 }
-                else if (i < pdata.Max - 20){
+                else if (i < pdata.Max - 20)
+                {
                     pdata.Caption = "正在努力加载……";
                 }
-                else if(i<pdata.Max)
+                else if (i < pdata.Max)
                 {
                     pdata.Caption = "还差一点点";
                 }

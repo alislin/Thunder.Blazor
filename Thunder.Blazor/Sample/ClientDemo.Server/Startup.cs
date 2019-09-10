@@ -1,10 +1,9 @@
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Newtonsoft.Json.Serialization;
 using System;
 using System.Linq;
 using System.Net.Http;
@@ -38,10 +37,10 @@ namespace ClientDemo.Server
                 services.AddScoped<HttpClient>(s =>
                 {
                     // Creating the URI helper needs to wait until the JS Runtime is initialized, so defer it.
-                    var uriHelper = s.GetRequiredService<IUriHelper>();
+                    var uriHelper = s.GetRequiredService<NavigationManager>();
                     return new HttpClient
                     {
-                        BaseAddress = new Uri(uriHelper.GetBaseUri())
+                        BaseAddress = new Uri(uriHelper.BaseUri)
                     };
                 });
                 services.AddComponentServiceScoped()
@@ -69,7 +68,8 @@ namespace ClientDemo.Server
             app.UseEndpoints(endpoints =>
             {
                 #region Add Server mode
-                endpoints.MapBlazorHub<ClientDemo.Client.App>("app");
+                //endpoints.MapBlazorHub<ClientDemo.Client.App>("app");
+                endpoints.MapBlazorHub();
                 #endregion
 
                 endpoints.MapDefaultControllerRoute();

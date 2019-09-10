@@ -2,7 +2,6 @@
 
 using Microsoft.AspNetCore.Components;
 using System;
-using System.Collections.Generic;
 using Thunder.Blazor.Libs;
 using Thunder.Blazor.Models;
 
@@ -11,11 +10,11 @@ namespace Thunder.Blazor.Components
     /// <summary>
     /// 子组件基类 (View)
     /// </summary>
-    public class TComponent : ComponentBase, IDisposable,IThunderObject,IAnimate, IBehaverComponent,IAttachment
+    public class TComponent : ComponentBase, IDisposable, IThunderObject, IAnimate, IBehaverComponent, IAttachment
     {
         private readonly string domId;
         private readonly CssBuild CssBuild = CssBuild.New;
-        private readonly Random rnd= new Random(DateTime.Now.Millisecond);
+        private readonly Random rnd = new Random(DateTime.Now.Millisecond);
 
         public TComponent()
         {
@@ -66,7 +65,7 @@ namespace Thunder.Blazor.Components
         /// <summary>
         /// 进入动画
         /// </summary>
-        [Parameter] public string AnimateEnter{ get; set; }
+        [Parameter] public string AnimateEnter { get; set; }
         /// <summary>
         /// 退出动画
         /// </summary>
@@ -223,7 +222,7 @@ namespace Thunder.Blazor.Components
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        public string NewId(string key=null)
+        public string NewId(string key = null)
         {
             key = string.IsNullOrWhiteSpace(key) ? "t" : key;
             var r = rnd.Next(9999999).ToString("0000000");
@@ -235,12 +234,11 @@ namespace Thunder.Blazor.Components
             return base.ShouldRender();
         }
 
-        protected override void OnAfterRender()
+        protected override void OnAfterRender(bool firstRender)
         {
-            base.OnAfterRender();
-            if (!InitLoaded)
+            base.OnAfterRender(firstRender);
+            if (firstRender)
             {
-                InitLoaded = true;
                 OnShowed?.Invoke(this, new EventArgs());
             }
         }
@@ -292,7 +290,8 @@ namespace Thunder.Blazor.Components
     {
         protected TModel dataContext = new TModel();
 
-        [Parameter] public TModel DataContext
+        [Parameter]
+        public TModel DataContext
         {
             get
             {
@@ -320,12 +319,12 @@ namespace Thunder.Blazor.Components
         /// </summary>
         /// <param name="child">子组件数据</param>
         public virtual void SetChild(TContext child) { }
-     
+
         /// <summary>
         /// 设置子组件
         /// </summary>
         /// <param name="child">子组件数据</param>
-        protected void SetChild<T,V>(T child,V data) where T : TContext where V : TContext
+        protected void SetChild<T, V>(T child, V data) where T : TContext where V : TContext
         {
             data.Child = child;
             ChildContent = data.Child.ContextFragment;
@@ -335,7 +334,7 @@ namespace Thunder.Blazor.Components
         /// <summary>
         /// Udpate DataContext from view
         /// </summary>
-        protected virtual void UpdateDataContext<T>(T dataContext) where T:TContext
+        protected virtual void UpdateDataContext<T>(T dataContext) where T : TContext
         {
             if (dataContext != null)
             {

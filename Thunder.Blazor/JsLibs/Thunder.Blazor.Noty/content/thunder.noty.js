@@ -24,7 +24,7 @@ var Thunder;
                 Noty: new NotyWrap()
             };
             if (window.ThunderBlazor) {
-                window.ThunderBlazor = __assign({}, window.ThunderBlazor, obj);
+                window.ThunderBlazor = __assign(__assign({}, window.ThunderBlazor), obj);
             }
             else {
                 window.ThunderBlazor = __assign({}, obj);
@@ -56,4 +56,3 @@ var Thunder;
     })(NotyJs = Thunder.NotyJs || (Thunder.NotyJs = {}));
 })(Thunder || (Thunder = {}));
 Thunder.NotyJs.Init();
-//# sourceMappingURL=thunder.noty.js.map

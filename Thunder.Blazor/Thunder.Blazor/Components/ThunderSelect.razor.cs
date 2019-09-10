@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Thunder.Blazor.Components;
 using Thunder.Standard.Lib.Model;
 
 namespace Thunder.Blazor.Components
@@ -11,7 +10,6 @@ namespace Thunder.Blazor.Components
     {
         private SelectOption selectedItem;
         private string selectvalue;
-        private bool InitSelected;
 
         [Parameter] public EventCallback<string> SelectedValueChanged { get; set; }
         [Parameter] public EventCallback<SelectOption> SelectedItemChanged { get; set; }
@@ -28,7 +26,7 @@ namespace Thunder.Blazor.Components
             get => selectedItem?.Value;
             set
             {
-                if (selectedItem?.Value!=value)
+                if (selectedItem?.Value != value)
                 {
                     SetSelectValue(value);
                 }
@@ -58,18 +56,16 @@ namespace Thunder.Blazor.Components
         protected override void OnInitialized()
         {
             base.OnInitialized();
-            InitSelected = true;
             selectvalue = DataContext.Items.FirstOrDefault(x => x.Selected).Value;
         }
 
-        protected override void OnAfterRender()
+        protected override void OnAfterRender(bool firstRender)
         {
-            if (InitSelected)
+            if (firstRender)
             {
                 SelectedValue = selectvalue;
-                InitSelected = false;
             }
-            base.OnAfterRender();
+            base.OnAfterRender(firstRender);
         }
 
         protected void SetSelectValue(string s)

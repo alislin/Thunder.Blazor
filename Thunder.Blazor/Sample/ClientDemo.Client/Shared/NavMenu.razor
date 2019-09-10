@@ -23,7 +23,7 @@
 
 @code {
     bool collapseNavMenu = true;
-    [Inject] public IUriHelper UriHelper { get; set; }
+    [Inject] public NavigationManager UriHelper { get; set; }
 
     string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
 

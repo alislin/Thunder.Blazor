@@ -40,9 +40,9 @@ namespace Thunder.Blazor.Services
     public static class JsCallbackext
     {
 
-        public static DotNetObjectRef<T> ToObjectRef<T>(this T obj) where T : class
+        public static DotNetObjectReference<T> ToObjectRef<T>(this T obj) where T : class
         {
-            return DotNetObjectRef.Create<T>(obj);
+            return DotNetObjectReference.Create<T>(obj);
         }
     }
 }
