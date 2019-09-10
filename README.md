@@ -1,5 +1,5 @@
 # Thunder.Blazor
-![](https://img.shields.io/badge/.NetCore%203.0-SDK%203.0.100--preview7--012821-sucess)
+![](https://img.shields.io/badge/.NetCore%203.0-preview9-sucess)
 
 | Components               | Version                                                                              |
 | ------------------------ | ------------------------------------------------------------------------------------ |

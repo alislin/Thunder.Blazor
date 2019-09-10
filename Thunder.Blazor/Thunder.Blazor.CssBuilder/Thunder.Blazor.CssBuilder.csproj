@@ -19,7 +19,7 @@
     <PackageProjectUrl>https://github.com/alislin/Thunder.Blazor</PackageProjectUrl>
     <Copyright>Copyright by Ya Lin</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <Version>0.1.2-alpha</Version>
+    <Version>0.1.3-alpha</Version>
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
   </PropertyGroup>
   

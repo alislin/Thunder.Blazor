@@ -56,3 +56,4 @@ var Thunder;
     })(NotyJs = Thunder.NotyJs || (Thunder.NotyJs = {}));
 })(Thunder || (Thunder = {}));
 Thunder.NotyJs.Init();
+//# sourceMappingURL=thunder.noty.js.map
