@@ -16,4 +16,5 @@ namespace Thunder.Blazor.Services
         void Show(object item);
         void Show(TContext item, string caption = "", ButtonType actionButton = ButtonType.OK);
     }
+
 }

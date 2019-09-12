@@ -500,5 +500,6 @@ namespace Thunder.Blazor.Components
         {
             base.Dispose();
         }
+
     }
 }

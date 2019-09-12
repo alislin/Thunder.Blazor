@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace Thunder.Blazor.Libs
@@ -9,11 +8,11 @@ namespace Thunder.Blazor.Libs
     {
         public static CssBuild New => new CssBuild();
 
-        public List<string> CssList { get;protected set; } = new List<string>();
+        public List<string> CssList { get; protected set; } = new List<string>();
         public List<string> CssAdd { get; protected set; } = new List<string>();
         public List<string> CssRemove { get; protected set; } = new List<string>();
 
-        public string CssString=> string.Join(" ", CssList);
+        public string CssString => string.Join(" ", CssList);
 
         public CssBuild Reset()
         {
@@ -32,7 +31,7 @@ namespace Thunder.Blazor.Libs
         {
             if (!condition) return this;
             Build();
-            if (CssList.Count==0) return this;
+            if (CssList.Count == 0) return this;
 
             return Add(css);
         }
@@ -59,7 +58,7 @@ namespace Thunder.Blazor.Libs
         /// <returns></returns>
         public CssBuild Add(string css, bool condition = true)
         {
-            if (!condition|| string.IsNullOrWhiteSpace(css)) return this;
+            if (!condition || string.IsNullOrWhiteSpace(css)) return this;
             var csslist = new List<string>();
             var list = css.Split(' ');
             foreach (var item in list)
@@ -84,6 +83,12 @@ namespace Thunder.Blazor.Libs
             return this;
         }
 
+        /// <summary>
+        /// 移除 Css 列表
+        /// </summary>
+        /// <param name="css"></param>
+        /// <param name="condition"></param>
+        /// <returns></returns>
         public CssBuild Remove(IList<string> css, bool condition = true)
         {
             if (!condition) return this;
@@ -91,6 +96,12 @@ namespace Thunder.Blazor.Libs
             return this;
         }
 
+        /// <summary>
+        /// 移除 Css 列表
+        /// </summary>
+        /// <param name="css"></param>
+        /// <param name="condition"></param>
+        /// <returns></returns>
         public CssBuild Remove(string css, bool condition = true)
         {
             if (!condition || string.IsNullOrWhiteSpace(css)) return this;
@@ -104,6 +115,22 @@ namespace Thunder.Blazor.Libs
                 }
             }
             return Remove(csslist);
+        }
+
+        /// <summary>
+        /// 开关 Css 项目
+        /// </summary>
+        /// <param name="css"></param>
+        /// <param name="condition"></param>
+        /// <returns></returns>
+        public CssBuild Toggle(IList<string> css, bool condition = true)
+        {
+            if (!condition) return this;
+            var cRemove = CssAdd.Intersect(css).ToList();
+            var cAdd = CssRemove.Intersect(css).ToList();
+            CssAdd.AddRange(cAdd);
+            CssRemove.AddRange(cRemove);
+            return this;
         }
 
         /// <summary>
