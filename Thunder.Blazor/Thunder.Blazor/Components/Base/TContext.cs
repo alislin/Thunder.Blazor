@@ -9,7 +9,7 @@ namespace Thunder.Blazor.Components
     /// <summary>
     /// 组件数据 (ViewModel)
     /// </summary>
-    public  class TContext:NotifyChanged, IThunderObject, IVisual, IBaseBehaver,IAttachment
+    public class TContext : NotifyChanged, IThunderObject, IVisual, IBaseBehaver, IAttachment
     {
         public string DomId { get; set; }
         /// <summary>
@@ -20,7 +20,7 @@ namespace Thunder.Blazor.Components
         /// <summary>
         /// 组件类型
         /// </summary>
-        public virtual Type ContextType { get;  set; }
+        public virtual Type ContextType { get; set; }
         /// <summary>
         /// 子组件数据
         /// </summary>
@@ -104,7 +104,7 @@ namespace Thunder.Blazor.Components
             return p;
         }
 
-        public T OnAction<T>(Action action) where T:TContext
+        public T OnAction<T>(Action action) where T : TContext
         {
             CommandAction = action;
             return (T)this;
@@ -206,6 +206,10 @@ namespace Thunder.Blazor.Components
         /// 关闭
         /// </summary>
         public Action<object> CloseItem { get; set; }
+        /// <summary>
+        /// 取消
+        /// </summary>
+        public Action<object> Cancel { get; set; }
     }
 
 }

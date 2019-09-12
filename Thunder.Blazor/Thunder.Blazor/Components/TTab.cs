@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Components;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace Thunder.Blazor.Components
 {
@@ -14,7 +13,7 @@ namespace Thunder.Blazor.Components
         private Node<TagBlockContext> dropdownItems;
         private bool showMore;
         private TTabItem moreActivedItem;
-        private TNavContext headers=new TNavContext();
+        private TNavContext headers = new TNavContext();
 
         /// <summary>
         /// 最大显示标签数
@@ -159,6 +158,11 @@ namespace Thunder.Blazor.Components
         {
             base.LoadDataContext();
             showMore = UpdateHeads();
+        }
+
+        public override void Show(object item = null)
+        {
+            throw new NotImplementedException();
         }
     }
 

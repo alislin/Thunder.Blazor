@@ -2,8 +2,6 @@
 
 using NUnit.Framework;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using Thunder.Blazor.Components;
 using Thunder.Blazor.Models;
 
@@ -15,7 +13,7 @@ namespace ThunderBlazorTest.Components
         TestComponent tcc;
 
         [SetUp]
-        public  void Init()
+        public void Init()
         {
             tcc = new TestComponent();
             tc = new TestContent { Caption = "OK" };
@@ -54,6 +52,9 @@ namespace ThunderBlazorTest.Components
 
     class TestComponent : TComponentContainer<TestContent>
     {
-
+        public override void Show(object item = null)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -2,8 +2,6 @@
 
 using Microsoft.AspNetCore.Components;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using Thunder.Blazor.Models;
 using Thunder.Blazor.Services;
 
@@ -13,22 +11,25 @@ namespace Thunder.Blazor.Components
     /// Modal 窗口
     /// </summary>
     /// <typeparam name="TModel"></typeparam>
-    public class TModal<TModel>:TComponentContainer<TModel> where TModel:TModalContext,new()
+    public class TModal<TModel> : TComponentContainer<TModel> where TModel : TModalContext, new()
     {
-        [Inject] public ModalService ModalService { get; set; }
+        //[Inject] public ModalService ModalService { get; set; }
         [Parameter] public string Title { get; set; }
         [Parameter] public ComponentParamenter Parameters { get; set; }
         [Parameter] public ButtonType ButtonType { get; set; }
 
         protected override void OnInitialized()
         {
-            ModalService.ShowAction = Show;
-            ModalService.ShowContextAction = Show;
+            IsVisabled = false;
+            PageType = PageTypes.Modal.ToString();
+            UpdateDataContext();
+            //ModalService.ShowAction = Show;
+            //ModalService.ShowContextAction = Show;
             DataContext.Show = Show;
             base.OnInitialized();
         }
 
-        public void Show(TContext value,string caption=null,ButtonType button= ButtonType.OK)
+        public void Show(TContext value, string caption = null, ButtonType button = ButtonType.OK)
         {
             DataContext.Caption = caption ?? value?.Caption;
             DataContext.ButtonType = button;
@@ -36,9 +37,9 @@ namespace Thunder.Blazor.Components
             Show();
         }
 
-        public void Show(object value)
+        public override void Show(object value)
         {
-            DataContext = (TModel)value;
+            DataContext.Child = (TContext)value;
             Show();
         }
 
@@ -57,6 +58,12 @@ namespace Thunder.Blazor.Components
         public override void Close()
         {
             Close(ContextResult.Cancel());
+        }
+
+        public override void Load(object item = null)
+        {
+            var value = (TContext)item;
+            Show(value);
         }
 
         protected virtual void Close(ContextResult result)
@@ -129,7 +136,7 @@ namespace Thunder.Blazor.Components
         /// <param name="bvalue"></param>
         /// <param name="title"></param>
         /// <returns></returns>
-        protected TModalContext SetAction(Action action,ButtonTypeValue bvalue,string title=null)
+        protected TModalContext SetAction(Action action, ButtonTypeValue bvalue, string title = null)
         {
             title = string.IsNullOrWhiteSpace(title) ? null : title;
             switch (bvalue)

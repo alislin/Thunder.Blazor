@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Components;
 using System;
 using Thunder.Blazor.Libs;
 using Thunder.Blazor.Models;
+using Thunder.Blazor.Services;
 
 namespace Thunder.Blazor.Components
 {
@@ -473,22 +474,33 @@ namespace Thunder.Blazor.Components
     /// 带容器的组件
     /// </summary>
     /// <typeparam name="TModel"></typeparam>
-    public class TComponentContainer<TModel> : TComponent<TModel> where TModel : TContainer, new()
+    public abstract class TComponentContainer<TModel> : TComponent<TModel>, IPageService where TModel : TContainer, new()
     {
+        public string ServiceId { get; set; }
+        public string PageType { get; set; }
+
         public virtual void LoadItem(object value) { }
         public virtual void ShowItem(object value) { }
         public virtual void CloseItem(object value) { }
 
+        [Inject] PageServiceRegister PageServiceRegister { get; set; }
+
         protected override void OnInitialized()
         {
             base.OnInitialized();
+
+            ServiceId = DomId;
+            PageServiceRegister.Regist(this);
+
             DataContext.Load = Load;
             DataContext.Show = Show;
             DataContext.Close = Close;
 
-            DataContext.LoadItem = LoadItem;
-            DataContext.ShowItem = ShowItem;
-            DataContext.CloseItem = CloseItem;
+            DataContext.LoadItem = Load;
+            DataContext.ShowItem = Show;
+            DataContext.CloseItem = Close;
+            DataContext.Cancel = Cancel;
+
         }
 
         public virtual void DoCommand(ContextResult result)
@@ -498,8 +510,30 @@ namespace Thunder.Blazor.Components
 
         protected override void Dispose(bool disponsing)
         {
+            PageServiceRegister.UnRegist(ServiceId);
             base.Dispose();
         }
 
+        public abstract void Show(object item = null);
+
+        //public virtual void Show(object item = null)
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+        public virtual void Cancel(object item = null)
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual void Close(object item = null)
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual void Load(object item = null)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

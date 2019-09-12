@@ -10,7 +10,7 @@
         {
             @DataContext?.Text
         }
-        <button type="button" class="close" @onclick="@Close">
+        <button type="button" class="close" @onclick="@(() => { Close();})">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>

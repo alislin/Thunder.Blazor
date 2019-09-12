@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Thunder.Blazor.Services
 {
@@ -13,7 +14,7 @@ namespace Thunder.Blazor.Services
         public List<IPageService> PageServices { get; } = new List<IPageService>();
         public void Regist(IPageService pageService)
         {
-            if (PageServices.Find(x => x.ServiceId == pageService.ServiceId) != null)
+            if (PageServices.FirstOrDefault(x => x.ServiceId == pageService.ServiceId) != null)
             {
                 throw new System.Exception("ServiceId has exist.");
             }
@@ -23,22 +24,37 @@ namespace Thunder.Blazor.Services
 
         public void UnRegist(string serviceId)
         {
-            var ps = PageServices.Find(x => x.ServiceId == serviceId);
+            var ps = PageServices.FirstOrDefault(x => x.ServiceId == serviceId);
             if (ps != null)
             {
                 throw new System.Exception("ServiceId not found.");
             }
 
             PageServices.Remove(ps);
-            ps = null;
+            //ps = null;
         }
 
         public IPageService GetService(string serviceId)
         {
-            var ps = PageServices.Find(x => x.ServiceId == serviceId);
+            var ps = PageServices.FirstOrDefault(x => x.ServiceId == serviceId);
             if (ps != null)
             {
                 throw new System.Exception("ServiceId not found.");
+            }
+            return ps;
+        }
+
+        public IPageService Get(PageTypes type)
+        {
+            return Get(type.ToString());
+        }
+
+        public IPageService Get(string type)
+        {
+            var ps = PageServices.FirstOrDefault(x => type == PageTypes.Default.ToString() || x.PageType == type);
+            if (ps == null)
+            {
+                throw new System.Exception("PageService not found.");
             }
             return ps;
         }

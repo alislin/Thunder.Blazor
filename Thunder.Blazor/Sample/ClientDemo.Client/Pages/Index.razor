@@ -172,7 +172,13 @@
 </div>
 <div class="row">
     <div class="col">
-
+        <div id="@titleId" class="card m-2">
+            <h5 class="card-header">Modal</h5>
+            <div class="card-body">
+                <p class="card-text"></p>
+                <StrapButton Caption="试一下 (Try)" CommandAction="@ShowModal"></StrapButton>
+            </div>
+        </div>
     </div>
     <div class="col">
 
@@ -190,6 +196,7 @@
     [Inject] protected NotifyService noty { get; set; }
     [Inject] protected AnimateService animate { get; set; }
     [Inject] protected IJSRuntime jSRuntime { get; set; }
+    [Inject] protected PageServiceRegister PageService { get; set; }
 
     protected string titleId { get; set; }
     protected string btnClickText { get; set; } = "Click !!! ??";
@@ -337,5 +344,12 @@
                 Log($"ProgressDemo:{i}");
             }
         });
+    }
+
+    private void ShowModal()
+    {
+        var modal = PageService.Get(PageTypes.Modal);
+        modal.Show(new TContext<Counter>());
+        //modal.Show();
     }
 }

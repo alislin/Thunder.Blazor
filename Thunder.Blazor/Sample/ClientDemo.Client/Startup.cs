@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Components.Builder;
+﻿using Microsoft.AspNetCore.Components.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Thunder.Blazor.Services;
 
@@ -10,6 +10,7 @@ namespace ClientDemo.Client
         {
             services.AddComponentServiceScoped()
                 .AddNotyScoped()
+                .AddPageServiceScoped()
                 .AddAnimateScoped();
         }
 
