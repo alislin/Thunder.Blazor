@@ -9,7 +9,7 @@
         string PageType { get; set; }
 
         void Show(object item = null);
-        void Cancel(object item = null);
+        void Cancel();
         void Close(object item = null);
         void Load(object item = null);
     }

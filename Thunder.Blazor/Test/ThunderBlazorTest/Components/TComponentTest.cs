@@ -52,6 +52,21 @@ namespace ThunderBlazorTest.Components
 
     class TestComponent : TComponentContainer<TestContent>
     {
+        public override void Cancel()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Close(object item = null)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Load(object item = null)
+        {
+            throw new NotImplementedException();
+        }
+
         public override void Show(object item = null)
         {
             throw new NotImplementedException();

@@ -196,7 +196,6 @@
     [Inject] protected NotifyService noty { get; set; }
     [Inject] protected AnimateService animate { get; set; }
     [Inject] protected IJSRuntime jSRuntime { get; set; }
-    [Inject] protected PageServiceRegister PageService { get; set; }
 
     protected string titleId { get; set; }
     protected string btnClickText { get; set; } = "Click !!! ??";
@@ -348,8 +347,6 @@
 
     private void ShowModal()
     {
-        var modal = PageService.Get(PageTypes.Modal);
-        modal.Show(new TContext<Counter>());
-        //modal.Show();
+        ShowModal(new TContext<Counter>() { Caption = "测试 计数器" }, ButtonType.OKCancel);
     }
 }

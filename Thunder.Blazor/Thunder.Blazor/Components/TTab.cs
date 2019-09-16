@@ -162,7 +162,22 @@ namespace Thunder.Blazor.Components
 
         public override void Show(object item = null)
         {
+            LoadItem((TTabItem)item);
+        }
+
+        public override void Cancel()
+        {
             throw new NotImplementedException();
+        }
+
+        public override void Close(object item = null)
+        {
+            TabClose(item);
+        }
+
+        public override void Load(object item = null)
+        {
+            LoadItem((TTabItem)item);
         }
     }
 

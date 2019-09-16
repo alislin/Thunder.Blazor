@@ -17,6 +17,8 @@ namespace Thunder.Blazor.Components
         private readonly CssBuild CssBuild = CssBuild.New;
         private readonly Random rnd = new Random(DateTime.Now.Millisecond);
 
+        [Inject] protected ComponentService ComponentService { get; set; }
+
         public TComponent()
         {
             domId = NewId();
@@ -216,6 +218,19 @@ namespace Thunder.Blazor.Components
         protected static void Log(string m)
         {
             Console.WriteLine(m);
+        }
+
+
+        protected void ShowModal(object item, ButtonType button = ButtonType.Custom)
+        {
+            var modal = (TModal<TModalContext>)(object)ComponentService.Get(PageTypes.Modal);
+            if (modal == null)
+            {
+                Log("No modal component exist.");
+                return;
+            }
+            var child = (TContext)item;
+            modal.Show(child, child?.Caption, button);
         }
 
         /// <summary>
@@ -483,14 +498,13 @@ namespace Thunder.Blazor.Components
         public virtual void ShowItem(object value) { }
         public virtual void CloseItem(object value) { }
 
-        [Inject] PageServiceRegister PageServiceRegister { get; set; }
 
         protected override void OnInitialized()
         {
             base.OnInitialized();
 
             ServiceId = DomId;
-            PageServiceRegister.Regist(this);
+            ComponentService.Regist(this);
 
             DataContext.Load = Load;
             DataContext.Show = Show;
@@ -510,30 +524,13 @@ namespace Thunder.Blazor.Components
 
         protected override void Dispose(bool disponsing)
         {
-            PageServiceRegister.UnRegist(ServiceId);
+            ComponentService.UnRegist(ServiceId);
             base.Dispose();
         }
 
         public abstract void Show(object item = null);
-
-        //public virtual void Show(object item = null)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        public virtual void Cancel(object item = null)
-        {
-            throw new NotImplementedException();
-        }
-
-        public virtual void Close(object item = null)
-        {
-            throw new NotImplementedException();
-        }
-
-        public virtual void Load(object item = null)
-        {
-            throw new NotImplementedException();
-        }
+        public abstract void Cancel();
+        public abstract void Close(object item = null);
+        public abstract void Load(object item = null);
     }
 }

@@ -13,8 +13,6 @@ namespace Thunder.Blazor.Components
     /// <typeparam name="TModel"></typeparam>
     public class TModal<TModel> : TComponentContainer<TModel> where TModel : TModalContext, new()
     {
-        //[Inject] public ModalService ModalService { get; set; }
-        [Parameter] public string Title { get; set; }
         [Parameter] public ComponentParamenter Parameters { get; set; }
         [Parameter] public ButtonType ButtonType { get; set; }
 
@@ -23,8 +21,6 @@ namespace Thunder.Blazor.Components
             IsVisabled = false;
             PageType = PageTypes.Modal.ToString();
             UpdateDataContext();
-            //ModalService.ShowAction = Show;
-            //ModalService.ShowContextAction = Show;
             DataContext.Show = Show;
             base.OnInitialized();
         }
@@ -39,8 +35,10 @@ namespace Thunder.Blazor.Components
 
         public override void Show(object value)
         {
-            DataContext.Child = (TContext)value;
-            Show();
+            var mc = (TContext)value;
+            Show(mc, mc.Caption);
+            //DataContext.Child = (TContext)value;
+            //Show();
         }
 
         public override void Show()
@@ -94,6 +92,22 @@ namespace Thunder.Blazor.Components
 
             //DataContext.Child = new TContext<TNull>();
             StateHasChanged();
+        }
+
+        public override void Cancel()
+        {
+            Close(ContextResult.Cancel());
+        }
+
+        public override void Close(object item = null)
+        {
+            if (item == null)
+            {
+                Close(ContextResult.Cancel());
+                return;
+            }
+            var result = (ContextResult)item;
+            Close(result);
         }
     }
 

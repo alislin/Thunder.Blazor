@@ -6,13 +6,22 @@
         <div class="@ModalTypeCss">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">@Title</h5>
+                    <h5 class="modal-title">@Caption</h5>
                     <button type="button" class="close" @onclick="@(() => { Close();})">×</button>
                 </div>
                 <div class="modal-body">
-                    <CascadingValue Value="@Parameters">
-                        @ChildContent
-                    </CascadingValue>
+                    @if (DataContext?.Child != null)
+                    {
+                        <CascadingValue Value="@dataContext.Child.ContextParameters">
+                            @DataContext.Child.ContextFragment
+                        </CascadingValue>
+                    }
+                    else
+                    {
+                        <CascadingValue Value="@Parameters">
+                            @ChildContent
+                        </CascadingValue>
+                    }
                 </div>
                 @if ((int)ButtonType > 0)
                 {

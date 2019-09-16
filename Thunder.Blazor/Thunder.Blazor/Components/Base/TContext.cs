@@ -209,7 +209,7 @@ namespace Thunder.Blazor.Components
         /// <summary>
         /// 取消
         /// </summary>
-        public Action<object> Cancel { get; set; }
+        public Action Cancel { get; set; }
     }
 
 }

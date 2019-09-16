@@ -10,6 +10,21 @@ namespace Thunder.Blazor.Components
     /// <typeparam name="TModel"></typeparam>
     public class TAlert<TModel> : TComponentContainer<TModel> where TModel : TAlertContext, new()
     {
+        public override void Cancel()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Close(object item = null)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Load(object item = null)
+        {
+            throw new NotImplementedException();
+        }
+
         public override void Show(object item = null)
         {
             throw new NotImplementedException();

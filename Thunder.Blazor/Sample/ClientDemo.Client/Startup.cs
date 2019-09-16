@@ -10,7 +10,6 @@ namespace ClientDemo.Client
         {
             services.AddComponentServiceScoped()
                 .AddNotyScoped()
-                .AddPageServiceScoped()
                 .AddAnimateScoped();
         }
 
