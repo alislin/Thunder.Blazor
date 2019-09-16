@@ -376,7 +376,7 @@ namespace Thunder.Blazor.Components
         /// 设置子组件
         /// </summary>
         /// <param name="child">子组件数据</param>
-        protected void SetChild<T, V>(T child, V data) where T : TContext where V : TContext
+        protected void SetChild<T, TV>(T child, TV data) where T : TContext where TV : TContext
         {
             data.Child = child;
             ChildContent = data.Child.ContextFragment;

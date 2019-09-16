@@ -159,7 +159,7 @@ namespace Thunder.Blazor.Components
         public TModalContext OK(Action action, string title = null)
             => SetAction(action, ButtonTypeValue.OK, title);
 
-        public TModalContext Cancel(Action action, string title = null)
+        public new TModalContext Cancel(Action action, string title = null)
             => SetAction(action, ButtonTypeValue.Cancel, title);
 
         public TModalContext Yes(Action action, string title = null)

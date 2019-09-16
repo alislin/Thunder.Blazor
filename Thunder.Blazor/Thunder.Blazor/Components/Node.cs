@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace Thunder.Blazor.Components
 {
-    public class Node<TModel>:TagBlockContext where TModel : TagBlockContext,new()
+    public class Node<TModel> : TagBlockContext where TModel : TagBlockContext, new()
     {
         private TModel context = new TModel();
 
@@ -37,6 +37,10 @@ namespace Thunder.Blazor.Components
 
         public void Add(IList<TModel> childs)
         {
+            if (childs == null)
+            {
+                throw new Exception("childs is empty.");
+            }
             foreach (var item in childs)
             {
                 Add(item);

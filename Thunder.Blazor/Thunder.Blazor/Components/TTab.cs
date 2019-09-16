@@ -37,6 +37,10 @@ namespace Thunder.Blazor.Components
 
         public override void LoadItem(object obj)
         {
+            if (obj == null)
+            {
+                return;
+            }
             var item = (TTabItem)obj;
             var r = DataContext?.TabsItems?.FirstOrDefault(x => x.Id == item.Id);
             if (r != null) return;
