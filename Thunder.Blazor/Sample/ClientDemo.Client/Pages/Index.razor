@@ -250,6 +250,8 @@
             Text = $"[{DateTime.Now}] 警告内容, Alert infomation.",
             IsVisabled = false
         };
+        alert.DataContext = alertcontext;
+        ShowAlert(null);
 
         //alert.DataContext = alertcontext;
         ////alert.OnShowed += (o, e) => { animate.Start(new AnimateData { AnimateType = AnimateType.fadeIn, id = alert.DomId }); };
@@ -347,6 +349,10 @@
 
     private void ShowModal()
     {
-        ShowModal(new TContext<Counter>() { Caption = "测试 计数器" }, ButtonType.OKCancel);
+        var md = new TModalContext(new TContext<Counter>()) { Caption = "测试 计数器" };
+        md = md.OK(() => Log("点击了OK按钮"), "确定吗?")
+            .Close(() => Log("取消按钮"), "不要了");
+        //ShowModal(new TContext<Counter>() { Caption = "测试 计数器" }, ButtonType.OKCancel);
+        ShowModal(md);
     }
 }

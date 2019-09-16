@@ -174,7 +174,7 @@ namespace Thunder.Blazor.Components
             {
                 OnShowing?.Invoke(this, new EventArgs());
             }
-            StateHasChanged();
+            this.InvokeAsync(StateHasChanged);
         }
 
         /// <summary>
@@ -183,7 +183,7 @@ namespace Thunder.Blazor.Components
         public virtual void Close()
         {
             IsVisabled = false;
-            StateHasChanged();
+            this.InvokeAsync(StateHasChanged);
         }
         #endregion
 
@@ -199,6 +199,7 @@ namespace Thunder.Blazor.Components
 
         #endregion
 
+        #region Dispose接口
         // The bulk of the clean-up code is implemented in Dispose(bool)
         protected virtual void Dispose(bool disposing)
         {
@@ -210,6 +211,49 @@ namespace Thunder.Blazor.Components
             Dispose(true);
             GC.SuppressFinalize(this);
         }
+        #endregion
+
+        #region 组件服务
+        /// <summary>
+        /// 显示Modal窗口
+        /// </summary>
+        /// <param name="item">TContext 对象</param>
+        /// <param name="button">按钮</param>
+        protected void ShowModal(object item, ButtonType button = ButtonType.Custom)
+        {
+            var ps = (TModal<TModalContext>)(object)ComponentService.Get(PageTypes.Modal);
+            if (ps == null)
+            {
+                Log("No modal component exist.");
+                return;
+            }
+            var child = (TContext)item;
+            ps.ShowContext(child, child?.Caption, button);
+        }
+
+        protected void ShowModal(TModalContext modalItem)
+        {
+            var ps = (TModal<TModalContext>)(object)ComponentService.Get(PageTypes.Modal);
+            if (ps == null)
+            {
+                Log("No modal component exist.");
+                return;
+            }
+            ps.Show(modalItem);
+        }
+
+        protected void ShowAlert(object item)
+        {
+            var ps = ComponentService.Get(PageTypes.Alert);
+            if (ps == null)
+            {
+                Log("No Alert component exist.");
+                return;
+            }
+            ps.Show(item);
+        }
+
+        #endregion
 
         /// <summary>
         /// 日志输入
@@ -220,18 +264,6 @@ namespace Thunder.Blazor.Components
             Console.WriteLine(m);
         }
 
-
-        protected void ShowModal(object item, ButtonType button = ButtonType.Custom)
-        {
-            var modal = (TModal<TModalContext>)(object)ComponentService.Get(PageTypes.Modal);
-            if (modal == null)
-            {
-                Log("No modal component exist.");
-                return;
-            }
-            var child = (TContext)item;
-            modal.Show(child, child?.Caption, button);
-        }
 
         /// <summary>
         /// 生成随机Id
@@ -262,6 +294,10 @@ namespace Thunder.Blazor.Components
         private string GetCss()
         {
             CssBuild.Reset().Add(StyleClass);
+            if (AnimateEnabled)
+            {
+                CssBuild.Add(AnimateEnter);
+            }
             if (!OnlyStyleClass)
             {
                 StyleBuild(CssBuild);
@@ -524,13 +560,13 @@ namespace Thunder.Blazor.Components
 
         protected override void Dispose(bool disponsing)
         {
-            ComponentService.UnRegist(ServiceId);
+            //ComponentService.UnRegist(ServiceId);
             base.Dispose();
         }
 
-        public abstract void Show(object item = null);
+        public abstract void Show(object item);
         public abstract void Cancel();
-        public abstract void Close(object item = null);
-        public abstract void Load(object item = null);
+        public abstract void Close(object item);
+        public abstract void Load(object item);
     }
 }

@@ -8,10 +8,10 @@
         string ServiceId { get; set; }
         string PageType { get; set; }
 
-        void Show(object item = null);
+        void Show(object item);
         void Cancel();
-        void Close(object item = null);
-        void Load(object item = null);
+        void Close(object item);
+        void Load(object item);
     }
 
     public enum PageTypes

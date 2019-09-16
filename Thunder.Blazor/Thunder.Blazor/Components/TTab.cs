@@ -160,7 +160,7 @@ namespace Thunder.Blazor.Components
             showMore = UpdateHeads();
         }
 
-        public override void Show(object item = null)
+        public override void Show(object item)
         {
             LoadItem((TTabItem)item);
         }
@@ -170,12 +170,12 @@ namespace Thunder.Blazor.Components
             throw new NotImplementedException();
         }
 
-        public override void Close(object item = null)
+        public override void Close(object item)
         {
             TabClose(item);
         }
 
-        public override void Load(object item = null)
+        public override void Load(object item)
         {
             LoadItem((TTabItem)item);
         }

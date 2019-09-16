@@ -1,9 +1,5 @@
 ﻿/* Ceated by Ya Lin. 2019/7/11 14:52:29 */
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-
 namespace Thunder.Blazor.Components
 {
     public enum ButtonTypeValue

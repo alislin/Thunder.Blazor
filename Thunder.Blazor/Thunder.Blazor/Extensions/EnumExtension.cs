@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using Thunder.Blazor.Components;
 using Thunder.Blazor.Libs;
 
 namespace Thunder.Blazor.Extensions
@@ -60,7 +57,7 @@ namespace Thunder.Blazor.Extensions
         /// </summary>
         /// <param name="s"></param>
         /// <returns></returns>
-        public static string Css(this string s,string s1)
+        public static string Css(this string s, string s1)
             => CssBuild.New
             .Add(s)
             .Add(s1)
@@ -93,11 +90,11 @@ namespace Thunder.Blazor.Extensions
         /// <param name="list"></param>
         /// <param name="skipEmpty">如果队列存在空值，返回空值</param>
         /// <returns></returns>
-        public static string Join(this string joinchar,IList<string> list,bool skipEmpty = true)
+        public static string Join(this string joinchar, IList<string> list, bool skipEmpty = true)
         {
             var check = list.Where(x => string.IsNullOrWhiteSpace(x)).Count();
             var l = list.Where(x => !string.IsNullOrWhiteSpace(x)).ToList();
-            if (check>0 && skipEmpty)
+            if (check > 0 && skipEmpty)
             {
                 return string.Empty;
             }
@@ -117,17 +114,22 @@ namespace Thunder.Blazor.Extensions
             => joinchar.Join(new string[] { s1, s2, s3, s4 });
 
         public static string Join(this string joinchar, string s1, string s2, string s3, string s4, string s5)
-            => joinchar.Join(new string[] { s1, s2, s3, s4,s5 });
+            => joinchar.Join(new string[] { s1, s2, s3, s4, s5 });
 
 
         public static CssBuild Add(this CssBuild css, Enum val, bool condition = true)
             => css.Add(val.ToDescriptionString(), condition);
 
-        public static bool IsButtonType(this ButtonType val, ButtonTypeValue tar)
+        public static bool IsValueFlag(this Enum val, Enum tar)
+            => Convert.ToInt32(val).IsValueFlag(tar);
+
+        public static bool IsValueFlag(this int val, Enum tar)
+            => val.IsValueFlag(Convert.ToInt32(tar));
+
+        public static bool IsValueFlag(this int val, int tar)
         {
-            var a = (int)val & (int)tar;
+            var a = val & tar;
             return a != 0;
         }
-
     }
 }

@@ -1,6 +1,6 @@
 ﻿/* Ceated by Ya Lin. 2019/7/11 14:18:28 */
 
-using System;
+using Thunder.Blazor.Services;
 
 namespace Thunder.Blazor.Components
 {
@@ -10,24 +10,39 @@ namespace Thunder.Blazor.Components
     /// <typeparam name="TModel"></typeparam>
     public class TAlert<TModel> : TComponentContainer<TModel> where TModel : TAlertContext, new()
     {
+        protected override void OnInitialized()
+        {
+            IsVisabled = false;
+            PageType = PageTypes.Alert.ToString();
+            UpdateDataContext();
+            DataContext.Show = Show;
+            base.OnInitialized();
+        }
+
         public override void Cancel()
         {
-            throw new NotImplementedException();
+            Close();
         }
 
-        public override void Close(object item = null)
+        public override void Close(object item)
         {
-            throw new NotImplementedException();
+            Cancel();
         }
 
-        public override void Load(object item = null)
+        public override void Load(object item)
         {
-            throw new NotImplementedException();
+            Show(item);
         }
 
-        public override void Show(object item = null)
+        public override void Show(object item)
         {
-            throw new NotImplementedException();
+            if (item == null)
+            {
+                Show();
+                return;
+            }
+            var mc = (TContext)item;
+            Show();
         }
     }
 

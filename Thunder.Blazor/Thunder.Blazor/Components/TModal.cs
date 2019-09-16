@@ -14,31 +14,42 @@ namespace Thunder.Blazor.Components
     public class TModal<TModel> : TComponentContainer<TModel> where TModel : TModalContext, new()
     {
         [Parameter] public ComponentParamenter Parameters { get; set; }
-        [Parameter] public ButtonType ButtonType { get; set; }
+        [Parameter] public int ButtonTypes { get; set; }
 
         protected override void OnInitialized()
         {
             IsVisabled = false;
             PageType = PageTypes.Modal.ToString();
             UpdateDataContext();
-            DataContext.Show = Show;
+            DataContext.Show = ShowContext;
             base.OnInitialized();
         }
 
-        public void Show(TContext value, string caption = null, ButtonType button = ButtonType.OK)
+        /// <summary>
+        /// 显示 Modal
+        /// </summary>
+        /// <param name="value">Child 对象</param>
+        /// <param name="caption">标题</param>
+        /// <param name="button">按钮</param>
+        public void ShowContext(TContext value, string caption = null, ButtonType button = ButtonType.OK)
         {
             DataContext.Caption = caption ?? value?.Caption;
-            DataContext.ButtonType = button;
+            DataContext.ButtonTypes = (int)button;
             DataContext.Child = value;
             Show();
         }
 
+        /// <summary>
+        /// 显示 Modal
+        /// </summary>
+        /// <param name="value">TModalContext 对象</param>
         public override void Show(object value)
         {
-            var mc = (TContext)value;
-            Show(mc, mc.Caption);
-            //DataContext.Child = (TContext)value;
-            //Show();
+            if (value != null)
+            {
+                DataContext = (TModel)value;
+            }
+            Show();
         }
 
         public override void Show()
@@ -58,10 +69,10 @@ namespace Thunder.Blazor.Components
             Close(ContextResult.Cancel());
         }
 
-        public override void Load(object item = null)
+        public override void Load(object item)
         {
-            var value = (TContext)item;
-            Show(value);
+            var value = (TModel)item;
+            ShowContext(value);
         }
 
         protected virtual void Close(ContextResult result)
@@ -91,7 +102,8 @@ namespace Thunder.Blazor.Components
             }
 
             //DataContext.Child = new TContext<TNull>();
-            StateHasChanged();
+            LoadDataContext();
+            this.InvokeAsync(StateHasChanged);
         }
 
         public override void Cancel()
@@ -99,7 +111,7 @@ namespace Thunder.Blazor.Components
             Close(ContextResult.Cancel());
         }
 
-        public override void Close(object item = null)
+        public override void Close(object item)
         {
             if (item == null)
             {
@@ -113,7 +125,23 @@ namespace Thunder.Blazor.Components
 
     public class TModalContext : TContainer
     {
-        public ButtonType ButtonType { get; set; }
+        public TModalContext()
+        {
+        }
+
+        public TModalContext(TContext context, string title)
+        {
+            Child = context;
+            Caption = title;
+        }
+
+        public TModalContext(TContext context) : this(context, context?.Caption)
+        {
+
+        }
+
+
+        public int ButtonTypes { get; set; }
         public new Action<TContext, string, ButtonType> Show { get; set; }
 
         public string OKTitle { get; set; } = "确定";
@@ -153,6 +181,7 @@ namespace Thunder.Blazor.Components
         protected TModalContext SetAction(Action action, ButtonTypeValue bvalue, string title = null)
         {
             title = string.IsNullOrWhiteSpace(title) ? null : title;
+            ButtonTypes |= (int)bvalue;
             switch (bvalue)
             {
                 case ButtonTypeValue.Close:

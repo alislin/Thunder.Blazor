@@ -80,7 +80,7 @@ namespace Thunder.Blazor.Services
         {
             if (PageServices.FirstOrDefault(x => x.ServiceId == pageService.ServiceId) != null)
             {
-                throw new System.Exception("ServiceId has exist.");
+                throw new System.Exception($"ServiceId[{pageService.ServiceId} / {pageService.PageType}] has exist.");
             }
 
             PageServices.Add(pageService);
@@ -93,9 +93,9 @@ namespace Thunder.Blazor.Services
         public void UnRegist(string serviceId)
         {
             var ps = PageServices.FirstOrDefault(x => x.ServiceId == serviceId);
-            if (ps != null)
+            if (ps == null)
             {
-                throw new System.Exception("ServiceId not found.");
+                throw new System.Exception($"ServiceId[{serviceId}] not found.");
             }
 
             PageServices.Remove(ps);
@@ -110,9 +110,9 @@ namespace Thunder.Blazor.Services
         public IPageService GetService(string serviceId)
         {
             var ps = PageServices.FirstOrDefault(x => x.ServiceId == serviceId);
-            if (ps != null)
+            if (ps == null)
             {
-                throw new System.Exception("ServiceId not found.");
+                throw new System.Exception($"ServiceId[{serviceId}] not found.");
             }
             return ps;
         }
@@ -137,7 +137,7 @@ namespace Thunder.Blazor.Services
             var ps = PageServices.FirstOrDefault(x => type == PageTypes.Default.ToString() || x.PageType == type);
             if (ps == null)
             {
-                throw new System.Exception("PageService not found.");
+                throw new System.Exception($"PageService (type:{type}) not found.");
             }
             return ps;
         }
