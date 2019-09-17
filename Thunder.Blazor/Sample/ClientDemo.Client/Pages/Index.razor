@@ -2,7 +2,6 @@
 @inherits TComponent
 @using System.Threading
 
-<StrapAlert @ref="alert" IsVisabled="false" StyleClass="m-2"></StrapAlert>
 <div class="row">
     <div class="col">
         <div class="card m-2">
@@ -250,8 +249,8 @@
             Text = $"[{DateTime.Now}] 警告内容, Alert infomation.",
             IsVisabled = false
         };
-        alert.DataContext = alertcontext;
-        ShowAlert(null);
+        //alert.DataContext = alertcontext;
+        ShowAlert(new StrapAlertContext { Text = $"[{DateTime.Now}] 警告内容, Alert infomation." });
 
         //alert.DataContext = alertcontext;
         ////alert.OnShowed += (o, e) => { animate.Start(new AnimateData { AnimateType = AnimateType.fadeIn, id = alert.DomId }); };

@@ -25,6 +25,18 @@ namespace Thunder.Blazor.Components
             base.OnInitialized();
         }
 
+        public override void LoadDataContext()
+        {
+            base.LoadDataContext();
+            ButtonTypes = dataContext.ButtonTypes;
+        }
+
+        public override void UpdateDataContext()
+        {
+            base.UpdateDataContext();
+            dataContext.ButtonTypes = ButtonTypes;
+        }
+
         /// <summary>
         /// 显示 Modal
         /// </summary>

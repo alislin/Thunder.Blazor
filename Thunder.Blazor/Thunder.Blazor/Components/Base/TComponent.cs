@@ -15,7 +15,7 @@ namespace Thunder.Blazor.Components
     {
         private readonly string domId;
         private readonly CssBuild CssBuild = CssBuild.New;
-        private readonly Random rnd = new Random(DateTime.Now.Millisecond);
+        private readonly Random rnd = CommonData.Current.RndSeed;
 
         [Inject] protected ComponentService ComponentService { get; set; }
 
@@ -207,7 +207,6 @@ namespace Thunder.Blazor.Components
 
         public void Dispose()
         {
-            Close();
             Dispose(true);
             GC.SuppressFinalize(this);
         }
@@ -560,8 +559,10 @@ namespace Thunder.Blazor.Components
 
         protected override void Dispose(bool disponsing)
         {
-            //ComponentService.UnRegist(ServiceId);
-            base.Dispose();
+            if (disponsing)
+            {
+                ComponentService.UnRegist(ServiceId);
+            }
         }
 
         public abstract void Show(object item);

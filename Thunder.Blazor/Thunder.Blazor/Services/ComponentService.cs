@@ -84,6 +84,10 @@ namespace Thunder.Blazor.Services
             }
 
             PageServices.Add(pageService);
+
+#if DEBUG
+            Console.WriteLine($"Regist ServiceId[{pageService.ServiceId} / {pageService.PageType}]");
+#endif
         }
 
         /// <summary>
@@ -99,7 +103,9 @@ namespace Thunder.Blazor.Services
             }
 
             PageServices.Remove(ps);
-            //ps = null;
+#if DEBUG
+            Console.WriteLine($"Unregist ServiceId[{serviceId}]");
+#endif
         }
 
         /// <summary>

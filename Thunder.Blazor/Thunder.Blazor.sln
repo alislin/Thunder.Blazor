@@ -41,7 +41,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Thunder.Blazor.CssBuilder",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Thunder.Blazor.JQuery", "Thunder.Blazor.JQuery\Thunder.Blazor.JQuery.csproj", "{21801B4A-F118-4053-94F6-92B4333770B2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServerDemo", "Sample\ServerDemo\ServerDemo.csproj", "{E4497FA8-7EA8-4DCF-9055-3D057E0B607B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ServerDemo", "Sample\ServerDemo\ServerDemo.csproj", "{E4497FA8-7EA8-4DCF-9055-3D057E0B607B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

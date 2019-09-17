@@ -41,7 +41,9 @@ namespace Thunder.Blazor.Components
                 Show();
                 return;
             }
-            var mc = (TContext)item;
+            var mc = (TModel)item;
+            dataContext = mc;
+            LoadDataContext();
             Show();
         }
     }

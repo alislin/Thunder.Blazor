@@ -1,62 +1,62 @@
 ﻿@inherits StrapModalBase
 @if (IsVisabled)
 {
-<div id="@DomId" class="@CssStyle" tabindex="-1" style="display: @(DataContext.IsVisabled ? "block" : "none");">
-    @if (DataContext.IsVisabled)
+    <div id="@DomId" class="@CssStyle" tabindex="-1" style="display: @(DataContext.IsVisabled ? "block" : "none");">
+        @if (DataContext.IsVisabled)
         {
 
-    <div class="@ModalTypeCss">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">@Caption</h5>
-                <button type="button" class="close" @onclick="@(() => { Close(); })">×</button>
-            </div>
-            <div class="modal-body">
-                @if (DataContext?.Child != null)
+            <div class="@ModalTypeCss">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">@Caption</h5>
+                        <button type="button" class="close" @onclick="@(() => { Close(); })">×</button>
+                    </div>
+                    <div class="modal-body">
+                        @if (DataContext?.Child != null)
                         {
-                <CascadingValue Value="@dataContext.Child.ContextParameters">
-                    @DataContext.Child.ContextFragment
-                </CascadingValue>
+                            <CascadingValue Value="@dataContext.Child.ContextParameters">
+                                @DataContext.Child.ContextFragment
+                            </CascadingValue>
                         }
                         else
                         {
-                <CascadingValue Value="@Parameters">
-                    @ChildContent
-                </CascadingValue>
+                            <CascadingValue Value="@Parameters">
+                                @ChildContent
+                            </CascadingValue>
                         }
-            </div>
-            @if (ButtonTypes > 0)
+                    </div>
+                    @if (ButtonTypes > 0)
                     {
-            <div class="modal-footer">
-                @if (ButtonTypes.IsValueFlag(ButtonTypeValue.Close))
+                        <div class="modal-footer">
+                            @if (ButtonTypes.IsValueFlag(ButtonTypeValue.Close))
                             {
-                <StrapButton Caption="@DataContext.CloseTitle" Style="StyleType.primary" Outline="true" CommandAction="@(() => { Close(ContextResult.Close<ComponentParamenter>(Parameters)); })"></StrapButton>
-                @*<button type="button" class="btn btn-outline-primary" @onclick="@(()=> { Close(ContextResult.Close<ComponentParamenter>(parameters)); })">@DataContext.CloseTitle</button>*@
+                                <StrapButton Caption="@DataContext.CloseTitle" Style="StyleType.primary" Outline="true" CommandAction="@(() => { Close(ContextResult.Close<ComponentParamenter>(Parameters)); })"></StrapButton>
+                                @*<button type="button" class="btn btn-outline-primary" @onclick="@(()=> { Close(ContextResult.Close<ComponentParamenter>(parameters)); })">@DataContext.CloseTitle</button>*@
                             }
-                @if (ButtonTypes.IsValueFlag(ButtonTypeValue.Cancel))
+                            @if (ButtonTypes.IsValueFlag(ButtonTypeValue.Cancel))
                             {
-                <StrapButton Caption="@DataContext.CancelTitle" Style="StyleType.warning" Outline="true" CommandAction="Close"></StrapButton>
-                @*<button type="button" class="btn btn-outline-warning" @onclick="@Close">@DataContext.CancelTitle</button>*@
+                                <StrapButton Caption="@DataContext.CancelTitle" Style="StyleType.warning" Outline="true" CommandAction="Close"></StrapButton>
+                                @*<button type="button" class="btn btn-outline-warning" @onclick="@Close">@DataContext.CancelTitle</button>*@
                             }
-                @if (ButtonTypes.IsValueFlag(ButtonTypeValue.OK))
+                            @if (ButtonTypes.IsValueFlag(ButtonTypeValue.OK))
                             {
-                <StrapButton Caption="@DataContext.OKTitle" Style="StyleType.primary" CommandAction="@(() => { Close(ContextResult.Ok<ComponentParamenter>(Parameters)); })"></StrapButton>
-                @*<button type="button" class="btn btn-primary" @onclick="@(()=> { Close(ContextResult.Ok<ComponentParamenter>(parameters)); })">@DataContext.OKTitle</button>*@
+                                <StrapButton Caption="@DataContext.OKTitle" Style="StyleType.primary" CommandAction="@(() => { Close(ContextResult.Ok<ComponentParamenter>(Parameters)); })"></StrapButton>
+                                @*<button type="button" class="btn btn-primary" @onclick="@(()=> { Close(ContextResult.Ok<ComponentParamenter>(parameters)); })">@DataContext.OKTitle</button>*@
                             }
-                @if (ButtonTypes.IsValueFlag(ButtonTypeValue.No))
+                            @if (ButtonTypes.IsValueFlag(ButtonTypeValue.No))
                             {
-                <StrapButton Caption="@DataContext.NoTitle" Style="StyleType.warning" CommandAction="@(() => { Close(ContextResult.No<ComponentParamenter>(Parameters)); })"></StrapButton>
-                @*<button type="button" class="btn btn-warning" @onclick="@(()=> { Close(ContextResult.No<ComponentParamenter>(parameters)); })">@DataContext.NoTitle</button>*@
+                                <StrapButton Caption="@DataContext.NoTitle" Style="StyleType.warning" CommandAction="@(() => { Close(ContextResult.No<ComponentParamenter>(Parameters)); })"></StrapButton>
+                                @*<button type="button" class="btn btn-warning" @onclick="@(()=> { Close(ContextResult.No<ComponentParamenter>(parameters)); })">@DataContext.NoTitle</button>*@
                             }
-                @if (ButtonTypes.IsValueFlag(ButtonTypeValue.Yes))
+                            @if (ButtonTypes.IsValueFlag(ButtonTypeValue.Yes))
                             {
-                <StrapButton Caption="@DataContext.YesTitle" Style="StyleType.primary" CommandAction="@(() => { Close(ContextResult.Yes<ComponentParamenter>(Parameters)); })"></StrapButton>
-                @*<button type="button" class="btn btn-primary" @onclick="@(()=> { Close(ContextResult.Yes<ComponentParamenter>(parameters)); })">@DataContext.YesTitle</button>*@
+                                <StrapButton Caption="@DataContext.YesTitle" Style="StyleType.primary" CommandAction="@(() => { Close(ContextResult.Yes<ComponentParamenter>(Parameters)); })"></StrapButton>
+                                @*<button type="button" class="btn btn-primary" @onclick="@(()=> { Close(ContextResult.Yes<ComponentParamenter>(parameters)); })">@DataContext.YesTitle</button>*@
                             }
-            </div>
+                        </div>
                     }
-        </div>
-    </div>
+                </div>
+            </div>
         }
-</div>
+    </div>
 }
