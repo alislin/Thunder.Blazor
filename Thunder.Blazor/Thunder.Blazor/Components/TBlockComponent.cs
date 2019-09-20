@@ -1,7 +1,7 @@
 ﻿/* Ceated by Ya Lin. 2019/7/10 10:42:48 */
 
-using System;
 using Microsoft.AspNetCore.Components;
+using System;
 using Thunder.Blazor.Services;
 
 namespace Thunder.Blazor.Components
@@ -10,7 +10,7 @@ namespace Thunder.Blazor.Components
     /// 内容区域基础类
     /// </summary>
     /// <typeparam name="TModel"></typeparam>
-    public class TBlockComponent<TModel> : TComponent<TModel> where TModel: TNode<TModel>, new()
+    public class TBlockComponent<TModel> : TComponent<TModel> where TModel : TNode<TModel>, new()
     {
         [Inject] public ComponentService ComponentService { get; set; }
         /// <summary>
@@ -93,7 +93,7 @@ namespace Thunder.Blazor.Components
         {
             IsOpen = true;
             UpdateDataContext();
-            StateHasChanged();
+            this.InvokeAsync(StateHasChanged);
 
         }
 
@@ -106,7 +106,7 @@ namespace Thunder.Blazor.Components
         {
             IsOpen = false;
             UpdateDataContext();
-            StateHasChanged();
+            this.InvokeAsync(StateHasChanged);
 
         }
 

@@ -241,6 +241,17 @@ namespace Thunder.Blazor.Components
             ps.Show(modalItem);
         }
 
+        protected void CloseModal()
+        {
+            var ps = (TModal<TModalContext>)(object)ComponentService.Get(PageTypes.Modal);
+            if (ps == null)
+            {
+                Log("No modal component exist.");
+                return;
+            }
+            ps.Close();
+        }
+
         protected void ShowAlert(object item)
         {
             var ps = ComponentService.Get(PageTypes.Alert);
@@ -252,6 +263,24 @@ namespace Thunder.Blazor.Components
             ps.Show(item);
         }
 
+        #endregion
+
+        #region 读取默认级联参数
+        /// <summary>
+        /// 读取默认级联参数，使用 TContext<TView> 包装
+        /// </summary>
+        /// <typeparam name="TView"></typeparam>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        public TContext<TView> GetContextParameter<TView>(string key)
+        {
+            var par = Paramenters?.Get<TContext<TView>>(key);
+            if (par != null)
+            {
+                return par;
+            }
+            return default;
+        }
         #endregion
 
         /// <summary>
@@ -328,7 +357,7 @@ namespace Thunder.Blazor.Components
         /// </summary>
         public void Update()
         {
-            StateHasChanged();
+            this.InvokeAsync(StateHasChanged);
         }
 
     }

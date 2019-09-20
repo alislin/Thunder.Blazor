@@ -55,7 +55,7 @@ namespace Thunder.Blazor.Components
         {
             var k = DataContext.TabsItems.RemoveAll(x => x.Id == ((TTabItem)item).Id);
             showMore = UpdateHeads();
-            StateHasChanged();
+            this.InvokeAsync(StateHasChanged);
         }
 
         private bool UpdateHeads()
@@ -132,7 +132,7 @@ namespace Thunder.Blazor.Components
             }
 
             showMore = UpdateHeads();
-            StateHasChanged();
+            this.InvokeAsync(StateHasChanged);
         }
 
         protected void TabClick(object obj)

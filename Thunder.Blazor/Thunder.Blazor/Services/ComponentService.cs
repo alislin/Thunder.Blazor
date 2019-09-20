@@ -5,6 +5,7 @@ using Microsoft.JSInterop;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Thunder.Blazor.Services
 {
@@ -13,6 +14,7 @@ namespace Thunder.Blazor.Services
     /// </summary>
     public class ComponentService : IDisposable
     {
+        public event EventHandler<string> OnMessage;
 
         public ComponentService(IJSRuntime jsRuntime)
         {
@@ -80,7 +82,9 @@ namespace Thunder.Blazor.Services
         {
             if (PageServices.FirstOrDefault(x => x.ServiceId == pageService.ServiceId) != null)
             {
-                throw new System.Exception($"ServiceId[{pageService.ServiceId} / {pageService.PageType}] has exist.");
+                var log = $"ServiceId[{pageService.ServiceId} / {pageService.PageType}] has exist.";
+                Log(log);
+                return;
             }
 
             PageServices.Add(pageService);
@@ -99,7 +103,9 @@ namespace Thunder.Blazor.Services
             var ps = PageServices.FirstOrDefault(x => x.ServiceId == serviceId);
             if (ps == null)
             {
-                throw new System.Exception($"ServiceId[{serviceId}] not found.");
+                var log = $"ServiceId[{serviceId}] not found.";
+                Log(log);
+                return;
             }
 
             PageServices.Remove(ps);
@@ -118,7 +124,9 @@ namespace Thunder.Blazor.Services
             var ps = PageServices.FirstOrDefault(x => x.ServiceId == serviceId);
             if (ps == null)
             {
-                throw new System.Exception($"ServiceId[{serviceId}] not found.");
+                var log = $"ServiceId[{serviceId}] not found.";
+                Log(log);
+                return ps;
             }
             return ps;
         }
@@ -143,12 +151,37 @@ namespace Thunder.Blazor.Services
             var ps = PageServices.FirstOrDefault(x => type == PageTypes.Default.ToString() || x.PageType == type);
             if (ps == null)
             {
-                throw new System.Exception($"PageService (type:{type}) not found.");
+                var log = $"PageService (type:{type}) not found.";
+                Log(log);
+                return ps;
             }
             return ps;
         }
 
         #endregion
+
+        #region 消息事件
+        public async void SendMessage(string msg)
+        {
+            await Task.Run(() => { OnMessage?.Invoke(this, msg); });
+        }
+        #endregion
+
+        private void Log(string log,bool throwFlag=false)
+        {
+#if DEBUG
+            if (throwFlag)
+            {
+                throw new System.Exception(log);
+            }
+            else
+            {
+                Console.WriteLine(log);
+            }
+#else
+                Console.WriteLine(log);
+#endif
+        }
 
     }
 

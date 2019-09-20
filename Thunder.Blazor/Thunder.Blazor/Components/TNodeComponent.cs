@@ -6,9 +6,8 @@ using Thunder.Blazor.Services;
 
 namespace Thunder.Blazor.Components
 {
-    public class TNodeComponent<TModel> : TComponentObject<Node<TModel>> where TModel : TagBlockContext,new()
+    public class TNodeComponent<TModel> : TComponentObject<Node<TModel>> where TModel : TagBlockContext, new()
     {
-        [Inject] public ComponentService ComponentService { get; set; }
         /// <summary>
         /// 展开状态
         /// </summary>
@@ -129,7 +128,7 @@ namespace Thunder.Blazor.Components
         {
             IsOpen = true;
             UpdateDataContext();
-            StateHasChanged();
+            this.InvokeAsync(StateHasChanged);
 
         }
 
@@ -142,7 +141,7 @@ namespace Thunder.Blazor.Components
         {
             IsOpen = false;
             UpdateDataContext();
-            StateHasChanged();
+            this.InvokeAsync(StateHasChanged);
 
         }
 

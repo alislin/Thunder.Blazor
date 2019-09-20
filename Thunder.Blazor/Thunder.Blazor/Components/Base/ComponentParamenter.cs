@@ -49,7 +49,7 @@ namespace Thunder.Blazor.Components
             var name = parameterName;
             if (string.IsNullOrEmpty(name))
             {
-                name = typeof(T).FullName;
+                name = typeof(T).Name;
             }
             if (!parameters.ContainsKey(name))
             {

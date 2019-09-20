@@ -68,7 +68,7 @@ namespace Thunder.Blazor.Components
         {
             DataContext.IsVisabled = true;
             LoadDataContext();
-            StateHasChanged();
+            this.InvokeAsync(StateHasChanged);
         }
 
         public override void Load()

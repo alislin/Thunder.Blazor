@@ -81,6 +81,10 @@ namespace Thunder.Blazor.Components
         /// 类型名称
         /// </summary>
         public string TypeName => this.GetType().Name;
+        /// <summary>
+        /// 参数Key，为空值时默认使用TypeName
+        /// </summary>
+        public string ParameterKey { get; set; }
 
         /// <summary>
         /// 附加信息
@@ -100,7 +104,8 @@ namespace Thunder.Blazor.Components
         /// <returns></returns>
         private ComponentParamenter GetParamenter()
         {
-            var p = new ComponentParamenter(TypeName, this);
+            var key = string.IsNullOrWhiteSpace(ParameterKey) ? TypeName : ParameterKey;
+            var p = new ComponentParamenter(key, this);
             return p;
         }
 
@@ -148,6 +153,17 @@ namespace Thunder.Blazor.Components
     /// <typeparam name="TView"></typeparam>
     public class TContext<TView> : TContext
     {
+        public TView View { get; set; }
+
+        public TContext()
+        {
+        }
+
+        public TContext(TView view)
+        {
+            View = view;
+        }
+
         public override Type ContextType => typeof(TView);
     }
 
