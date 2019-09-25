@@ -125,7 +125,7 @@ namespace Thunder.Blazor.Components
         {
             DataContext.IsVisabled = false;
             DataContext.OnCommand?.Invoke(this, ContextResult.Cancel());
-            result.Action.Invoke(data);
+            result.Action?.Invoke(data);
             OnResult.InvokeAsync(result.ContextResult(data));
 
             //DataContext.Child = new TContext<TNull>();
