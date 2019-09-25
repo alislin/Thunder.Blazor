@@ -25,7 +25,7 @@
                             </CascadingValue>
                         }
                     </div>
-                    @if (ButtonTypes > 0)
+                    @if ((DataContext.ContextActions?.Count??0) > 0)
                     {
                 <div class="modal-footer">
                     @foreach (var item in DataContext.ContextActions)

@@ -152,7 +152,7 @@ namespace Thunder.Blazor.Components
         public void OpenItemClick(Action<object> commandAction)
         {
             ComponentService.DoAction("openblock");
-            commandAction?.Invoke(this);
+            commandAction?.Invoke(null);
         }
     }
 }
