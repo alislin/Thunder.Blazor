@@ -3,6 +3,7 @@
 using Microsoft.AspNetCore.Components;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Thunder.Blazor.Models;
 using Thunder.Blazor.Services;
 
@@ -53,7 +54,11 @@ namespace Thunder.Blazor.Components
         public void ShowContext(TContext value, string caption = null, List<ContextAction> buttons=null)
         {
             DataContext.Caption = caption ?? value?.Caption;
-            DataContext.ContextActions.AddRange(buttons);
+            DataContext.ResetAction();
+            if (buttons != null)
+            {
+                DataContext.ContextActions.AddRange(buttons);
+            }
             DataContext.Child = value;
             Show();
         }
@@ -135,13 +140,19 @@ namespace Thunder.Blazor.Components
 
         public override void Close(object item)
         {
-            if (item == null)
+
+            var result = item switch
             {
-                Close(ContextResult.Cancel());
-                return;
-            }
-            var result = (ContextResult)item;
-            Close(result);
+                ContextResult r => r,
+                _ => null
+            };
+
+            var data = result?.Data;
+            var resulttype = result?.Result ?? ContextResultValue.Cancel;
+
+            var action = DataContext.ContextActions?.FirstOrDefault(x => x.Result == resulttype);
+            action ??= new ContextAction("", ContextResultValue.Cancel, null);
+            Close(action, data);
         }
     }
 
