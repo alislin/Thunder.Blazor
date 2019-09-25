@@ -2,6 +2,7 @@
 
 using Microsoft.AspNetCore.Components;
 using System;
+using System.Collections.Generic;
 using Thunder.Blazor.Libs;
 using Thunder.Blazor.Models;
 using Thunder.Blazor.Services;
@@ -119,7 +120,7 @@ namespace Thunder.Blazor.Components
         /// <summary>
         /// 默认操作指令
         /// </summary>
-        [Parameter] public Action CommandAction { get; set; }
+        [Parameter] public Action<object> CommandAction { get; set; }
 
         #endregion
 
@@ -218,7 +219,7 @@ namespace Thunder.Blazor.Components
         /// </summary>
         /// <param name="item">TContext 对象</param>
         /// <param name="button">按钮</param>
-        protected void ShowModal(object item, ButtonType button = ButtonType.Custom)
+        protected void ShowModal(object item, List<ContextAction> buttons=null)
         {
             var ps = (TModal<TModalContext>)(object)ComponentService.Get(PageTypes.Modal);
             if (ps == null)
@@ -227,7 +228,7 @@ namespace Thunder.Blazor.Components
                 return;
             }
             var child = (TContext)item;
-            ps.ShowContext(child, child?.Caption, button);
+            ps.ShowContext(child, child?.Caption, buttons);
         }
 
         protected void ShowModal(TModalContext modalItem)
@@ -557,6 +558,10 @@ namespace Thunder.Blazor.Components
     {
         public string ServiceId { get; set; }
         public string PageType { get; set; }
+        /// <summary>
+        /// 返回值
+        /// </summary>
+        public EventCallback<ContextResult> OnResult { get; set; }
 
         public virtual void LoadItem(object value) { }
         public virtual void ShowItem(object value) { }

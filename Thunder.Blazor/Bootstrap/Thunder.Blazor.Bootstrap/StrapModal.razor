@@ -27,33 +27,31 @@
                     </div>
                     @if (ButtonTypes > 0)
                     {
-                        <div class="modal-footer">
-                            @if (ButtonTypes.IsValueFlag(ButtonTypeValue.Close))
-                            {
-                                <StrapButton Caption="@DataContext.CloseTitle" Style="StyleType.primary" Outline="true" CommandAction="@(() => { Close(ContextResult.Close<ComponentParamenter>(Parameters)); })"></StrapButton>
-                                @*<button type="button" class="btn btn-outline-primary" @onclick="@(()=> { Close(ContextResult.Close<ComponentParamenter>(parameters)); })">@DataContext.CloseTitle</button>*@
-                            }
-                            @if (ButtonTypes.IsValueFlag(ButtonTypeValue.Cancel))
-                            {
-                                <StrapButton Caption="@DataContext.CancelTitle" Style="StyleType.warning" Outline="true" CommandAction="Close"></StrapButton>
-                                @*<button type="button" class="btn btn-outline-warning" @onclick="@Close">@DataContext.CancelTitle</button>*@
-                            }
-                            @if (ButtonTypes.IsValueFlag(ButtonTypeValue.OK))
-                            {
-                                <StrapButton Caption="@DataContext.OKTitle" Style="StyleType.primary" CommandAction="@(() => { Close(ContextResult.Ok<ComponentParamenter>(Parameters)); })"></StrapButton>
-                                @*<button type="button" class="btn btn-primary" @onclick="@(()=> { Close(ContextResult.Ok<ComponentParamenter>(parameters)); })">@DataContext.OKTitle</button>*@
-                            }
-                            @if (ButtonTypes.IsValueFlag(ButtonTypeValue.No))
-                            {
-                                <StrapButton Caption="@DataContext.NoTitle" Style="StyleType.warning" CommandAction="@(() => { Close(ContextResult.No<ComponentParamenter>(Parameters)); })"></StrapButton>
-                                @*<button type="button" class="btn btn-warning" @onclick="@(()=> { Close(ContextResult.No<ComponentParamenter>(parameters)); })">@DataContext.NoTitle</button>*@
-                            }
-                            @if (ButtonTypes.IsValueFlag(ButtonTypeValue.Yes))
-                            {
-                                <StrapButton Caption="@DataContext.YesTitle" Style="StyleType.primary" CommandAction="@(() => { Close(ContextResult.Yes<ComponentParamenter>(Parameters)); })"></StrapButton>
-                                @*<button type="button" class="btn btn-primary" @onclick="@(()=> { Close(ContextResult.Yes<ComponentParamenter>(parameters)); })">@DataContext.YesTitle</button>*@
-                            }
-                        </div>
+                <div class="modal-footer">
+                    @foreach (var item in DataContext.ContextActions)
+                    {
+                        var btn = item;
+                        var style = item.Result switch
+                        {
+                            ContextResultValue.OK => StyleType.primary,
+                            ContextResultValue.Close => StyleType.primary,
+                            ContextResultValue.Cancel => StyleType.warning,
+                            ContextResultValue.No => StyleType.warning,
+                            ContextResultValue.Yes => StyleType.primary,
+                            _ => StyleType.primary
+                        };
+
+                        var outline = item.Result switch
+                        {
+                            ContextResultValue.Close => true,
+                            ContextResultValue.Cancel => true,
+                            _ => false
+                        };
+
+                        <StrapButton Caption="@btn.Text" Style="style" Outline="outline" CommandAction="@((obj) => { Close(btn, null); })"></StrapButton>
+                    }
+
+                </div>
                     }
                 </div>
             </div>

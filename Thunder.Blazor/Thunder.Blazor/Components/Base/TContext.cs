@@ -54,7 +54,7 @@ namespace Thunder.Blazor.Components
         /// <summary>
         /// 操作指令
         /// </summary>
-        public Action CommandAction { get; set; } = () => { };
+        public Action<object> CommandAction { get; set; } = (obj) => { };
 
         /// <summary>
         /// 组件参数(级联传入)
@@ -109,7 +109,7 @@ namespace Thunder.Blazor.Components
             return p;
         }
 
-        public T OnAction<T>(Action action) where T : TContext
+        public T OnAction<T>(Action<object> action) where T : TContext
         {
             CommandAction = action;
             return (T)this;

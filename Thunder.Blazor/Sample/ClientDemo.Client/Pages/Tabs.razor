@@ -24,7 +24,7 @@
         TabContext.TabsItems.Add(new TTabItem { Caption = "Tab 1", Child = new TContext { ContextType = typeof(NavMenu) } });
     }
 
-    private void AddTab()
+    private void AddTab(object o)
     {
         var index = TabContext.TabsItems.Count;
         var item = new TTabItem { Caption = $"Counter [{index}]", Child = new TContext<Counter>() };

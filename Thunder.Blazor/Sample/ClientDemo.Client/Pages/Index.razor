@@ -9,14 +9,14 @@
             <div class="card-body">
                 <p class="card-text">Style,Size,Outline</p>
                 <p class="card-text">@((MarkupString)btnClickText)</p>
-                <StrapButton Caption="Primary" CommandAction="@(()=>BtnClick("Primary"))" Style="@StyleType.primary" DataContext="@(new TagBlockContext { Caption="P-1",CommandAction=()=>BtnClick("P-1")})"></StrapButton>
-                <StrapButton Caption="Secondary" CommandAction="@(()=>BtnClick("Secondary"))" Style="@StyleType.secondary"></StrapButton>
-                <StrapButton Caption="Success" CommandAction="@(()=>BtnClick("Success"))" Style="@StyleType.success"></StrapButton>
-                <StrapButton Caption="Danger[disable]" CommandAction="@(()=>BtnClick("Danger"))" Style="@StyleType.danger" IsEnabled="false"></StrapButton>
-                <StrapButton Caption="Warning" CommandAction="@(()=>BtnClick("Warning"))" Style="@StyleType.warning"></StrapButton>
-                <StrapButton Caption="Info" CommandAction="@(()=>BtnClick("Info"))" Style="@StyleType.info" Size="SizeType.small"></StrapButton>
-                <StrapButton Caption="Link" CommandAction="@(()=>BtnClick("Link"))" Style="@StyleType.link"></StrapButton>
-                <StrapButton Caption="Success" CommandAction="@(()=>BtnClick("Success Outline"))" Style="@StyleType.success" Outline="true"></StrapButton>
+                <StrapButton Caption="Primary" CommandAction="@((o)=>BtnClick("Primary"))" Style="@StyleType.primary" DataContext="@(new TagBlockContext { Caption="P-1",CommandAction=(o)=>BtnClick("P-1")})"></StrapButton>
+                <StrapButton Caption="Secondary" CommandAction="@((o)=>BtnClick("Secondary"))" Style="@StyleType.secondary"></StrapButton>
+                <StrapButton Caption="Success" CommandAction="@((o)=>BtnClick("Success"))" Style="@StyleType.success"></StrapButton>
+                <StrapButton Caption="Danger[disable]" CommandAction="@((o)=>BtnClick("Danger"))" Style="@StyleType.danger" IsEnabled="false"></StrapButton>
+                <StrapButton Caption="Warning" CommandAction="@((o)=>BtnClick("Warning"))" Style="@StyleType.warning"></StrapButton>
+                <StrapButton Caption="Info" CommandAction="@((o)=>BtnClick("Info"))" Style="@StyleType.info" Size="SizeType.small"></StrapButton>
+                <StrapButton Caption="Link" CommandAction="@((o)=>BtnClick("Link"))" Style="@StyleType.link"></StrapButton>
+                <StrapButton Caption="Success" CommandAction="@((o)=>BtnClick("Success Outline"))" Style="@StyleType.success" Outline="true"></StrapButton>
                 @*<div class="highlight">
                         <pre>
                             <code class="html" data-lang="html">@btncode</code>
@@ -31,20 +31,20 @@
             <div class="card-body">
                 <p class="card-text"></p>
                 <StrapButtongroup StyleClass="m-2">
-                    <StrapButton Caption="Primary" CommandAction="@(()=>BtnClick("Primary"))" Style="@StyleType.primary"></StrapButton>
-                    <StrapButton Caption="Secondary" CommandAction="@(()=>BtnClick("Secondary"))" Style="@StyleType.secondary"></StrapButton>
-                    <StrapButton Caption="Success" CommandAction="@(()=>BtnClick("Success"))" Style="@StyleType.success"></StrapButton>
+                    <StrapButton Caption="Primary" CommandAction="@((o)=>BtnClick("Primary"))" Style="@StyleType.primary"></StrapButton>
+                    <StrapButton Caption="Secondary" CommandAction="@((o)=>BtnClick("Secondary"))" Style="@StyleType.secondary"></StrapButton>
+                    <StrapButton Caption="Success" CommandAction="@((o)=>BtnClick("Success"))" Style="@StyleType.success"></StrapButton>
                 </StrapButtongroup>
                 <StrapButtongroup StyleClass="m-2" Size="SizeType.large">
-                    <StrapButton Caption="Primary" CommandAction="@(()=>BtnClick("Primary"))" Style="@StyleType.secondary"></StrapButton>
-                    <StrapButton Caption="Secondary" CommandAction="@(()=>BtnClick("Secondary"))" Style="@StyleType.secondary"></StrapButton>
-                    <StrapButton Caption="Success" CommandAction="@(()=>BtnClick("Success"))" Style="@StyleType.secondary"></StrapButton>
-                    <StrapButton Caption="Danger[disable]" CommandAction="@(()=>BtnClick("Danger"))" Style="@StyleType.secondary" IsEnabled="false"></StrapButton>
+                    <StrapButton Caption="Primary" CommandAction="@((o)=>BtnClick("Primary"))" Style="@StyleType.secondary"></StrapButton>
+                    <StrapButton Caption="Secondary" CommandAction="@((o)=>BtnClick("Secondary"))" Style="@StyleType.secondary"></StrapButton>
+                    <StrapButton Caption="Success" CommandAction="@((o)=>BtnClick("Success"))" Style="@StyleType.secondary"></StrapButton>
+                    <StrapButton Caption="Danger[disable]" CommandAction="@((o)=>BtnClick("Danger"))" Style="@StyleType.secondary" IsEnabled="false"></StrapButton>
                 </StrapButtongroup>
                 <StrapButtongroup Vertical="true" StyleClass="m-2">
-                    <StrapButton Caption="1" CommandAction="@(()=>BtnClick("1"))" Style="@StyleType.primary"></StrapButton>
-                    <StrapButton Caption="2" CommandAction="@(()=>BtnClick("2"))" Style="@StyleType.secondary"></StrapButton>
-                    <StrapButton Caption="3" CommandAction="@(()=>BtnClick("3"))" Style="@StyleType.success"></StrapButton>
+                    <StrapButton Caption="1" CommandAction="@((o)=>BtnClick("1"))" Style="@StyleType.primary"></StrapButton>
+                    <StrapButton Caption="2" CommandAction="@((o)=>BtnClick("2"))" Style="@StyleType.secondary"></StrapButton>
+                    <StrapButton Caption="3" CommandAction="@((o)=>BtnClick("3"))" Style="@StyleType.success"></StrapButton>
                 </StrapButtongroup>
             </div>
         </div>
@@ -163,7 +163,7 @@
                 <StrapProgress StyleClass="m-2" Value="820" Max="900" IsStriped="true" ShowAnimate="true" ShowValue="true" Caption="运行中"></StrapProgress>
                 <StrapProgress StyleClass="m-2" Height="1" Value="820" Max="900"></StrapProgress>
                 <p></p>
-                <StrapButton Caption="开始加载 (Try Load)" CommandAction="@(async()=> {await ProgressDemo(); })"></StrapButton>
+                <StrapButton Caption="开始加载 (Try Load)" CommandAction="@(async(o)=> {await ProgressDemo(o); })"></StrapButton>
                 <StrapProgress StyleClass="m-2" IsStriped="true" ShowAnimate="true" ShowValue="true" @ref="ProgressData"></StrapProgress>
             </div>
         </div>
@@ -231,18 +231,18 @@
         StateHasChanged();
     }
 
-    private void NotyInfo()
+    private void NotyInfo(object o)
     {
         noty.Show(new NotyData("这是一条测试的消息。<br> This is a test pop!", NotyType.information));
     }
 
-    private void AnimateClick()
+    private void AnimateClick(object o)
     {
         // start animate
         animate.Start(new AnimateData { AnimateType = AnimateType.pulse, id = titleId, resetOnEnd = true });
     }
 
-    private void AlertShow()
+    private void AlertShow(object o)
     {
         var alertcontext = new StrapAlertContext
         {
@@ -258,7 +258,7 @@
 
     }
 
-    private void DropdownDemo()
+    private void DropdownDemo(object o)
     {
         btnClickText = $"Click button <large><strong>下拉菜单[{DateTime.Now}]</strong></large>";
         StateHasChanged();
@@ -267,16 +267,16 @@
     private Node<TagBlockContext> GetDropdownDemo()
     {
         var dropdown = new Node<TagBlockContext>(new StrapDropdownMenuItem { Caption = "下拉菜单演示", Style = StyleType.success, EnableDefaultMenu = true });
-        dropdown.Add(new StrapDropdownMenuItem { Caption = "第一项", CommandAction = () => { BtnClick("第一项"); } });
-        dropdown.Add(new StrapDropdownMenuItem { Caption = "---", CommandAction = () => { BtnClick("第二项"); } });
-        dropdown.Add(new StrapDropdownMenuItem { Caption = "第二项", CommandAction = () => { BtnClick("第二项"); }, IsActived = true });
-        dropdown.Add(new StrapDropdownMenuItem { Caption = "第三项", CommandAction = () => { BtnClick("第三项"); } });
+        dropdown.Add(new StrapDropdownMenuItem { Caption = "第一项", CommandAction = (o) => { BtnClick("第一项"); } });
+        dropdown.Add(new StrapDropdownMenuItem { Caption = "---", CommandAction = (o) => { BtnClick("第二项"); } });
+        dropdown.Add(new StrapDropdownMenuItem { Caption = "第二项", CommandAction = (o) => { BtnClick("第二项"); }, IsActived = true });
+        dropdown.Add(new StrapDropdownMenuItem { Caption = "第三项", CommandAction = (o) => { BtnClick("第三项"); } });
 
         var dropdown2 = new Node<TagBlockContext>(new StrapDropdownMenuItem { Caption = "二级菜单演示", Style = StyleType.success, EnableDefaultMenu = true });
-        dropdown2.Add(new StrapDropdownMenuItem { Caption = "第一项(2)", CommandAction = () => { BtnClick("第一项(2)"); } });
-        dropdown2.Add(new StrapDropdownMenuItem { Caption = "---", CommandAction = () => { BtnClick("第二项(2)"); } });
-        dropdown2.Add(new StrapDropdownMenuItem { Caption = "第二项(2)", CommandAction = () => { BtnClick("第二项(2)"); } });
-        dropdown2.Add(new StrapDropdownMenuItem { Caption = "第三项(2)", CommandAction = () => { BtnClick("第三项(2)"); } });
+        dropdown2.Add(new StrapDropdownMenuItem { Caption = "第一项(2)", CommandAction = (o) => { BtnClick("第一项(2)"); } });
+        dropdown2.Add(new StrapDropdownMenuItem { Caption = "---", CommandAction = (o) => { BtnClick("第二项(2)"); } });
+        dropdown2.Add(new StrapDropdownMenuItem { Caption = "第二项(2)", CommandAction = (o) => { BtnClick("第二项(2)"); } });
+        dropdown2.Add(new StrapDropdownMenuItem { Caption = "第三项(2)", CommandAction = (o) => { BtnClick("第三项(2)"); } });
 
         dropdown.Add(dropdown2);
 
@@ -304,13 +304,13 @@
         {
             NavItems = new List<TagBlockContext>()
         };
-        StrapNavItemContext.NavItems.Add(new TagBlockContext { Caption = "导航 1", CommandAction = () => BtnClick($"导航 1"), IsActived = true });
-        StrapNavItemContext.NavItems.Add(new TagBlockContext { Caption = "导航 2", CommandAction = () => BtnClick($"导航 2") });
-        StrapNavItemContext.NavItems.Add(new TagBlockContext { Caption = "导航 3", CommandAction = () => BtnClick($"导航 3"), IsEnabled = false });
+        StrapNavItemContext.NavItems.Add(new TagBlockContext { Caption = "导航 1", CommandAction = (o) => BtnClick($"导航 1"), IsActived = true });
+        StrapNavItemContext.NavItems.Add(new TagBlockContext { Caption = "导航 2", CommandAction = (o) => BtnClick($"导航 2") });
+        StrapNavItemContext.NavItems.Add(new TagBlockContext { Caption = "导航 3", CommandAction = (o) => BtnClick($"导航 3"), IsEnabled = false });
         StrapNavItemContext.NavItems.Add(DropdownDemoItem);
     }
 
-    private async Task ProgressDemo()
+    private async Task ProgressDemo(object o)
     {
         var pdata = new TProgressContext { Max = 50 };
         ProgressData.DataContext = pdata;
@@ -346,11 +346,11 @@
         });
     }
 
-    private void ShowModal()
+    private void ShowModal(object obj)
     {
         var md = new TModalContext(new TContext<Counter>()) { Caption = "测试 计数器" };
-        md = md.OK(() => Log("点击了OK按钮"), "确定吗?")
-            .Close(() => Log("取消按钮"), "不要了");
+        md = md.OK((o) => Log("点击了OK按钮"), "确定吗?")
+            .Close((o) => Log("取消按钮"), "不要了");
         //ShowModal(new TContext<Counter>() { Caption = "测试 计数器" }, ButtonType.OKCancel);
         ShowModal(md);
     }

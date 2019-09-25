@@ -6,6 +6,9 @@ using System.Text;
 
 namespace Thunder.Blazor.Models
 {
+    /// <summary>
+    /// 上下文返回值类
+    /// </summary>
     public class ContextResult
     {
         /// <summary>
@@ -55,4 +58,39 @@ namespace Thunder.Blazor.Models
         No
     }
 
+    /// <summary>
+    /// 上下文委托类
+    /// </summary>
+    public class ContextAction
+    {
+        public ContextAction(string text, ContextResultValue result, Action<object> action)
+        {
+            Text = text;
+            Result = result;
+            Action = action;
+        }
+
+        /// <summary>
+        /// 文本（如果需要显示）
+        /// </summary>
+        public string Text { get; set; }
+        /// <summary>
+        /// 操作返回值
+        /// </summary>
+        public ContextResultValue Result { get; set; }
+        /// <summary>
+        /// 操作委托
+        /// </summary>
+        public Action<object> Action { get; set; }
+        /// <summary>
+        /// 操作返回对象
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public ContextResult ContextResult<T>(T data)
+        {
+            return new ContextResult(data, typeof(T), Result);
+        }
+    }
 }

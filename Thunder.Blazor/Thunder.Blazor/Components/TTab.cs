@@ -65,7 +65,7 @@ namespace Thunder.Blazor.Components
             DataContext.TabsItems = DataContext?.TabsItems.OrderBy(x => x.Index).ToList();
             foreach (var item in DataContext.TabsItems)
             {
-                item.CommandAction = () => TabClick(item);
+                item.CommandAction = (obj) => TabClick(item);
             }
             //LoadDataContext();
 
@@ -100,7 +100,7 @@ namespace Thunder.Blazor.Components
                    Index = x.Index,
                    Caption = x.Caption,
                    IsActived = x.IsActived,
-                   CommandAction = () =>
+                   CommandAction = (obj) =>
                    {
                        SetActive(x.Id);
                    }

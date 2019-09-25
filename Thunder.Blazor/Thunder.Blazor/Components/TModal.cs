@@ -2,6 +2,7 @@
 
 using Microsoft.AspNetCore.Components;
 using System;
+using System.Collections.Generic;
 using Thunder.Blazor.Models;
 using Thunder.Blazor.Services;
 
@@ -25,12 +26,18 @@ namespace Thunder.Blazor.Components
             base.OnInitialized();
         }
 
+        /// <summary>
+        /// Load datacontext to view
+        /// </summary>
         public override void LoadDataContext()
         {
             base.LoadDataContext();
             ButtonTypes = dataContext.ButtonTypes;
         }
 
+        /// <summary>
+        /// Udpate DataContext from view
+        /// </summary>
         public override void UpdateDataContext()
         {
             base.UpdateDataContext();
@@ -43,10 +50,10 @@ namespace Thunder.Blazor.Components
         /// <param name="value">Child 对象</param>
         /// <param name="caption">标题</param>
         /// <param name="button">按钮</param>
-        public void ShowContext(TContext value, string caption = null, ButtonType button = ButtonType.OK)
+        public void ShowContext(TContext value, string caption = null, List<ContextAction> buttons=null)
         {
             DataContext.Caption = caption ?? value?.Caption;
-            DataContext.ButtonTypes = (int)button;
+            DataContext.ContextActions.AddRange(buttons);
             DataContext.Child = value;
             Show();
         }
@@ -55,15 +62,23 @@ namespace Thunder.Blazor.Components
         /// 显示 Modal
         /// </summary>
         /// <param name="value">TModalContext 对象</param>
-        public override void Show(object value)
+        public override void Show(object item)
         {
-            if (value != null)
+            if (item != null)
             {
+                var value = item switch { TModel t => t, _ => null };
+                if (value == null)
+                {
+                    throw new ArgumentException("Not TModel class object.");
+                }
                 DataContext = (TModel)value;
             }
             Show();
         }
 
+        /// <summary>
+        /// 显示
+        /// </summary>
         public override void Show()
         {
             DataContext.IsVisabled = true;
@@ -71,47 +86,42 @@ namespace Thunder.Blazor.Components
             this.InvokeAsync(StateHasChanged);
         }
 
+        /// <summary>
+        /// 加载 / 显示
+        /// </summary>
         public override void Load()
         {
             Show();
         }
 
+        /// <summary>
+        /// 关闭
+        /// </summary>
         public override void Close()
         {
             Close(ContextResult.Cancel());
         }
 
+        /// <summary>
+        /// 加载
+        /// </summary>
+        /// <param name="item"></param>
         public override void Load(object item)
         {
-            var value = (TModel)item;
+            var value = item switch { TModel t => t, _ => null };
+            if (value==null)
+            {
+                throw new ArgumentException("Not TModel class object.");
+            }
             ShowContext(value);
         }
 
-        protected virtual void Close(ContextResult result)
+        protected virtual void Close(ContextAction result,object data)
         {
             DataContext.IsVisabled = false;
             DataContext.OnCommand?.Invoke(this, ContextResult.Cancel());
-            switch (result.Result)
-            {
-                default:
-                case ContextResultValue.None:
-                    break;
-                case ContextResultValue.OK:
-                    DataContext?.OKAction?.Invoke();
-                    break;
-                case ContextResultValue.Cancel:
-                    DataContext?.CancelAction?.Invoke();
-                    break;
-                case ContextResultValue.Close:
-                    DataContext?.CloseAction?.Invoke();
-                    break;
-                case ContextResultValue.Yes:
-                    DataContext?.YesAction?.Invoke();
-                    break;
-                case ContextResultValue.No:
-                    DataContext?.NoAction?.Invoke();
-                    break;
-            }
+            result.Action.Invoke(data);
+            OnResult.InvokeAsync(result.ContextResult(data));
 
             //DataContext.Child = new TContext<TNull>();
             LoadDataContext();
@@ -152,75 +162,113 @@ namespace Thunder.Blazor.Components
 
         }
 
-
+        /// <summary>
+        /// 按钮枚举值
+        /// </summary>
         public int ButtonTypes { get; set; }
-        public new Action<TContext, string, ButtonType> Show { get; set; }
+        public new Action<TContext, string, List<ContextAction>> Show { get; set; }
 
-        public string OKTitle { get; set; } = "确定";
-        public string CancelTitle { get; set; } = "取消";
-        public string YesTitle { get; set; } = "是";
-        public string NoTitle { get; set; } = "否";
-        public string CloseTitle { get; set; } = "关闭";
-
-        public Action OKAction { get; set; }
-        public Action CancelAction { get; set; }
-        public Action YesAction { get; set; }
-        public Action NoAction { get; set; }
-        public Action CloseAction { get; set; }
-
-        public TModalContext OK(Action action, string title = null)
-            => SetAction(action, ButtonTypeValue.OK, title);
-
-        public new TModalContext Cancel(Action action, string title = null)
-            => SetAction(action, ButtonTypeValue.Cancel, title);
-
-        public TModalContext Yes(Action action, string title = null)
-            => SetAction(action, ButtonTypeValue.Yes, title);
-
-        public TModalContext No(Action action, string title = null)
-            => SetAction(action, ButtonTypeValue.No, title);
-
-        public new TModalContext Close(Action action, string title = null)
-            => SetAction(action, ButtonTypeValue.Close, title);
+        public List<ContextAction> ContextActions { get; } = new List<ContextAction>();
 
         /// <summary>
-        /// 方法设置
+        /// Add OK button
         /// </summary>
         /// <param name="action"></param>
-        /// <param name="bvalue"></param>
         /// <param name="title"></param>
         /// <returns></returns>
-        protected TModalContext SetAction(Action action, ButtonTypeValue bvalue, string title = null)
+        public TModalContext OK(Action<object> action, string title = null)
+            => AddAction(new ContextAction(title, ContextResultValue.OK, action));
+
+        /// <summary>
+        /// Add OK button
+        /// </summary>
+        /// <param name="action"></param>
+        /// <param name="title"></param>
+        /// <returns></returns>
+        public new TModalContext Cancel(Action<object> action, string title = null)
+            => AddAction(new ContextAction(title, ContextResultValue.Cancel, action));
+
+        /// <summary>
+        /// Add Yes button
+        /// </summary>
+        /// <param name="action"></param>
+        /// <param name="title"></param>
+        /// <returns></returns>
+        public TModalContext Yes(Action<object> action, string title = null)
+            => AddAction(new ContextAction(title, ContextResultValue.Yes, action));
+
+        /// <summary>
+        /// Add No button
+        /// </summary>
+        /// <param name="action"></param>
+        /// <param name="title"></param>
+        /// <returns></returns>
+        public TModalContext No(Action<object> action, string title = null)
+            => AddAction(new ContextAction(title, ContextResultValue.No, action));
+
+        /// <summary>
+        /// Add Close button
+        /// </summary>
+        /// <param name="action"></param>
+        /// <param name="title"></param>
+        /// <returns></returns>
+        public new TModalContext Close(Action<object> action, string title = null)
+            => AddAction(new ContextAction(title, ContextResultValue.Close, action));
+
+        /// <summary>
+        /// Add Custom button
+        /// </summary>
+        /// <param name="action"></param>
+        /// <param name="title"></param>
+        /// <returns></returns>
+        public TModalContext CustomButton(Action<object> action, string title = null)
+            => AddAction(new ContextAction(title, ContextResultValue.None, action));
+
+        /// <summary>
+        /// 添加按钮方法
+        /// </summary>
+        /// <param name="contextAction"></param>
+        /// <returns></returns>
+        public TModalContext AddAction(ContextAction contextAction)
         {
-            title = string.IsNullOrWhiteSpace(title) ? null : title;
-            ButtonTypes |= (int)bvalue;
-            switch (bvalue)
+            if (contextAction == null)
             {
-                case ButtonTypeValue.Close:
-                    CloseAction = action;
-                    CloseTitle = title ?? CloseTitle;
-                    break;
-                case ButtonTypeValue.OK:
-                    OKAction = action;
-                    OKTitle = title ?? OKTitle;
-                    break;
-                case ButtonTypeValue.Cancel:
-                    CancelAction = action;
-                    CancelTitle = title ?? CancelTitle;
-                    break;
-                case ButtonTypeValue.Yes:
-                    YesAction = action;
-                    YesTitle = title ?? YesTitle;
-                    break;
-                case ButtonTypeValue.No:
-                    NoAction = action;
-                    NoTitle = title ?? NoTitle;
-                    break;
-                default:
-                    break;
+                throw new NullReferenceException("contextAction is null.");
             }
+            ButtonTypes |= (int)contextAction.Result;
+            contextAction.Text = SetActionTitle(contextAction);
+            ContextActions.Add(contextAction);
             return this;
         }
+
+        /// <summary>
+        /// 重置按钮方法
+        /// </summary>
+        /// <returns></returns>
+        public TModalContext ResetAction()
+        {
+            ContextActions.Clear();
+            return this;
+        }
+
+        protected string SetActionTitle(ContextAction contextAction)
+        {
+            if (!string.IsNullOrWhiteSpace(contextAction?.Text))
+            {
+                return contextAction.Text;
+            }
+            string v = contextAction!.Result switch
+            {
+                ContextResultValue.OK => "确定",
+                ContextResultValue.Cancel => "取消",
+                ContextResultValue.Yes => "是",
+                ContextResultValue.No => "否",
+                ContextResultValue.Close => "关闭",
+                _ => ""
+            };
+            return v;
+       }
+
     }
 
 }

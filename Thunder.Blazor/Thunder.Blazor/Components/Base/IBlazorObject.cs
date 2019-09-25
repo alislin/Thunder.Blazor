@@ -54,7 +54,7 @@ namespace Thunder.Blazor.Components
         /// <summary>
         /// 操作指令
         /// </summary>
-        Action CommandAction { get; set; }
+        Action<object> CommandAction { get; set; }
     }
 
     /// <summary>

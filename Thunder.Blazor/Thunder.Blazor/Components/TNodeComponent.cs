@@ -94,7 +94,7 @@ namespace Thunder.Blazor.Components
             }
         }
 
-        public void ToggleOpen()
+        public void ToggleOpen(object o)
         {
             IsOpen = !IsOpen;
             UpdateDataContext();
@@ -149,10 +149,10 @@ namespace Thunder.Blazor.Components
         /// 扩展组件点击事件（自动关闭展开状态）
         /// </summary>
         /// <param name="commandAction"></param>
-        public void OpenItemClick(Action commandAction)
+        public void OpenItemClick(Action<object> commandAction)
         {
             ComponentService.DoAction("openblock");
-            commandAction?.Invoke();
+            commandAction?.Invoke(this);
         }
     }
 }
