@@ -58,10 +58,17 @@ namespace Thunder.Blazor.Components
         /// <summary>
         /// 加载
         /// </summary>
-        public override void Load()
+        public override void Load(object obj)
         {
-            Show();
+            var result = obj is Node<TModel> ? (Node<TModel>)obj : null;
+            if (result == null)
+            {
+                throw new ArgumentException($"obj is not {typeof(Node<TModel>).Name}.");
+            }
+            dataContext = result;
+            LoadDataContext();
         }
+
         /// <summary>
         /// 显示 / 激活
         /// </summary>

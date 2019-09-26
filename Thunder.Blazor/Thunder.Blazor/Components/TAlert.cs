@@ -24,26 +24,33 @@ namespace Thunder.Blazor.Components
             Close();
         }
 
-        public override void Close(object item)
+        public override void CloseItem(object item)
         {
             Cancel();
         }
 
-        public override void Load(object item)
-        {
-            Show(item);
-        }
-
-        public override void Show(object item)
+        public override void LoadItem(object item)
         {
             if (item == null)
             {
-                Show();
                 return;
             }
-            var mc = (TModel)item;
-            dataContext = mc;
+            DataContext.Child = (TContext)item;
             LoadDataContext();
+        }
+
+        public override void Load(object obj)
+        {
+            if (obj == null)
+            {
+                return;
+            }
+            DataContext = (TModel)obj;
+            LoadDataContext();
+        }
+
+        public override void ShowItem(object item)
+        {
             Show();
         }
     }

@@ -67,14 +67,14 @@ namespace Thunder.Blazor.Components
         /// 显示 Modal
         /// </summary>
         /// <param name="value">TModalContext 对象</param>
-        public override void Show(object item)
+        public override void ShowItem(object item)
         {
             if (item != null)
             {
-                var value = item switch { TModel t => t, _ => null };
+                var value = item is TModel ? (TModel)item : null;
                 if (value == null)
                 {
-                    throw new ArgumentException("Not TModel class object.");
+                    throw new ArgumentException($"obj is not {typeof(TModel).Name}.");
                 }
                 DataContext = (TModel)value;
             }
@@ -92,11 +92,11 @@ namespace Thunder.Blazor.Components
         }
 
         /// <summary>
-        /// 加载 / 显示
+        /// 加载
         /// </summary>
-        public override void Load()
+        public override void Load(object obj)
         {
-            Show();
+            base.Load(obj);
         }
 
         /// <summary>
@@ -104,20 +104,16 @@ namespace Thunder.Blazor.Components
         /// </summary>
         public override void Close()
         {
-            Close(ContextResult.Cancel());
+            CloseItem(ContextResult.Cancel());
         }
 
         /// <summary>
         /// 加载
         /// </summary>
         /// <param name="item"></param>
-        public override void Load(object item)
+        public override void LoadItem(object item)
         {
-            var value = item switch { TModel t => t, _ => null };
-            if (value==null)
-            {
-                throw new ArgumentException("Not TModel class object.");
-            }
+            var value = (TContext)item;
             ShowContext(value);
         }
 
@@ -135,17 +131,12 @@ namespace Thunder.Blazor.Components
 
         public override void Cancel()
         {
-            Close(ContextResult.Cancel());
+            CloseItem(ContextResult.Cancel());
         }
 
-        public override void Close(object item)
+        public override void CloseItem(object item)
         {
-
-            var result = item switch
-            {
-                ContextResult r => r,
-                _ => null
-            };
+            var result = item is ContextResult ? (ContextResult)item : null;
 
             var data = result?.Data;
             var resulttype = result?.Result ?? ContextResultValue.Cancel;
@@ -277,6 +268,7 @@ namespace Thunder.Blazor.Components
                 ContextResultValue.Close => "关闭",
                 _ => ""
             };
+
             return v;
        }
 

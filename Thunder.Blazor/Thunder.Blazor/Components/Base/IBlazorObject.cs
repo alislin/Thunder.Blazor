@@ -92,10 +92,6 @@ namespace Thunder.Blazor.Components
         /// </summary>
         EventHandler<ContextResult> OnCommand { get; set; }
         /// <summary>
-        /// 加载
-        /// </summary>
-        void Load();
-        /// <summary>
         /// 显示 / 激活
         /// </summary>
         void Show();
@@ -110,7 +106,7 @@ namespace Thunder.Blazor.Components
         /// <summary>
         /// 加载
         /// </summary>
-        Action Load { get; set; }
+        Action<object> Load { get; set; }
         /// <summary>
         /// 显示 / 激活
         /// </summary>

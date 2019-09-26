@@ -1,4 +1,6 @@
-﻿namespace Thunder.Blazor.Services
+﻿using Thunder.Blazor.Components;
+
+namespace Thunder.Blazor.Services
 {
     /// <summary>
     /// 页面服务接口
@@ -8,10 +10,10 @@
         string ServiceId { get; set; }
         string PageType { get; set; }
 
-        void Show(object item);
+        void LoadItem(object item);
+        void ShowItem(object item);
+        void CloseItem(object item);
         void Cancel();
-        void Close(object item);
-        void Load(object item);
     }
 
     public enum PageTypes

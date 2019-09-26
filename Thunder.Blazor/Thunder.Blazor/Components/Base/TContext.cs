@@ -173,7 +173,7 @@ namespace Thunder.Blazor.Components
         /// <summary>
         /// 加载
         /// </summary>
-        public Action Load { get; set; }
+        public Action<object> Load { get; set; }
         /// <summary>
         /// 显示 / 激活
         /// </summary>
@@ -211,19 +211,19 @@ namespace Thunder.Blazor.Components
         /// </summary>
         public EventHandler<ContextResult> OnCommand { get; set; }
         /// <summary>
-        /// 加载
+        /// 加载（子类）
         /// </summary>
         public Action<object> LoadItem { get; set; }
         /// <summary>
-        /// 显示 / 激活
+        /// 显示 / 激活（子类）
         /// </summary>
         public Action<object> ShowItem { get; set; }
         /// <summary>
-        /// 关闭
+        /// 关闭（子类）
         /// </summary>
         public Action<object> CloseItem { get; set; }
         /// <summary>
-        /// 取消
+        /// 取消（子类）
         /// </summary>
         public Action Cancel { get; set; }
     }

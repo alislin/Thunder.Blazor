@@ -57,7 +57,12 @@ namespace ThunderBlazorTest.Components
             throw new NotImplementedException();
         }
 
-        public override void Close(object item = null)
+        public override void Close()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void CloseItem(object item)
         {
             throw new NotImplementedException();
         }
@@ -67,7 +72,17 @@ namespace ThunderBlazorTest.Components
             throw new NotImplementedException();
         }
 
-        public override void Show(object item = null)
+        public override void LoadItem(object item)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Show()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void ShowItem(object item)
         {
             throw new NotImplementedException();
         }

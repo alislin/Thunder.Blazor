@@ -12,7 +12,7 @@ namespace Thunder.Blazor.Components
     /// <summary>
     /// 子组件基类 (View)
     /// </summary>
-    public class TComponent : ComponentBase, IDisposable, IThunderObject, IAnimate, IBehaverComponent, IAttachment
+    public abstract class TComponent : ComponentBase, IDisposable, IThunderObject, IAnimate, IBehaverComponent, IAttachment
     {
         private readonly string domId;
         private readonly CssBuild CssBuild = CssBuild.New;
@@ -157,10 +157,8 @@ namespace Thunder.Blazor.Components
         /// <summary>
         /// 加载
         /// </summary>
-        public virtual void Load()
-        {
-            Show();
-        }
+        public virtual void Load(object data) { }
+
         /// <summary>
         /// 显示 / 激活
         /// </summary>
@@ -239,7 +237,8 @@ namespace Thunder.Blazor.Components
                 Log("No modal component exist.");
                 return;
             }
-            ps.Show(modalItem);
+            ps.Load(modalItem);
+            ps.Show();
         }
 
         protected void CloseModal()
@@ -261,7 +260,7 @@ namespace Thunder.Blazor.Components
                 Log("No Alert component exist.");
                 return;
             }
-            ps.Show(item);
+            ps.ShowItem(item);
         }
 
         #endregion
@@ -515,9 +514,15 @@ namespace Thunder.Blazor.Components
         /// <summary>
         /// 加载
         /// </summary>
-        public override void Load()
+        public override void Load(object obj)
         {
-            Show();
+            var result = obj is TModel ? (TModel)obj : null;
+            if (result == null)
+            {
+                throw new ArgumentException($"obj is not {typeof(TModel).Name}.");
+            }
+            dataContext = result;
+            LoadDataContext();
         }
         /// <summary>
         /// 显示 / 激活
@@ -563,9 +568,9 @@ namespace Thunder.Blazor.Components
         /// </summary>
         public EventCallback<ContextResult> OnResult { get; set; }
 
-        public virtual void LoadItem(object value) { }
-        public virtual void ShowItem(object value) { }
-        public virtual void CloseItem(object value) { }
+        public abstract void LoadItem(object item);
+        public abstract void ShowItem(object item);
+        public abstract void CloseItem(object item);
 
 
         protected override void OnInitialized()
@@ -580,8 +585,8 @@ namespace Thunder.Blazor.Components
             DataContext.Close = Close;
 
             DataContext.LoadItem = Load;
-            DataContext.ShowItem = Show;
-            DataContext.CloseItem = Close;
+            DataContext.ShowItem = ShowItem;
+            DataContext.CloseItem = CloseItem;
             DataContext.Cancel = Cancel;
 
         }
@@ -599,9 +604,9 @@ namespace Thunder.Blazor.Components
             }
         }
 
-        public abstract void Show(object item);
+        //public abstract void Show(object item);
         public abstract void Cancel();
-        public abstract void Close(object item);
-        public abstract void Load(object item);
+        //public abstract void Close(object item);
+        //public abstract void Load(object item);
     }
 }
