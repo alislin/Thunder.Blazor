@@ -8,16 +8,16 @@ namespace Thunder.Blazor.Libs
     {
         public static CssBuild New => new CssBuild();
 
-        public List<string> CssList { get; protected set; } = new List<string>();
-        public List<string> CssAdd { get; protected set; } = new List<string>();
-        public List<string> CssRemove { get; protected set; } = new List<string>();
+        public List<string> CssList { get; } = new List<string>();
+        public List<string> CssAdd { get;  } = new List<string>();
+        public List<string> CssRemove { get;  } = new List<string>();
 
         public string CssString => string.Join(" ", CssList);
 
         public CssBuild Reset()
         {
-            CssAdd = new List<string>();
-            CssRemove = new List<string>();
+            CssAdd.Clear();
+            CssRemove.Clear();
             return this;
         }
 
@@ -79,7 +79,9 @@ namespace Thunder.Blazor.Libs
         public CssBuild Add(IList<string> css, bool condition = true)
         {
             if (!condition) return this;
-            CssAdd = CssAdd.Union(css).ToList();
+            var list = CssAdd.Union(css).ToList();
+            CssAdd.Clear();
+            CssAdd.AddRange(list);
             return this;
         }
 
@@ -92,7 +94,9 @@ namespace Thunder.Blazor.Libs
         public CssBuild Remove(IList<string> css, bool condition = true)
         {
             if (!condition) return this;
-            CssRemove = CssRemove.Union(css).ToList();
+            var list = CssRemove.Union(css).ToList();
+            CssRemove.Clear();
+            CssRemove.AddRange(list);
             return this;
         }
 
@@ -139,7 +143,9 @@ namespace Thunder.Blazor.Libs
         /// <returns></returns>
         public CssBuild Build()
         {
-            CssList = CssAdd.Except(CssRemove).ToList();
+            var list = CssAdd.Except(CssRemove).ToList();
+            CssList.Clear();
+            CssList.AddRange(list);
             return this;
         }
     }

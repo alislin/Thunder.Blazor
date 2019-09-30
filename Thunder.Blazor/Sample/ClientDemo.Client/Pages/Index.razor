@@ -287,13 +287,13 @@
     {
         PaginationItem = new StrapPaginationItem
         {
-            TotalPage = 100,
-            Index = 5,
+            PageTotal = 100,
+            PageIndex = 5,
             ShowMax = 5,
             Goto = x =>
             {
                 BtnClick($"第 {x + 1} 页");
-                PaginationItem.Index = x;
+                PaginationItem.PageIndex = x;
             }
         };
     }

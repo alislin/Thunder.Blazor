@@ -16,7 +16,7 @@ namespace Thunder.Blazor.Services
         void Cancel();
     }
 
-    public enum PageTypes
+    public enum PageType
     {
         Default,
         Modal,

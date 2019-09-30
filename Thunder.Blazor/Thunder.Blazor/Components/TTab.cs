@@ -62,7 +62,9 @@ namespace Thunder.Blazor.Components
         {
             headers.NavItems.Clear();
             moreActivedItem = null;
-            DataContext.TabsItems = DataContext?.TabsItems.OrderBy(x => x.Index).ToList();
+            var orderList = DataContext?.TabsItems.OrderBy(x => x.Index).ToList();
+            DataContext.TabsItems.Clear();
+            dataContext.TabsItems.AddRange(orderList);
             foreach (var item in DataContext.TabsItems)
             {
                 item.CommandAction = (obj) => TabClick(item);
@@ -90,7 +92,6 @@ namespace Thunder.Blazor.Components
             showItems = DataContext?.TabsItems.Take(showCount).ToList();
             headers.NavItems.AddRange(showItems.Select(x => (TagBlockContext)x));
             if (!HasItems || DataContext.TabsItems.Count <= showCount) return false;
-
             dropdownItems = new Node<TagBlockContext>(new TagBlockContext { Caption = "更多" });
 
             var menus = DataContext?.TabsItems.Skip(showCount).Select(x =>
@@ -135,27 +136,27 @@ namespace Thunder.Blazor.Components
             this.InvokeAsync(StateHasChanged);
         }
 
-        protected void TabClick(object obj)
+        protected void TabClick(object item)
         {
-            var v = (TTabItem)obj;
-            SetActive(v.Id);
+            var v = (TTabItem)item;
+            SetActive(v?.Id??Guid.Empty);
         }
 
-        protected void DropTabClick(object obj)
+        protected void DropTabClick(object item)
         {
-            var v = (TagBlockContext)obj;
-            SetActive(v.Id);
+            var v = (TagBlockContext)item;
+            SetActive(v?.Id ?? Guid.Empty);
         }
 
-        protected void TabClose(object obj)
+        protected void TabClose(object item)
         {
-            var v = (TTabItem)obj;
+            var v = (TTabItem)item;
             CloseItem(v);
         }
 
-        public override void ShowItem(object value)
+        public override void ShowItem(object item)
         {
-            LoadItem((TTabItem)value);
+            LoadItem((TTabItem)item);
         }
 
         public override void LoadDataContext()
@@ -177,7 +178,7 @@ namespace Thunder.Blazor.Components
 
     public class TTabContext : TContainer
     {
-        public List<TTabItem> TabsItems { get; set; } = new List<TTabItem>();
+        public List<TTabItem> TabsItems { get; } = new List<TTabItem>();
     }
 
     public class TTabItem : TagBlockContext

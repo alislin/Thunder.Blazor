@@ -29,11 +29,11 @@ namespace Thunder.Blazor.Components
         /// <summary>
         /// 当前页数
         /// </summary>
-        public int Index { get; set; }
+        public int PageIndex { get; set; }
         /// <summary>
         /// 总计页码
         /// </summary>
-        public int TotalPage { get; set; }
+        public int PageTotal { get; set; }
         /// <summary>
         /// 最大显示页码
         /// </summary>
@@ -51,18 +51,18 @@ namespace Thunder.Blazor.Components
         /// 最大页码
         /// </summary>
         public int MaxPage => getMax();
-        public bool ShowLeft => Index > 0 && IsEnabled;
-        public bool ShowRight => Index < TotalPage - 1 && IsEnabled;
+        public bool ShowLeft => PageIndex > 0 && IsEnabled;
+        public bool ShowRight => PageIndex < PageTotal - 1 && IsEnabled;
 
         //public override Type ContextType => typeof(TPagination);
 
         private int getMin()
         {
             var min = 0;
-            min = Index - (ShowMax / 2);
-            if (min + ShowMax > TotalPage - 1)
+            min = PageIndex - (ShowMax / 2);
+            if (min + ShowMax > PageTotal - 1)
             {
-                min = TotalPage - ShowMax - 1;
+                min = PageTotal - ShowMax - 1;
             }
             min = min < 0 ? 0 : min;
             return min;
@@ -71,7 +71,7 @@ namespace Thunder.Blazor.Components
         private int getMax()
         {
             var max = MinPage + ShowMax;
-            max = max > TotalPage - 1 ? TotalPage - 1 : max;
+            max = max > PageTotal - 1 ? PageTotal - 1 : max;
             return max;
         }
     }

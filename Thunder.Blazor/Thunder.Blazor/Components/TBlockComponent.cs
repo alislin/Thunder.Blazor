@@ -12,7 +12,6 @@ namespace Thunder.Blazor.Components
     /// <typeparam name="TModel"></typeparam>
     public class TBlockComponent<TModel> : TComponent<TModel> where TModel : TNode<TModel>, new()
     {
-        [Inject] public ComponentService ComponentService { get; set; }
         /// <summary>
         /// 展开状态
         /// </summary>

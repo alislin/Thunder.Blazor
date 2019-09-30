@@ -5,6 +5,7 @@ using Microsoft.JSInterop;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Thunder.Blazor.Extensions;
 using Thunder.Blazor.Libs;
 
 namespace Thunder.Blazor.Services
@@ -25,6 +26,7 @@ namespace Thunder.Blazor.Services
         /// <returns></returns>
         public async Task UpdateCss(string id,CssBuild css)
         {
+            css.NullCheck();
             // 加载 DOMTokenList
             var src = await JsRuntime.InvokeAsync<CssData>("ThunderBlazor.CssBuilder.ClassList", id);
             css.Build();

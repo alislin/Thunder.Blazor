@@ -13,7 +13,7 @@ namespace Thunder.Blazor.Components
         protected override void OnInitialized()
         {
             IsVisabled = false;
-            PageType = PageTypes.Alert.ToString();
+            PageType = Services.PageType.Alert.ToString();
             UpdateDataContext();
             DataContext.Show = Show;
             base.OnInitialized();

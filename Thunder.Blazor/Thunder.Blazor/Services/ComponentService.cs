@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Thunder.Blazor.Extensions;
 
 namespace Thunder.Blazor.Services
 {
@@ -29,17 +30,24 @@ namespace Thunder.Blazor.Services
         /// </summary>
         public List<IPageService> PageServices { get; } = new List<IPageService>();
 
-        public virtual void Dispose()
+        #region Dispose接口
+        // The bulk of the clean-up code is implemented in Dispose(bool)
+        protected virtual void Dispose(bool disposing)
         {
-
         }
 
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+        #endregion
 
         #region 关闭组件队列
         /// <summary>
         /// 等待关闭状态的组件
         /// </summary>
-        protected List<ActionStack> BlockContextCloseAction { get; set; } = new List<ActionStack>();
+        protected List<ActionStack> BlockContextCloseAction { get; } = new List<ActionStack>();
 
         /// <summary>
         /// 添加ACTION
@@ -80,6 +88,7 @@ namespace Thunder.Blazor.Services
         /// <param name="pageService"></param>
         public void Regist(IPageService pageService)
         {
+            pageService.NullCheck();
             if (PageServices.FirstOrDefault(x => x.ServiceId == pageService.ServiceId) != null)
             {
                 var log = $"ServiceId[{pageService.ServiceId} / {pageService.PageType}] has exist.";
@@ -136,7 +145,7 @@ namespace Thunder.Blazor.Services
         /// </summary>
         /// <param name="type"></param>
         /// <returns></returns>
-        public IPageService Get(PageTypes type)
+        public IPageService Get(PageType type)
         {
             return Get(type.ToString());
         }
@@ -148,7 +157,7 @@ namespace Thunder.Blazor.Services
         /// <returns></returns>
         public IPageService Get(string type)
         {
-            var ps = PageServices.FirstOrDefault(x => type == PageTypes.Default.ToString() || x.PageType == type);
+            var ps = PageServices.FirstOrDefault(x => type == PageType.Default.ToString() || x.PageType == type);
             if (ps == null)
             {
                 var log = $"PageService (type:{type}) not found.";
@@ -167,7 +176,7 @@ namespace Thunder.Blazor.Services
         }
         #endregion
 
-        private void Log(string log,bool throwFlag=false)
+        private static void Log(string log,bool throwFlag=false)
         {
 #if DEBUG
             if (throwFlag)

@@ -32,11 +32,30 @@ namespace Thunder.Blazor.Components
     public class TNodeBase<TModel>:TagBlockContext, INode<TModel> where TModel : TagBlockContext
     {
         public TModel ParentNode { get; set; }
-        public IList<TModel> ChildNodes { get; set; } = new List<TModel>();
+        public IList<TModel> ChildNodes { get; } = new List<TModel>();
         public bool HasChildNodes => (ChildNodes?.Count ?? 0) > 0;
 
         public bool IsOpen { get; set; }
 
+        //public void AddChild(TModel child)
+        //{
+        //    ChildNodes.Add(child);
+        //}
+
+        //public void AddRangChild(IList<TModel> childs)
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+        //public void ClearChild()
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+        //public void RemoveChild(TModel child)
+        //{
+        //    throw new NotImplementedException();
+        //}
     }
 
     /// <summary>
@@ -46,8 +65,12 @@ namespace Thunder.Blazor.Components
     public class TNode<TModel> : TNodeBase<TModel> where TModel:TNode<TModel>
     {
         public Action Close { get; set; } = () => { };
-        public void Add(TModel child, Action action = null)
+        public void Add(TModel child)
         {
+            if (child == null)
+            {
+                throw new NullReferenceException();
+            }
             child.ParentNode = (TModel)this;
             ChildNodes.Add(child);
         }

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Components;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Thunder.Blazor.Models;
 using Thunder.Blazor.Services;
 
@@ -17,11 +18,12 @@ namespace Thunder.Blazor.Components
     {
         [Parameter] public ComponentParamenter Parameters { get; set; }
         [Parameter] public int ButtonTypes { get; set; }
+        private Action OnCloseAction;
 
         protected override void OnInitialized()
         {
             IsVisabled = false;
-            PageType = PageTypes.Modal.ToString();
+            PageType = Services.PageType.Modal.ToString();
             UpdateDataContext();
             DataContext.Show = ShowContext;
             base.OnInitialized();
@@ -51,7 +53,7 @@ namespace Thunder.Blazor.Components
         /// <param name="value">Child 对象</param>
         /// <param name="caption">标题</param>
         /// <param name="button">按钮</param>
-        public void ShowContext(TContext value, string caption = null, List<ContextAction> buttons=null)
+        public void ShowContext(TContext value, string caption = null, List<ContextAction> buttons=null, Action<object> onClose = null)
         {
             DataContext.Caption = caption ?? value?.Caption;
             DataContext.ResetAction();
@@ -60,6 +62,7 @@ namespace Thunder.Blazor.Components
                 DataContext.ContextActions.AddRange(buttons);
             }
             DataContext.Child = value;
+            DataContext.OnClosed = onClose;
             Show();
         }
 
@@ -126,7 +129,8 @@ namespace Thunder.Blazor.Components
 
             //DataContext.Child = new TContext<TNull>();
             LoadDataContext();
-            this.InvokeAsync(StateHasChanged);
+            base.Close();
+            OnCloseAction?.Invoke();
         }
 
         public override void Cancel()
@@ -168,7 +172,7 @@ namespace Thunder.Blazor.Components
         /// 按钮枚举值
         /// </summary>
         public int ButtonTypes { get; set; }
-        public new Action<TContext, string, List<ContextAction>> Show { get; set; }
+        public new Action<TContext, string, List<ContextAction>,Action<object>> Show { get; set; }
 
         public List<ContextAction> ContextActions { get; } = new List<ContextAction>();
 
@@ -235,7 +239,7 @@ namespace Thunder.Blazor.Components
         {
             if (contextAction == null)
             {
-                throw new NullReferenceException("contextAction is null.");
+                throw new NullReferenceException();
             }
             ButtonTypes |= (int)contextAction.Result;
             contextAction.Text = SetActionTitle(contextAction);
@@ -253,7 +257,7 @@ namespace Thunder.Blazor.Components
             return this;
         }
 
-        protected string SetActionTitle(ContextAction contextAction)
+        protected static string SetActionTitle(ContextAction contextAction)
         {
             if (!string.IsNullOrWhiteSpace(contextAction?.Text))
             {

@@ -51,9 +51,9 @@ namespace Thunder.Blazor.Extensions
             settings.Converters.Add(datetimeConverter);
         }
 
-        public static string ToJson(this object obj)
+        public static string ToJson(this object objValue)
         {
-            return JsonConvert.SerializeObject(obj, Formatting.None, settings);
+            return JsonConvert.SerializeObject(objValue, Formatting.None, settings);
         }
 
         public static T FromJson<T>(this string json)

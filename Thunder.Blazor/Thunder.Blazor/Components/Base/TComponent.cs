@@ -3,6 +3,8 @@
 using Microsoft.AspNetCore.Components;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.Threading.Tasks;
 using Thunder.Blazor.Libs;
 using Thunder.Blazor.Models;
 using Thunder.Blazor.Services;
@@ -12,7 +14,7 @@ namespace Thunder.Blazor.Components
     /// <summary>
     /// 子组件基类 (View)
     /// </summary>
-    public abstract class TComponent : ComponentBase, IDisposable, IThunderObject, IAnimate, IBehaverComponent, IAttachment
+    public abstract class TComponent : ComponentBase, IDisposable, IThunderObject, IAnimate, IBehaverComponent, IAttachment, IBaseBehaver
     {
         private readonly string domId;
         private readonly CssBuild CssBuild = CssBuild.New;
@@ -92,14 +94,6 @@ namespace Thunder.Blazor.Components
         /// </summary>
         [Parameter] public string Name { get; set; }
         /// <summary>
-        /// 点击回调
-        /// </summary>
-        //[Parameter] public EventCallback<UIMouseEventArgs> OnClick { get; set; }
-        /// <summary>
-        /// 关闭回调
-        /// </summary>
-        [Parameter] public EventCallback OnClose { get; set; }
-        /// <summary>
         /// 是否含有传入参数
         /// </summary>
         public bool HasParamenters => Paramenters != null;
@@ -121,34 +115,14 @@ namespace Thunder.Blazor.Components
         /// 默认操作指令
         /// </summary>
         [Parameter] public Action<object> CommandAction { get; set; }
+        /// <summary>
+        /// 关闭时调用
+        /// </summary>
+        public Action<object> OnClosed { get; set; }
 
         #endregion
 
         #region IBehaver
-        /// <summary>
-        /// 加载前
-        /// </summary>
-        public EventHandler OnLoading { get; set; }
-        /// <summary>
-        /// 显示前
-        /// </summary>
-        public EventHandler OnShowing { get; set; }
-        /// <summary>
-        /// 关闭前
-        /// </summary>
-        public EventHandler OnClosing { get; set; }
-        /// <summary>
-        /// 加载后
-        /// </summary>
-        public EventHandler OnLoaded { get; set; }
-        /// <summary>
-        /// 显示后
-        /// </summary>
-        public EventHandler OnShowed { get; set; }
-        /// <summary>
-        /// 关闭后
-        /// </summary>
-        public EventHandler OnClosed { get; set; }
         /// <summary>
         /// 操作指令
         /// </summary>
@@ -169,10 +143,6 @@ namespace Thunder.Blazor.Components
                 InitLoaded = false;
             }
             IsVisabled = true;
-            if (!InitLoaded)
-            {
-                OnShowing?.Invoke(this, new EventArgs());
-            }
             this.InvokeAsync(StateHasChanged);
         }
 
@@ -183,6 +153,7 @@ namespace Thunder.Blazor.Components
         {
             IsVisabled = false;
             this.InvokeAsync(StateHasChanged);
+            OnClosed?.Invoke(this);
         }
         #endregion
 
@@ -211,27 +182,30 @@ namespace Thunder.Blazor.Components
         }
         #endregion
 
+        #region 重写基础方法
+        #endregion
+
         #region 组件服务
         /// <summary>
         /// 显示Modal窗口
         /// </summary>
         /// <param name="item">TContext 对象</param>
         /// <param name="button">按钮</param>
-        protected void ShowModal(object item, List<ContextAction> buttons=null)
+        protected void ShowModal(object item, List<ContextAction> buttons = null, Action<object> onClose = null)
         {
-            var ps = (TModal<TModalContext>)(object)ComponentService.Get(PageTypes.Modal);
+            var ps = (TModal<TModalContext>)(object)ComponentService.Get(PageType.Modal);
             if (ps == null)
             {
                 Log("No modal component exist.");
                 return;
             }
             var child = (TContext)item;
-            ps.ShowContext(child, child?.Caption, buttons);
+            ps.ShowContext(child, child?.Caption, buttons, onClose);
         }
 
         protected void ShowModal(TModalContext modalItem)
         {
-            var ps = (TModal<TModalContext>)(object)ComponentService.Get(PageTypes.Modal);
+            var ps = (TModal<TModalContext>)(object)ComponentService.Get(PageType.Modal);
             if (ps == null)
             {
                 Log("No modal component exist.");
@@ -243,7 +217,7 @@ namespace Thunder.Blazor.Components
 
         protected void CloseModal()
         {
-            var ps = (TModal<TModalContext>)(object)ComponentService.Get(PageTypes.Modal);
+            var ps = (TModal<TModalContext>)(object)ComponentService.Get(PageType.Modal);
             if (ps == null)
             {
                 Log("No modal component exist.");
@@ -254,7 +228,7 @@ namespace Thunder.Blazor.Components
 
         protected void ShowAlert(object item)
         {
-            var ps = ComponentService.Get(PageTypes.Alert);
+            var ps = ComponentService.Get(PageType.Alert);
             if (ps == null)
             {
                 Log("No Alert component exist.");
@@ -301,22 +275,8 @@ namespace Thunder.Blazor.Components
         public string NewId(string key = null)
         {
             key = string.IsNullOrWhiteSpace(key) ? "t" : key;
-            var r = rnd.Next(9999999).ToString("0000000");
+            var r = rnd.Next(9999999).ToString("0000000", new NumberFormatInfo());
             return $"{key}_{r}";
-        }
-
-        protected override bool ShouldRender()
-        {
-            return base.ShouldRender();
-        }
-
-        protected override void OnAfterRender(bool firstRender)
-        {
-            base.OnAfterRender(firstRender);
-            if (firstRender)
-            {
-                OnShowed?.Invoke(this, new EventArgs());
-            }
         }
 
         private string GetCss()
@@ -406,8 +366,12 @@ namespace Thunder.Blazor.Components
         /// <param name="child">子组件数据</param>
         protected void SetChild<T, TV>(T child, TV data) where T : TContext where TV : TContext
         {
+            if (data == null)
+            {
+                throw new NullReferenceException();
+            }
             data.Child = child;
-            ChildContent = data.Child.ContextFragment;
+            ChildContent = data.Child?.ContextFragment;
             ChildParamenters = data.Child.ContextParameters;
         }
 
@@ -425,6 +389,7 @@ namespace Thunder.Blazor.Components
                 dataContext.IsActived = IsActived;
                 dataContext.IsEnabled = IsEnabled;
                 dataContext.CommandAction = CommandAction;
+                dataContext.OnClosed = OnClosed;
                 dataContext.Caption = Caption;
                 dataContext.AttachmentInfo = AttachmentInfo;
                 dataContext.BadgeInfo = BadgeInfo;
@@ -432,10 +397,6 @@ namespace Thunder.Blazor.Components
                 dataContext.DomId = DomId;
                 dataContext.SetViewAction(this);
             }
-            //dataContext.IsVisabled = IsVisabled;
-            //dataContext.IsEnabled = IsEnabled;
-            //dataContext.IsActived = IsActived;
-            ////dataContext.CommandAction = CommandAction;
         }
 
         /// <summary>
@@ -452,6 +413,7 @@ namespace Thunder.Blazor.Components
                 IsActived = dataContext.IsActived;
                 IsEnabled = dataContext.IsEnabled;
                 CommandAction = dataContext.CommandAction;
+                OnClosed = dataContext.OnClosed;
                 Caption = dataContext.Caption;
                 AttachmentInfo = dataContext.AttachmentInfo;
                 BadgeInfo = dataContext.BadgeInfo;
@@ -460,10 +422,6 @@ namespace Thunder.Blazor.Components
                 dataContext.SetViewAction(this);
             }
 
-            //IsVisabled = dataContext.IsVisabled;
-            //IsEnabled = dataContext.IsEnabled;
-            //IsActived = dataContext.IsActived;
-            //CommandAction = dataContext.CommandAction;
         }
 
     }
@@ -482,16 +440,20 @@ namespace Thunder.Blazor.Components
             {
                 try
                 {
-                    dataContext = Paramenters.Get<TModel>();
+                    var para = Paramenters.Get<TModel>();
+                    if (para != null)
+                    {
+                        dataContext = para;
+                    }
                 }
-                catch
+                catch (KeyNotFoundException ex)
                 {
-                }
+                    Log(ex.Message);
+                }            
             }
             if (dataContext != null)
             {
                 dataContext.SetViewAction(this);
-                //DataContext.StateHasChanged = StateHasChanged;
             }
         }
 
@@ -532,7 +494,6 @@ namespace Thunder.Blazor.Components
             LoadDataContext();
             base.Show();
             UpdateDataContext();
-            //dataContext.IsVisabled = base.IsVisabled;
         }
         /// <summary>
         /// 关闭
@@ -542,7 +503,6 @@ namespace Thunder.Blazor.Components
             LoadDataContext();
             base.Close();
             UpdateDataContext();
-            //dataContext.IsVisabled = base.IsVisabled;
         }
 
         /// <summary>
@@ -604,9 +564,6 @@ namespace Thunder.Blazor.Components
             }
         }
 
-        //public abstract void Show(object item);
         public abstract void Cancel();
-        //public abstract void Close(object item);
-        //public abstract void Load(object item);
     }
 }

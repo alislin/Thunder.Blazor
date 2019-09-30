@@ -55,6 +55,10 @@ namespace Thunder.Blazor.Components
         /// 操作指令
         /// </summary>
         public Action<object> CommandAction { get; set; } = (obj) => { };
+        /// <summary>
+        /// 关闭时调用
+        /// </summary>
+        public Action<object> OnClosed { get; set; }
 
         /// <summary>
         /// 组件参数(级联传入)

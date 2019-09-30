@@ -2,6 +2,7 @@
 
 using Microsoft.AspNetCore.Components;
 using System;
+using System.Collections.Generic;
 using Thunder.Blazor.Services;
 
 namespace Thunder.Blazor.Components
@@ -41,11 +42,16 @@ namespace Thunder.Blazor.Components
             {
                 try
                 {
-                    dataContext.Context = Paramenters.Get<TModel>();
+                    var para = Paramenters.Get<TModel>();
+                    if (para != null)
+                    {
+                        dataContext.Context = para;
+                    }
                 }
-                catch
+                catch (KeyNotFoundException ex)
                 {
-                }
+                    Log(ex.Message);
+                }            
             }
             if (dataContext != null)
             {
@@ -101,7 +107,7 @@ namespace Thunder.Blazor.Components
             }
         }
 
-        public void ToggleOpen(object o)
+        public void ToggleOpen(object v)
         {
             IsOpen = !IsOpen;
             UpdateDataContext();

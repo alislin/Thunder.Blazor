@@ -7,16 +7,16 @@
     <ul class="@CssStyle">
         @if (DataContext.AlwaysShowNextPrev || DataContext.ShowLeft)
         {
-            <li class="@prevmark"><button class="page-link" @onclick="@(()=> { GotoPage(DataContext.Index - 1); })">@prev</button></li>
+            <li class="@prevmark"><button class="page-link" @onclick="@(()=> { GotoPage(DataContext.PageIndex - 1); })">@prev</button></li>
         }
         @for (int i = DataContext.MinPage; i <= DataContext.MaxPage; i++)
         {
             var x = i;  //翻页索引，不可去掉
-            <li class="@numberMark(DataContext.Index==i)"><button class="page-link" @onclick="@(() => { GotoPage(x); })">@(i + 1)</button></li>
+            <li class="@numberMark(DataContext.PageIndex==x)"><button class="page-link" @onclick="@(() => { GotoPage(x); })">@(x + 1)</button></li>
         }
         @if (DataContext.AlwaysShowNextPrev || DataContext.ShowRight)
         {
-            <li class="@nextmark"><button class="page-link" @onclick="@(()=> { GotoPage(DataContext.Index + 1); })">@next</button></li>
+            <li class="@nextmark"><button class="page-link" @onclick="@(()=> { GotoPage(DataContext.PageIndex + 1); })">@next</button></li>
         }
     </ul>
 }

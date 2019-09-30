@@ -32,7 +32,12 @@ namespace Thunder.Blazor.Components
         /// <summary>
         /// 子节点
         /// </summary>
-        IList<TModel> ChildNodes { get; set; }
+        IList<TModel> ChildNodes { get; }
+        //void AddChild(TModel child);
+        //void AddRangChild(IList<TModel> childs);
+        //void RemoveChild(TModel child);
+        //void ClearChild();
+
     }
     /// <summary>
     /// 基础行为
@@ -55,6 +60,7 @@ namespace Thunder.Blazor.Components
         /// 操作指令
         /// </summary>
         Action<object> CommandAction { get; set; }
+        Action<object> OnClosed { get; set; }
     }
 
     /// <summary>
@@ -62,31 +68,6 @@ namespace Thunder.Blazor.Components
     /// </summary>
     public interface IBehaverComponent
     {
-        /// <summary>
-        /// 加载前
-        /// </summary>
-        EventHandler OnLoading { get; set; }
-        /// <summary>
-        /// 显示前
-        /// </summary>
-        EventHandler OnShowing { get; set; }
-        /// <summary>
-        /// 关闭前
-        /// </summary>
-        EventHandler OnClosing { get; set; }
-
-        /// <summary>
-        /// 加载后
-        /// </summary>
-        EventHandler OnLoaded { get; set; }
-        /// <summary>
-        /// 显示后
-        /// </summary>
-        EventHandler OnShowed { get; set; }
-        /// <summary>
-        /// 关闭后
-        /// </summary>
-        EventHandler OnClosed { get; set; }
         /// <summary>
         /// 操作指令
         /// </summary>

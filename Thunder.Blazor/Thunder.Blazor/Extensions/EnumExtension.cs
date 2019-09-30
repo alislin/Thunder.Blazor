@@ -15,6 +15,10 @@ namespace Thunder.Blazor.Extensions
         /// <returns></returns>
         public static string ToDescriptionString(this Enum val)
         {
+            if (val == null)
+            {
+                throw new ArgumentNullException(nameof(val));
+            }
             DescriptionAttribute[] attributes = (DescriptionAttribute[])val.GetType().GetField(val.ToString()).GetCustomAttributes(typeof(DescriptionAttribute), false);
             return attributes.Length > 0 ? attributes[0].Description : val.ToString();
         }
@@ -118,7 +122,10 @@ namespace Thunder.Blazor.Extensions
 
 
         public static CssBuild Add(this CssBuild css, Enum val, bool condition = true)
-            => css.Add(val.ToDescriptionString(), condition);
+        {
+            css.NullCheck();
+            return css.Add(val.ToDescriptionString(), condition);
+        }
 
         public static bool IsValueFlag(this Enum val, Enum tar)
             => Convert.ToInt32(val).IsValueFlag(tar);
