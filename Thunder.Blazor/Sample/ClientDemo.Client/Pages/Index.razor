@@ -154,7 +154,7 @@
     </div>
     <div class="col">
         <StrapCard StyleClass="m-2" Title="Select">
-            <p class="card-text">当前选择了：@SelectedValue</p>
+            <p class="card-text">当前选择了：<span id="selectDemo">@SelectedValue</span></p>
             <ThunderSelect DataContext="@(new SelectOptionContext { Items=SelectOptions})" StyleClass="form-control" @bind-SelectedValue="SelectedValue"></ThunderSelect>
         </StrapCard>
     </div>
