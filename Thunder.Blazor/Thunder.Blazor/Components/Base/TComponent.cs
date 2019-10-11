@@ -237,6 +237,17 @@ namespace Thunder.Blazor.Components
             ps.ShowItem(item);
         }
 
+        protected void CloseAlert(object item)
+        {
+            var ps = ComponentService.Get(PageType.Alert);
+            if (ps == null)
+            {
+                Log("No Alert component exist.");
+                return;
+            }
+            ps.CloseItem(item);
+        }
+
         #endregion
 
         #region 读取默认级联参数

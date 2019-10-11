@@ -1,12 +1,9 @@
 ﻿@page "/tabs"
-<div class="card m-2">
-    <h5 class="card-header">标签页（Tab）</h5>
-    <div class="card-body">
-        <p class="card-text">标签页</p>
-        <StrapButton CommandAction="AddTab" StyleClass="m-2">Add Tab</StrapButton>
-        <StrapTab DataContext="@TabContext" StyleClass="m-2" ShowCount="4"></StrapTab>
-    </div>
-</div>
+<StrapCard Title="标签页（Tab）" StyleClass="m-2">
+    <p class="card-text">标签页</p>
+    <StrapButton CommandAction="AddTab" StyleClass="m-2">Add Tab</StrapButton>
+    <StrapTab DataContext="@TabContext" StyleClass="m-2" ShowCount="4"></StrapTab>
+</StrapCard>
 
 @code {
     protected TTabContext TabContext { get; set; }

@@ -172,7 +172,7 @@ namespace Thunder.Blazor.Services
         #region 消息事件
         public async void SendMessage(string msg)
         {
-            await Task.Run(() => { OnMessage?.Invoke(this, msg); });
+            await Task.Run(() => { OnMessage?.Invoke(this, msg); }).ConfigureAwait(false);
         }
         #endregion
 

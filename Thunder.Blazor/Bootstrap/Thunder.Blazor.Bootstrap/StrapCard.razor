@@ -1,0 +1,21 @@
+﻿@inherits TComponent
+<div class="card @CssStyle">
+    @if (Header == null)
+    {
+        <h5 class="card-header">@Title</h5>
+    }
+    else
+    {
+        <div class="card-header header-elements-inline">
+            @Header
+        </div>
+    }
+    <div class="card-body">
+        @ChildContent
+    </div>
+</div>
+@code {
+    [Parameter] public RenderFragment Header { get; set; }
+    [Parameter] public string Title { get; set; }
+    [Parameter] public RenderFragment Body { get; set; }
+}

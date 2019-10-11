@@ -1,130 +1,112 @@
 ﻿@page "/"
 @inherits TComponent
 @using System.Threading
+@using Thunder.Standard.Lib.Model;
+
 
 <div class="row">
     <div class="col">
-        <div class="card m-2">
-            <h5 class="card-header">按钮（Button）</h5>
-            <div class="card-body">
-                <p class="card-text">Style,Size,Outline</p>
-                <p class="card-text">@((MarkupString)btnClickText)</p>
-                <StrapButton Caption="Primary" CommandAction="@((o)=>BtnClick("Primary"))" Style="@StyleType.primary" DataContext="@(new TagBlockContext { Caption="P-1",CommandAction=(o)=>BtnClick("P-1")})"></StrapButton>
+        <StrapCard StyleClass="m-2" Title="按钮（Button）">
+            <p class="card-text">Style,Size,Outline</p>
+            <p class="card-text">@((MarkupString)btnClickText)</p>
+            <StrapButton Caption="Primary" CommandAction="@((o)=>BtnClick("Primary"))" Style="@StyleType.primary" DataContext="@(new TagBlockContext { Caption="P-1",CommandAction=(o)=>BtnClick("P-1")})"></StrapButton>
+            <StrapButton Caption="Secondary" CommandAction="@((o)=>BtnClick("Secondary"))" Style="@StyleType.secondary"></StrapButton>
+            <StrapButton Caption="Success" CommandAction="@((o)=>BtnClick("Success"))" Style="@StyleType.success"></StrapButton>
+            <StrapButton Caption="Danger[disable]" CommandAction="@((o)=>BtnClick("Danger"))" Style="@StyleType.danger" IsEnabled="false"></StrapButton>
+            <StrapButton Caption="Warning" CommandAction="@((o)=>BtnClick("Warning"))" Style="@StyleType.warning"></StrapButton>
+            <StrapButton Caption="Info" CommandAction="@((o)=>BtnClick("Info"))" Style="@StyleType.info" Size="SizeType.small"></StrapButton>
+            <StrapButton Caption="Link" CommandAction="@((o)=>BtnClick("Link"))" Style="@StyleType.link"></StrapButton>
+            <StrapButton Caption="Success" CommandAction="@((o)=>BtnClick("Success Outline"))" Style="@StyleType.success" Outline="true"></StrapButton>
+        </StrapCard>
+    </div>
+    <div class="col">
+        <StrapCard StyleClass="m-2" Title="按钮组 (Button group)">
+            <p class="card-text"></p>
+            <StrapButtongroup StyleClass="m-2">
+                <StrapButton Caption="Primary" CommandAction="@((o)=>BtnClick("Primary"))" Style="@StyleType.primary"></StrapButton>
                 <StrapButton Caption="Secondary" CommandAction="@((o)=>BtnClick("Secondary"))" Style="@StyleType.secondary"></StrapButton>
                 <StrapButton Caption="Success" CommandAction="@((o)=>BtnClick("Success"))" Style="@StyleType.success"></StrapButton>
-                <StrapButton Caption="Danger[disable]" CommandAction="@((o)=>BtnClick("Danger"))" Style="@StyleType.danger" IsEnabled="false"></StrapButton>
-                <StrapButton Caption="Warning" CommandAction="@((o)=>BtnClick("Warning"))" Style="@StyleType.warning"></StrapButton>
-                <StrapButton Caption="Info" CommandAction="@((o)=>BtnClick("Info"))" Style="@StyleType.info" Size="SizeType.small"></StrapButton>
-                <StrapButton Caption="Link" CommandAction="@((o)=>BtnClick("Link"))" Style="@StyleType.link"></StrapButton>
-                <StrapButton Caption="Success" CommandAction="@((o)=>BtnClick("Success Outline"))" Style="@StyleType.success" Outline="true"></StrapButton>
-                @*<div class="highlight">
-                        <pre>
-                            <code class="html" data-lang="html">@btncode</code>
-                        </pre>
-                    </div>*@
-            </div>
-        </div>
-    </div>
-    <div class="col">
-        <div class="card m-2">
-            <h5 class="card-header">按钮组 (Button group)</h5>
-            <div class="card-body">
-                <p class="card-text"></p>
-                <StrapButtongroup StyleClass="m-2">
-                    <StrapButton Caption="Primary" CommandAction="@((o)=>BtnClick("Primary"))" Style="@StyleType.primary"></StrapButton>
-                    <StrapButton Caption="Secondary" CommandAction="@((o)=>BtnClick("Secondary"))" Style="@StyleType.secondary"></StrapButton>
-                    <StrapButton Caption="Success" CommandAction="@((o)=>BtnClick("Success"))" Style="@StyleType.success"></StrapButton>
-                </StrapButtongroup>
-                <StrapButtongroup StyleClass="m-2" Size="SizeType.large">
-                    <StrapButton Caption="Primary" CommandAction="@((o)=>BtnClick("Primary"))" Style="@StyleType.secondary"></StrapButton>
-                    <StrapButton Caption="Secondary" CommandAction="@((o)=>BtnClick("Secondary"))" Style="@StyleType.secondary"></StrapButton>
-                    <StrapButton Caption="Success" CommandAction="@((o)=>BtnClick("Success"))" Style="@StyleType.secondary"></StrapButton>
-                    <StrapButton Caption="Danger[disable]" CommandAction="@((o)=>BtnClick("Danger"))" Style="@StyleType.secondary" IsEnabled="false"></StrapButton>
-                </StrapButtongroup>
-                <StrapButtongroup Vertical="true" StyleClass="m-2">
-                    <StrapButton Caption="1" CommandAction="@((o)=>BtnClick("1"))" Style="@StyleType.primary"></StrapButton>
-                    <StrapButton Caption="2" CommandAction="@((o)=>BtnClick("2"))" Style="@StyleType.secondary"></StrapButton>
-                    <StrapButton Caption="3" CommandAction="@((o)=>BtnClick("3"))" Style="@StyleType.success"></StrapButton>
-                </StrapButtongroup>
-            </div>
-        </div>
+            </StrapButtongroup>
+            <StrapButtongroup StyleClass="m-2" Size="SizeType.large">
+                <StrapButton Caption="Primary" CommandAction="@((o)=>BtnClick("Primary"))" Style="@StyleType.secondary"></StrapButton>
+                <StrapButton Caption="Secondary" CommandAction="@((o)=>BtnClick("Secondary"))" Style="@StyleType.secondary"></StrapButton>
+                <StrapButton Caption="Success" CommandAction="@((o)=>BtnClick("Success"))" Style="@StyleType.secondary"></StrapButton>
+                <StrapButton Caption="Danger[disable]" CommandAction="@((o)=>BtnClick("Danger"))" Style="@StyleType.secondary" IsEnabled="false"></StrapButton>
+            </StrapButtongroup>
+            <StrapButtongroup Vertical="true" StyleClass="m-2">
+                <StrapButton Caption="1" CommandAction="@((o)=>BtnClick("1"))" Style="@StyleType.primary"></StrapButton>
+                <StrapButton Caption="2" CommandAction="@((o)=>BtnClick("2"))" Style="@StyleType.secondary"></StrapButton>
+                <StrapButton Caption="3" CommandAction="@((o)=>BtnClick("3"))" Style="@StyleType.success"></StrapButton>
+            </StrapButtongroup>
+        </StrapCard>
     </div>
 </div>
 <div class="row">
     <div class="col">
-        <div class="card m-2">
-            <h5 class="card-header">警告条幅 (Alert infomation)</h5>
-            <div class="card-body">
-                <p class="card-text"></p>
-                <StrapButton Caption="试一下 (Try)" CommandAction="@AlertShow"></StrapButton>
-            </div>
-        </div>
+        <StrapCard StyleClass="m-2" Title="警告条幅 (Alert infomation)">
+            <p class="card-text"></p>
+            <StrapButton Caption="试一下 (Try)" CommandAction="@AlertShow"></StrapButton>
+        </StrapCard>
     </div>
     <div class="col">
-        <div class="card m-2">
-            <h5 class="card-header">提示消息 (Notice pop)</h5>
-            <div class="card-body">
-                <p></p>
-                <StrapButton Caption="试一下 (Try)" CommandAction="@NotyInfo"></StrapButton>
-            </div>
-        </div>
+        <StrapCard StyleClass="m-2" Title="提示消息 (Notice pop)">
+            <p></p>
+            <StrapButton Caption="试一下 (Try)" CommandAction="@NotyInfo"></StrapButton>
+        </StrapCard>
     </div>
 </div>
 <div class="row">
     <div class="col">
-        <div class="card m-2">
-            <h5 class="card-header">下拉菜单 (Dropdown Demo)</h5>
-            <div class="card-body">
-                <p class="card-text"></p>
-                <div class="row">
-                    <div class="col">
-                        <StrapDropdown DataContext="@DropdownDemoItem" StyleClass="m-2" EnableDefaultMenu="true"></StrapDropdown>
-                    </div>
-                    <div class="col">
-                        <StrapDropdown Caption="1 Dropdown menu" EnableDefaultMenu="true" StyleClass="m-2">
-                            <StrapDropdownItem Caption="1 试一下 (Try)" CommandAction="@DropdownDemo"></StrapDropdownItem>
-                            <StrapDropdown Caption="2 二级菜单">
-                                <StrapDropdownItem Caption="2 试一下 (Try)" CommandAction="@DropdownDemo"></StrapDropdownItem>
-                                <StrapDropdownItem Caption="2 试一下 (Try)" CommandAction="@DropdownDemo"></StrapDropdownItem>
-                                <StrapDropdownItem Caption="---试一下 (Try)" CommandAction="@DropdownDemo"></StrapDropdownItem>
-                                <StrapDropdownItem Caption="2 分隔一下" CommandAction="@DropdownDemo"></StrapDropdownItem>
-                            </StrapDropdown>
-                            <StrapDropdownItem Caption="1 试一下 (Try)" CommandAction="@DropdownDemo"></StrapDropdownItem>
+        <StrapCard StyleClass="m-2" Title="下拉菜单 (Dropdown Demo)">
+            <p class="card-text"></p>
+            <div class="row">
+                <div class="col">
+                    <StrapDropdown DataContext="@DropdownDemoItem" StyleClass="m-2" EnableDefaultMenu="true"></StrapDropdown>
+                </div>
+                <div class="col">
+                    <StrapDropdown Caption="1 Dropdown menu" EnableDefaultMenu="true" StyleClass="m-2">
+                        <StrapDropdownItem Caption="1 试一下 (Try)" CommandAction="@DropdownDemo"></StrapDropdownItem>
+                        <StrapDropdown Caption="2 二级菜单">
+                            <StrapDropdownItem Caption="2 试一下 (Try)" CommandAction="@DropdownDemo"></StrapDropdownItem>
+                            <StrapDropdownItem Caption="2 试一下 (Try)" CommandAction="@DropdownDemo"></StrapDropdownItem>
                             <StrapDropdownItem Caption="---试一下 (Try)" CommandAction="@DropdownDemo"></StrapDropdownItem>
-                            <StrapDropdownItem Caption="1 分隔一下" CommandAction="@DropdownDemo"></StrapDropdownItem>
+                            <StrapDropdownItem Caption="2 分隔一下" CommandAction="@DropdownDemo"></StrapDropdownItem>
                         </StrapDropdown>
-                    </div>
-                    <div class="col">
-                        <StrapDropdown Caption="Counter" StyleClass="m-2">
-                            <div class="p-4">
-                                <Counter></Counter>
+                        <StrapDropdownItem Caption="1 试一下 (Try)" CommandAction="@DropdownDemo"></StrapDropdownItem>
+                        <StrapDropdownItem Caption="---试一下 (Try)" CommandAction="@DropdownDemo"></StrapDropdownItem>
+                        <StrapDropdownItem Caption="1 分隔一下" CommandAction="@DropdownDemo"></StrapDropdownItem>
+                    </StrapDropdown>
+                </div>
+                <div class="col">
+                    <StrapDropdown Caption="Counter" StyleClass="m-2">
+                        <div class="p-4">
+                            <Counter></Counter>
+                        </div>
+                    </StrapDropdown>
+                </div>
+                <div class="col">
+                    <StrapDropdown Caption="Login" StyleClass="m-2">
+                        <form class="p-4">
+                            <div class="form-group">
+                                <label for="exampleDropdownFormEmail2">Email address</label>
+                                <input type="email" class="form-control" id="exampleDropdownFormEmail2" placeholder="email@example.com">
                             </div>
-                        </StrapDropdown>
-                    </div>
-                    <div class="col">
-                        <StrapDropdown Caption="Login" StyleClass="m-2">
-                            <form class="p-4">
-                                <div class="form-group">
-                                    <label for="exampleDropdownFormEmail2">Email address</label>
-                                    <input type="email" class="form-control" id="exampleDropdownFormEmail2" placeholder="email@example.com">
-                                </div>
-                                <div class="form-group">
-                                    <label for="exampleDropdownFormPassword2">Password</label>
-                                    <input type="password" class="form-control" id="exampleDropdownFormPassword2" placeholder="Password">
-                                </div>
-                                <div class="form-check">
-                                    <input type="checkbox" class="form-check-input" id="dropdownCheck2">
-                                    <label class="form-check-label" for="dropdownCheck2">
-                                        Remember me
-                                    </label>
-                                </div>
-                                <button type="button" class="btn btn-primary">Sign in</button>
-                            </form>
-                        </StrapDropdown>
-                    </div>
+                            <div class="form-group">
+                                <label for="exampleDropdownFormPassword2">Password</label>
+                                <input type="password" class="form-control" id="exampleDropdownFormPassword2" placeholder="Password">
+                            </div>
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="dropdownCheck2">
+                                <label class="form-check-label" for="dropdownCheck2">
+                                    Remember me
+                                </label>
+                            </div>
+                            <button type="button" class="btn btn-primary">Sign in</button>
+                        </form>
+                    </StrapDropdown>
                 </div>
             </div>
-        </div>
+        </StrapCard>
     </div>
     <div class="col">
         <div id="@titleId" class="card m-2">
@@ -138,49 +120,43 @@
 </div>
 <div class="row">
     <div class="col">
-        <div class="card m-2">
-            <h5 class="card-header">翻页组件（Pagination）</h5>
-            <div class="card-body">
-                <p class="card-text">
-                    翻页组件
-                </p>
-                <StrapPagination DataContext="@PaginationItem"></StrapPagination>
-                <StrapPagination DataContext="@PaginationItem" Alignment="@AlignmentType.center"></StrapPagination>
-                <StrapPagination DataContext="@PaginationItem" Alignment="@AlignmentType.end"></StrapPagination>
-            </div>
-        </div>
+        <StrapCard StyleClass="m-2" Title="翻页组件（Pagination）">
+            <p class="card-text">
+                翻页组件
+            </p>
+            <StrapPagination DataContext="@PaginationItem"></StrapPagination>
+            <StrapPagination DataContext="@PaginationItem" Alignment="@AlignmentType.center"></StrapPagination>
+            <StrapPagination DataContext="@PaginationItem" Alignment="@AlignmentType.end"></StrapPagination>
+        </StrapCard>
     </div>
     <div class="col">
-        <div class="card m-2">
-            <h5 class="card-header">进度条（Progress）</h5>
-            <div class="card-body">
-                <p class="card-text">进度条</p>
-                <StrapProgress StyleClass="m-2" Value="300" Max="900"></StrapProgress>
-                <StrapProgress StyleClass="m-2" Value="420" Max="900" Style="StyleType.danger"></StrapProgress>
-                <StrapProgress StyleClass="m-2" Value="520" Max="900" IsStriped="true"></StrapProgress>
-                <StrapProgress StyleClass="m-2" Value="620" Max="900" IsStriped="true" ShowAnimate="true" Style="StyleType.info"></StrapProgress>
-                <StrapProgress StyleClass="m-2" Value="720" Max="900" ShowValue="true" Style="StyleType.secondary"></StrapProgress>
-                <StrapProgress StyleClass="m-2" Value="820" Max="900" IsStriped="true" ShowAnimate="true" ShowValue="true" Caption="运行中"></StrapProgress>
-                <StrapProgress StyleClass="m-2" Height="1" Value="820" Max="900"></StrapProgress>
-                <p></p>
-                <StrapButton Caption="开始加载 (Try Load)" CommandAction="@(async(o)=> {await ProgressDemo(o); })"></StrapButton>
-                <StrapProgress StyleClass="m-2" IsStriped="true" ShowAnimate="true" ShowValue="true" @ref="ProgressData"></StrapProgress>
-            </div>
-        </div>
+        <StrapCard StyleClass="m-2" Title="进度条（Progress）">
+            <p class="card-text">进度条</p>
+            <StrapProgress StyleClass="m-2" Value="300" Max="900"></StrapProgress>
+            <StrapProgress StyleClass="m-2" Value="420" Max="900" Style="StyleType.danger"></StrapProgress>
+            <StrapProgress StyleClass="m-2" Value="520" Max="900" IsStriped="true"></StrapProgress>
+            <StrapProgress StyleClass="m-2" Value="620" Max="900" IsStriped="true" ShowAnimate="true" Style="StyleType.info"></StrapProgress>
+            <StrapProgress StyleClass="m-2" Value="720" Max="900" ShowValue="true" Style="StyleType.secondary"></StrapProgress>
+            <StrapProgress StyleClass="m-2" Value="820" Max="900" IsStriped="true" ShowAnimate="true" ShowValue="true" Caption="运行中"></StrapProgress>
+            <StrapProgress StyleClass="m-2" Height="1" Value="820" Max="900"></StrapProgress>
+            <p></p>
+            <StrapButton Caption="开始加载 (Try Load)" CommandAction="@(async(o)=> {await ProgressDemo(o); })"></StrapButton>
+            <StrapProgress StyleClass="m-2" IsStriped="true" ShowAnimate="true" ShowValue="true" @ref="ProgressData"></StrapProgress>
+        </StrapCard>
     </div>
 </div>
 <div class="row">
     <div class="col">
-        <div id="@titleId" class="card m-2">
-            <h5 class="card-header">Modal</h5>
-            <div class="card-body">
-                <p class="card-text"></p>
-                <StrapButton Caption="试一下 (Try)" CommandAction="@ShowModal"></StrapButton>
-            </div>
-        </div>
+        <StrapCard StyleClass="m-2" Title="Modal">
+            <p></p>
+            <StrapButton Caption="试一下 (Try)" CommandAction="@ShowModal"></StrapButton>
+        </StrapCard>
     </div>
     <div class="col">
-
+        <StrapCard StyleClass="m-2" Title="Select">
+            <p class="card-text">当前选择了：@SelectedValue</p>
+            <ThunderSelect DataContext="@(new SelectOptionContext { Items=SelectOptions})" StyleClass="form-control" @bind-SelectedValue="SelectedValue"></ThunderSelect>
+        </StrapCard>
     </div>
 </div>
 <p></p>
@@ -201,6 +177,8 @@
     protected Node<TagBlockContext> DropdownDemoItem { get; set; }
     protected StrapPaginationItem PaginationItem { get; set; }
     protected TNavContext StrapNavItemContext { get; set; }
+    protected List<SelectOption> SelectOptions { get; set; }
+    protected string SelectedValue { get; set; }
 
     string btncode = "<StrapButton Caption=\"Primary\" CommandAction=\"@(()=>BtnClick(\"Primary\"))\" Style=\"@StyleType.primary\" DataContext=\"@(new TagBlockContext { Caption=\"P-1\",CommandAction=()=>BtnClick(\"P-1\")})\"></StrapButton>";
 
@@ -213,6 +191,7 @@
         DropdownDemoItem = GetDropdownDemo();
         InitPagination();
         InitNav();
+        InitSelect();
 
         base.OnInitialized();
     }
@@ -308,6 +287,16 @@
         StrapNavItemContext.NavItems.Add(new TagBlockContext { Caption = "导航 2", CommandAction = (o) => BtnClick($"导航 2") });
         StrapNavItemContext.NavItems.Add(new TagBlockContext { Caption = "导航 3", CommandAction = (o) => BtnClick($"导航 3"), IsEnabled = false });
         StrapNavItemContext.NavItems.Add(DropdownDemoItem);
+    }
+
+    private void InitSelect()
+    {
+        SelectOptions = new List<SelectOption>();
+        SelectOptions.Add(new SelectOption { Text = "Option 1 (Value:1)", Value = "1" });
+        SelectOptions.Add(new SelectOption { Text = "Option 2 (Value:2)", Value = "2" });
+        SelectOptions.Add(new SelectOption { Text = "Option 3 (Value:3)", Value = "3" });
+        SelectOptions.Add(new SelectOption { Text = "Option 4 (Value:4)", Value = "4" });
+        SelectOptions.Add(new SelectOption { Text = "Option 5 (Value:5)", Value = "5" });
     }
 
     private async Task ProgressDemo(object o)

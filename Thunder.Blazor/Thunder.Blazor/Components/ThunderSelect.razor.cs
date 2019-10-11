@@ -56,7 +56,7 @@ namespace Thunder.Blazor.Components
         protected override void OnInitialized()
         {
             base.OnInitialized();
-            selectvalue = DataContext.Items.FirstOrDefault(x => x.Selected).Value;
+            selectvalue = DataContext.Items?.FirstOrDefault(x => x.Selected)?.Value;
         }
 
         protected override void OnAfterRender(bool firstRender)
