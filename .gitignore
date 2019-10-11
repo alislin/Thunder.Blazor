@@ -9,3 +9,5 @@ obj
 *.user
 publish
 /Thunder.Blazor/.vscode
+/Thunder.Blazor/JsLibs/Thunder.Blazor.Noty/content/thunder.noty.js.map
+/Thunder.Blazor/JsLibs/Thunder.Blazor.Noty/content/thunder.noty.js
