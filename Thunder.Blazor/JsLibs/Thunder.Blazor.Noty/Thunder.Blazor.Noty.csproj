@@ -27,9 +27,6 @@
     <Content Include="content\noty.min.js">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
-    <Content Include="content\thunder.noty.js">
-      <LogicalName>blazor:js:%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
-    </Content>
   </ItemGroup>
 
   <ItemGroup>
@@ -73,12 +70,6 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Thunder.Blazor\Thunder.Blazor.csproj" />
     <ProjectReference Include="..\Thunder.Blazor.DomObject\Thunder.Blazor.DomObject.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Update="content\thunder.noty.js.map">
-      <LogicalName>blazor:file:%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
-    </EmbeddedResource>
   </ItemGroup>
 
   <ItemGroup>
