@@ -19,8 +19,19 @@ namespace Thunder.Blazor.Components
         private readonly string domId;
         private readonly CssBuild CssBuild = CssBuild.New;
         private readonly Random rnd = CommonData.Current.RndSeed;
+        private ComponentService componentService;
 
-        [Inject] protected ComponentService ComponentService { get; set; }
+        [Inject] protected ComponentService ComponentService { get => componentService;
+            set 
+            {
+                componentService = value;
+                if (componentService==null)
+                {
+                    return;
+                }
+                componentService.OnNeedUpdate += (o, e) => Update();
+            }
+        }
 
         public TComponent()
         {

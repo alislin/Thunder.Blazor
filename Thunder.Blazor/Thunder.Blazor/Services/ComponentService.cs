@@ -15,7 +15,14 @@ namespace Thunder.Blazor.Services
     /// </summary>
     public class ComponentService : IDisposable
     {
+        /// <summary>
+        /// 消息事件
+        /// </summary>
         public event EventHandler<string> OnMessage;
+        /// <summary>
+        /// 需要刷新事件
+        /// </summary>
+        public event EventHandler OnNeedUpdate;
 
         public ComponentService(IJSRuntime jsRuntime)
         {
@@ -170,13 +177,30 @@ namespace Thunder.Blazor.Services
         #endregion
 
         #region 消息事件
+        /// <summary>
+        /// 发送消息
+        /// </summary>
+        /// <param name="msg"></param>
         public async void SendMessage(string msg)
         {
             await Task.Run(() => { OnMessage?.Invoke(this, msg); }).ConfigureAwait(false);
         }
+
+        /// <summary>
+        /// 需要刷新
+        /// </summary>
+        public async void NeedUpdate()
+        {
+            await Task.Run(() => { OnNeedUpdate?.Invoke(this,new EventArgs()); }).ConfigureAwait(false);
+        }
         #endregion
 
-        private static void Log(string log,bool throwFlag=false)
+        /// <summary>
+        /// 日志输出
+        /// </summary>
+        /// <param name="log"></param>
+        /// <param name="throwFlag">是否异常日志（抛出异常）</param>
+        public static void Log(string log,bool throwFlag=false)
         {
 #if DEBUG
             if (throwFlag)
