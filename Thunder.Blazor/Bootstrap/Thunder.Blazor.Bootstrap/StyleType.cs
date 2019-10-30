@@ -44,7 +44,8 @@ namespace Thunder.Blazor.Bootstrap
     {
         button,
         a,
-        input
+        input,
+        submit
     }
 
     /// <summary>

@@ -28,5 +28,8 @@ else
         case ActionItemTag.input:
             <input class="@CssStyle" type="button" value="@Caption" disabled="@(!IsEnabled)" @onclick="@CommandAction" />
             break;
+        case ActionItemTag.submit:
+            <input class="@CssStyle" type="submit" value="@Caption" disabled="@(!IsEnabled)" @onclick="@CommandAction" />
+            break;
     }
 }
