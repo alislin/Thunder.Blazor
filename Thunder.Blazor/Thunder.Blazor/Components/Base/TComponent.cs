@@ -138,6 +138,10 @@ namespace Thunder.Blazor.Components
         /// 操作指令
         /// </summary>
         public EventHandler<ContextResult> OnCommand { get; set; }
+        /// <summary>
+        /// 绑定属性变化
+        /// </summary>
+        [Parameter] public EventCallback<object> OnBindChanged { get; set; }
 
         /// <summary>
         /// 加载

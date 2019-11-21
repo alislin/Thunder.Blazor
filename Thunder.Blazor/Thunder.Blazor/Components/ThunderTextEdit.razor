@@ -1,0 +1,33 @@
+﻿@inherits ThunderTextEditBase
+@if (EditMode)
+{
+    <textarea rows="@showRow" type="text" autofocus class="@CssStyle" style="white-space:normal;word-wrap:break-word;word-break:break-all" @bind-value="@Text" @bind-value:event="oninput" @onkeyup="OnKeyUp" />
+    @CloseButton
+}
+else
+{
+    <div @ondblclick="EnterMode" @ontouchstart="TouchCheck" @ontouchend="o=>touchFlag=false">
+        @if (ChildContent != null)
+        {
+            @ChildContent
+        }
+        else
+        {
+            if (!string.IsNullOrWhiteSpace(Text))
+            {
+                if (TextRender != null)
+                {
+                    @(TextRender.Invoke(Text))
+                }
+                else
+                {
+                    @Text
+                }
+            }
+            else
+            {
+                <div class="text-muted">@PlaceHolder</div>
+            }
+        }
+    </div>
+}

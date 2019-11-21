@@ -75,6 +75,7 @@ namespace Thunder.Blazor.Components
 
             SelectedValueChanged.InvokeAsync(selectedItem?.Value);
             SelectedItemChanged.InvokeAsync(selectedItem);
+            OnBindChanged.InvokeAsync(selectedItem);
         }
     }
 
