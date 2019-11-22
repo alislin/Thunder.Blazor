@@ -1,5 +1,5 @@
 # Thunder.Blazor 
-![](https://img.shields.io/badge/.NetCore%203.0-preview9-sucess)
+[![Build Status](https://dev.azure.com/aideePub/Thunder.Blazor/_apis/build/status/alislin.Thunder.Blazor?branchName=master)](https://dev.azure.com/aideePub/Thunder.Blazor/_build/latest?definitionId=4&branchName=master)
 
 | 组件                     | 版本                                                                                 |
 | - | - |
