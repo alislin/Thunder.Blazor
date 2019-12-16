@@ -8,7 +8,7 @@ using Thunder.Blazor.Services;
 
 namespace Thunder.Blazor.Components
 {
-    public class TLayoutBase: LayoutComponentBase
+    public class TLayout: LayoutComponentBase
     {
         [Inject] public DomService DomService { get; set; }
         [Inject] public ComponentService ComponentService { get; set; }
