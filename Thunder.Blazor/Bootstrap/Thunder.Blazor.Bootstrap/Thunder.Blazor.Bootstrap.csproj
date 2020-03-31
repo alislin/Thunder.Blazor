@@ -2,29 +2,30 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <RazorLangVersion>3.0</RazorLangVersion>
+    <LangVersion>8.0</LangVersion>
+    <IsPackable>true</IsPackable>
     <Authors>Ya Lin</Authors>
-    <Description>Not include  Bootstrap css content
+    <Description>
+      Not include  Bootstrap css content
       Blazor framework for rapid development of the program.
 
       Include Common Control base class, and interactions associated logic. Separation of interface and business logic. As a basic framework to use.
-</Description>
+    </Description>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <PackageLicenseFile></PackageLicenseFile>
-
-    <IsPackable>true</IsPackable>
-    <LangVersion>8.0</LangVersion>
-    <RazorLangVersion>3.0</RazorLangVersion>
-    <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
-    <PackageProjectUrl>https://github.com/alislin/Thunder.Blazor</PackageProjectUrl>
     <Copyright>Copyright by Ya Lin</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/alislin/Thunder.Blazor</PackageProjectUrl>
     <Version>1.0.3</Version>
-    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
   </PropertyGroup>
+
+
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="3.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Components" Version="3.1.3" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="3.1.3" />
   </ItemGroup>
+
+
   <ItemGroup>
     <ProjectReference Include="..\..\Thunder.Blazor\Thunder.Blazor.csproj" />
   </ItemGroup>

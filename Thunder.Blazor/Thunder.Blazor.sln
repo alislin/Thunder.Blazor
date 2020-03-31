@@ -21,8 +21,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "JsLibs", "JsLibs", "{CF57C8
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Thunder.Blazor.Animate", "JsLibs\Thunder.Blazor.Animate\Thunder.Blazor.Animate.csproj", "{BB8B9FAA-B7E4-45AE-BAA6-72646931E3CC}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Bootstrap", "Bootstrap", "{BA91EC08-B587-4BC8-AE0B-CB8A900C3EB5}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Thunder.Blazor.Noty", "JsLibs\Thunder.Blazor.Noty\Thunder.Blazor.Noty.csproj", "{C1CF88A6-2F47-4889-92F0-A91E4339B5BB}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Thunder.Blazor.DomObject", "JsLibs\Thunder.Blazor.DomObject\Thunder.Blazor.DomObject.csproj", "{122ED7B3-2B10-468A-BFFC-0606E68DD137}"
@@ -31,13 +29,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{A9488432-3
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ThunderBlazorTest", "Test\ThunderBlazorTest\ThunderBlazorTest.csproj", "{C0A2BC6B-6C95-4222-8847-7392ED208970}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Thunder.Blazor.Bootstrap", "Bootstrap\Thunder.Blazor.Bootstrap\Thunder.Blazor.Bootstrap.csproj", "{6B855682-4894-4B54-BECC-D92CACDFED42}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Thunder.Blazor.CssBuilder", "Thunder.Blazor.CssBuilder\Thunder.Blazor.CssBuilder.csproj", "{B19D003E-5A61-4D3F-B593-BA123F8B9B42}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ServerDemo", "Sample\ServerDemo\ServerDemo.csproj", "{E4497FA8-7EA8-4DCF-9055-3D057E0B607B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UITest", "UITest\UITest.csproj", "{A12FEF4D-A71E-4635-A424-808567452206}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Bootstrap", "Bootstrap", "{B45EF321-CAD3-4E51-B950-B6EE563C7C04}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Thunder.Blazor.Bootstrap", "Bootstrap\Thunder.Blazor.Bootstrap\Thunder.Blazor.Bootstrap.csproj", "{BFD45AB8-AFA1-44E8-A49D-CC806CDCAC71}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -77,10 +77,6 @@ Global
 		{C0A2BC6B-6C95-4222-8847-7392ED208970}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C0A2BC6B-6C95-4222-8847-7392ED208970}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C0A2BC6B-6C95-4222-8847-7392ED208970}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6B855682-4894-4B54-BECC-D92CACDFED42}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6B855682-4894-4B54-BECC-D92CACDFED42}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6B855682-4894-4B54-BECC-D92CACDFED42}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6B855682-4894-4B54-BECC-D92CACDFED42}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B19D003E-5A61-4D3F-B593-BA123F8B9B42}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B19D003E-5A61-4D3F-B593-BA123F8B9B42}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B19D003E-5A61-4D3F-B593-BA123F8B9B42}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -93,6 +89,10 @@ Global
 		{A12FEF4D-A71E-4635-A424-808567452206}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A12FEF4D-A71E-4635-A424-808567452206}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A12FEF4D-A71E-4635-A424-808567452206}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BFD45AB8-AFA1-44E8-A49D-CC806CDCAC71}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BFD45AB8-AFA1-44E8-A49D-CC806CDCAC71}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BFD45AB8-AFA1-44E8-A49D-CC806CDCAC71}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BFD45AB8-AFA1-44E8-A49D-CC806CDCAC71}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -107,10 +107,10 @@ Global
 		{C1CF88A6-2F47-4889-92F0-A91E4339B5BB} = {CF57C840-C5CD-4E9A-87BF-9A655F04DA2B}
 		{122ED7B3-2B10-468A-BFFC-0606E68DD137} = {CF57C840-C5CD-4E9A-87BF-9A655F04DA2B}
 		{C0A2BC6B-6C95-4222-8847-7392ED208970} = {A9488432-328E-4D8A-8F41-CE21CB7C0A13}
-		{6B855682-4894-4B54-BECC-D92CACDFED42} = {BA91EC08-B587-4BC8-AE0B-CB8A900C3EB5}
 		{B19D003E-5A61-4D3F-B593-BA123F8B9B42} = {CF57C840-C5CD-4E9A-87BF-9A655F04DA2B}
 		{E4497FA8-7EA8-4DCF-9055-3D057E0B607B} = {048EA55C-BEEC-44E0-BF58-FFE172EF3F61}
 		{A12FEF4D-A71E-4635-A424-808567452206} = {A9488432-328E-4D8A-8F41-CE21CB7C0A13}
+		{BFD45AB8-AFA1-44E8-A49D-CC806CDCAC71} = {B45EF321-CAD3-4E51-B950-B6EE563C7C04}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9CCFF833-7926-4C38-BE1B-794E12DDC4A7}
