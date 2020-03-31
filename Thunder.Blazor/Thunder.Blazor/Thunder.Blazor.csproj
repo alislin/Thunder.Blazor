@@ -34,27 +34,27 @@
 
   <ItemGroup>
     <None Remove="Components\_Imports.razor" />
-    <None Remove="content\cssbuild.js" />
-    <None Remove="content\cssbuild.js.map" />
+    <None Remove="jssrc\cssbuild.js" />
+    <None Remove="jssrc\cssbuild.js.map" />
     <None Remove="FodyWeavers.xml" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="content\**\*.js" LogicalName="blazor:js:%(RecursiveDir)%(Filename)%(Extension)" />
-    <EmbeddedResource Include="content\**\*.css" LogicalName="blazor:css:%(RecursiveDir)%(Filename)%(Extension)" />
-    <EmbeddedResource Include="content\**" Exclude="**\*.js;**\*.css" LogicalName="blazor:file:%(RecursiveDir)%(Filename)%(Extension)" />
+    <EmbeddedResource Include="jssrc\**\*.js" LogicalName="blazor:js:%(RecursiveDir)%(Filename)%(Extension)" />
+    <EmbeddedResource Include="jssrc\**\*.css" LogicalName="blazor:css:%(RecursiveDir)%(Filename)%(Extension)" />
+    <EmbeddedResource Include="jssrc\**" Exclude="**\*.js;**\*.css" LogicalName="blazor:file:%(RecursiveDir)%(Filename)%(Extension)" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Remove="content\*.ts" />
+    <EmbeddedResource Remove="jssrc\*.ts" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="content\*.ts" />
+    <None Remove="jssrc\*.ts" />
   </ItemGroup>
 
   <ItemGroup>
-    <TypeScriptCompile Update="content\*.ts">
+    <TypeScriptCompile Update="jssrc\*.ts">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </TypeScriptCompile>
   </ItemGroup>
