@@ -49,6 +49,10 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Thunder.Blazor\Thunder.Blazor.csproj" />
   </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="copy $(TargetPath) $(SolutionDir)\..\output\$(TargetFileName)" />
+  </Target>
   
   
 </Project>

@@ -59,6 +59,10 @@ namespace Thunder.Blazor.Components
         /// </summary>
         [Parameter] public string StyleClass { get; set; }
         /// <summary>
+        /// Html 属性
+        /// </summary>
+        [Parameter(CaptureUnmatchedValues =true)] public Dictionary<string,object> AdditionalAttributes { get; set; }
+        /// <summary>
         /// 仅使用设置的Style样式，跳过自动Style
         /// </summary>
         [Parameter] public bool OnlyStyleClass { get; set; }
@@ -206,7 +210,7 @@ namespace Thunder.Blazor.Components
         /// </summary>
         /// <param name="item">TContext 对象</param>
         /// <param name="button">按钮</param>
-        protected void ShowModal(object item, List<ContextAction> buttons = null, Action<object> onClose = null)
+        protected void ShowModal(object item, List<ContextAction> buttons = null,SizeEnum sizeEnum = SizeEnum.Default, Action<object> onClose = null)
         {
             var ps = (TModal<TModalContext>)(object)ComponentService.Get(PageType.Modal);
             if (ps == null)
@@ -215,7 +219,7 @@ namespace Thunder.Blazor.Components
                 return;
             }
             var child = (TContext)item;
-            ps.ShowContext(child, child?.Caption, buttons, onClose);
+            ps.ShowContext(child, child?.Caption, sizeEnum, buttons, onClose);
         }
 
         protected void ShowModal(TModalContext modalItem)
