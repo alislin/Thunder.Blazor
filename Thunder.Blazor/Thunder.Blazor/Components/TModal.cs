@@ -123,6 +123,10 @@ namespace Thunder.Blazor.Components
 
         protected virtual void Close(ContextAction result,object data)
         {
+            OnClosing = o =>
+            {
+                Disposed = result.Disposed;
+            };
             DataContext.IsVisabled = false;
             DataContext.OnCommand?.Invoke(this, ContextResult.Cancel());
             result.Action?.Invoke(data);

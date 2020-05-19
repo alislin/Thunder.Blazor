@@ -61,6 +61,7 @@ namespace Thunder.Blazor.Components
         /// </summary>
         Action<object> CommandAction { get; set; }
         Action<object> OnClosed { get; set; }
+        Action<object> OnClosing { get; set; }
     }
 
     /// <summary>

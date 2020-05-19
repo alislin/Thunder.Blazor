@@ -21,6 +21,11 @@ namespace Thunder.Blazor.Components
         private readonly Random rnd = CommonData.Current.RndSeed;
         private ComponentService componentService;
 
+        /// <summary>
+        /// 销毁标志，可在关闭事件中取消
+        /// </summary>
+        protected bool Disposed;
+
         [Inject] protected ComponentService ComponentService { get => componentService;
             set 
             {
@@ -131,9 +136,13 @@ namespace Thunder.Blazor.Components
         /// </summary>
         [Parameter] public Action<object> CommandAction { get; set; }
         /// <summary>
-        /// 关闭时调用
+        /// 关闭以后调用
         /// </summary>
         public Action<object> OnClosed { get; set; }
+        /// <summary>
+        /// 关闭中
+        /// </summary>
+        public Action<object> OnClosing { get; set; }
 
         #endregion
 
@@ -170,9 +179,15 @@ namespace Thunder.Blazor.Components
         /// </summary>
         public virtual void Close()
         {
-            IsVisabled = false;
-            this.InvokeAsync(StateHasChanged);
+            Disposed = true;
+            OnClosing?.Invoke(this);
+            if (Disposed)
+            {
+                IsVisabled = false;
+                this.InvokeAsync(StateHasChanged);
+            }
             OnClosed?.Invoke(this);
+
         }
         #endregion
 

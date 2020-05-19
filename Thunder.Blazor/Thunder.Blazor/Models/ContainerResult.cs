@@ -1,5 +1,6 @@
 ﻿/* Ceated by Ya Lin. 2019/7/9 13:58:07 */
 
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -63,11 +64,12 @@ namespace Thunder.Blazor.Models
     /// </summary>
     public class ContextAction
     {
-        public ContextAction(string text, ContextResultValue result, Action<object> action)
+        public ContextAction(string text, ContextResultValue result, Action<object> action,bool disposed=true)
         {
             Text = text;
             Result = result;
             Action = action;
+            Disposed = disposed;
         }
 
         /// <summary>
@@ -78,6 +80,10 @@ namespace Thunder.Blazor.Models
         /// 操作返回值
         /// </summary>
         public ContextResultValue Result { get; set; }
+        /// <summary>
+        /// 关闭标志
+        /// </summary>
+        public bool Disposed { get; set; } = true;
         /// <summary>
         /// 操作委托
         /// </summary>

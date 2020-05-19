@@ -59,6 +59,10 @@ namespace Thunder.Blazor.Components
         /// 关闭时调用
         /// </summary>
         public Action<object> OnClosed { get; set; }
+        /// <summary>
+        /// 关闭中
+        /// </summary>
+        public Action<object> OnClosing { get; set; }
 
         /// <summary>
         /// 组件参数(级联传入)
