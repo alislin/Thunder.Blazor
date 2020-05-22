@@ -569,6 +569,10 @@ namespace Thunder.Blazor.Components
         public string ServiceId { get; set; }
         public string PageType { get; set; }
         /// <summary>
+        /// 注册索引
+        /// </summary>
+        public int ServiceIndex { get; set; }
+        /// <summary>
         /// 返回值
         /// </summary>
         public EventCallback<ContextResult> OnResult { get; set; }
