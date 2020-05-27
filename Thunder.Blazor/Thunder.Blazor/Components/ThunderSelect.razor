@@ -1,25 +1,26 @@
-﻿@inherits TSelectBase
-<select class="@CssStyle" @bind-value="@SelectedValue" @bind-value:event="onchange">
-    @{
-        var vlist = DataContext?.OptionList ?? new List<IGrouping<string, Thunder.Standard.Lib.Model.SelectOption>>();
-    }
-    @if (HasGroup)
-    {
-        @foreach (var group in vlist)
+﻿@inherits TComponent
+    <select class="@CssStyle" @bind-value="SelectedValue" @bind-value:event="onchange">
+        @if (Items != null)
         {
-            <optgroup label="@group.Key" />
-            @foreach (var item in group.ToList())
+            var vlist = OptionList ?? new List<IGrouping<string, Thunder.Standard.Lib.Model.SelectOption>>();
+            if (HasGroup)
             {
-                <option value="@item.Value" >@item.Text</option>
+                @foreach (var group in vlist)
+                {
+                    <optgroup label="@group.Key" />
+                    @foreach (var item in group.ToList())
+                    {
+                        <option value="@item.Value">@item.Text</option>
+                    }
+                }
+            }
+            else
+            {
+                var list = vlist.FirstOrDefault().ToList();
+                @foreach (var item in list)
+                {
+                    <option value="@item.Value">@item.Text</option>
+                }
             }
         }
-    }
-    else
-    {
-        var list = vlist.FirstOrDefault().ToList();
-        @foreach (var item in list)
-        {
-            <option value="@item.Value" >@item.Text</option>
-        }
-    }
-</select>
+    </select>
