@@ -1,9 +1,11 @@
 ﻿@inherits StrapDropdownBase
+@if (IsVisabled)
+{
     <div class="@DropCss">
         @if (EnableDefaultMenuFlag)
         {
             var firstMenu = DataContext.ChildNodes.FirstOrDefault();
-            <StrapButton Caption="@firstMenu.Caption" Style="@Style" Size="@Size" Outline="@Outline" CommandAction="@(o=> { OpenItemClick(firstMenu.CommandAction); })" ActionItemTag="@ActionItemTag" DisableButtonStyle="@DisableButtonStyle" IsActived="IsActived" IsEnabled="IsEnabled" IsVisabled="IsVisabled"></StrapButton>
+            <StrapButton Caption="@firstMenu.Caption" Style="@Style" Size="@Size" Outline="@Outline" CommandAction="@(o => { OpenItemClick(firstMenu.CommandAction); })" ActionItemTag="@ActionItemTag" DisableButtonStyle="@DisableButtonStyle" IsActived="IsActived" IsEnabled="IsEnabled" IsVisabled="IsVisabled"></StrapButton>
             <StrapButton Style="@Style" Size="@Size" Outline="@Outline" StyleClass="@GetToggleCss(true)" CommandAction="@ToggleOpen" ActionItemTag="@ActionItemTag" DisableButtonStyle="@DisableButtonStyle" IsActived="IsActived" IsEnabled="IsEnabled" IsVisabled="IsVisabled"><span class="sr-only">Toggle Dropdown</span></StrapButton>
         }
         else
@@ -30,7 +32,7 @@
                         }
                         else
                         {
-                            <StrapDropdownItem Caption="@item.Caption" CommandAction="@((o)=> { OpenItemClick(item.CommandAction); })" ActionItemTag="ActionItemTag.a" IsActived="item.IsActived" IsEnabled="item.IsEnabled" IsVisabled="item.IsVisabled"></StrapDropdownItem>
+                            <StrapDropdownItem Caption="@item.Caption" CommandAction="@((o) => { OpenItemClick(item.CommandAction); })" ActionItemTag="ActionItemTag.a" IsActived="item.IsActived" IsEnabled="item.IsEnabled" IsVisabled="item.IsVisabled"></StrapDropdownItem>
                         }
                     }
                 }
@@ -41,3 +43,4 @@
             </div>
         }
     </div>
+}

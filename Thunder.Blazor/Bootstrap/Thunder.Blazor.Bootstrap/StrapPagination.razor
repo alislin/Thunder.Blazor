@@ -1,6 +1,6 @@
 ﻿@inherits StrapPaginationBase
 @using Thunder.Blazor.Libs
-@if (DataContext != null)
+@if (IsVisabled && DataContext != null)
 {
     var next = "下一页";
     var prev = "上一页";

@@ -1,4 +1,6 @@
 ﻿@inherits TComponent
+@if (IsVisabled)
+{
     <select class="@CssStyle" @bind-value="SelectedValue" @bind-value:event="onchange">
         @if (Items != null)
         {
@@ -24,3 +26,4 @@
             }
         }
     </select>
+}
