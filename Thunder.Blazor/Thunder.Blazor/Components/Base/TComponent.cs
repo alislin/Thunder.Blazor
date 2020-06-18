@@ -225,7 +225,7 @@ namespace Thunder.Blazor.Components
         /// </summary>
         /// <param name="item">TContext 对象</param>
         /// <param name="button">按钮</param>
-        protected void ShowModal(object item, List<ContextAction> buttons = null,SizeEnum sizeEnum = SizeEnum.Default, Action<object> onClose = null)
+        protected virtual void ShowModal(object item, List<ContextAction> buttons = null,SizeEnum sizeEnum = SizeEnum.Default, Action<object> onClose = null)
         {
             var ps = (TModal<TModalContext>)(object)ComponentService.Get(PageType.Modal);
             if (ps == null)
@@ -237,7 +237,7 @@ namespace Thunder.Blazor.Components
             ps.ShowContext(child, child?.Caption, sizeEnum, buttons, onClose);
         }
 
-        protected void ShowModal(TModalContext modalItem)
+        protected virtual void ShowModal(TModalContext modalItem)
         {
             var ps = (TModal<TModalContext>)(object)ComponentService.Get(PageType.Modal);
             if (ps == null)
@@ -249,7 +249,7 @@ namespace Thunder.Blazor.Components
             ps.Show();
         }
 
-        protected void CloseModal()
+        protected virtual void CloseModal()
         {
             var ps = (TModal<TModalContext>)(object)ComponentService.Get(PageType.Modal);
             if (ps == null)
@@ -260,7 +260,7 @@ namespace Thunder.Blazor.Components
             ps.Close();
         }
 
-        protected void ShowAlert(object item)
+        protected virtual void ShowAlert(object item)
         {
             var ps = ComponentService.Get(PageType.Alert);
             if (ps == null)
@@ -271,12 +271,34 @@ namespace Thunder.Blazor.Components
             ps.ShowItem(item);
         }
 
-        protected void CloseAlert(object item)
+        protected virtual void CloseAlert(object item)
         {
             var ps = ComponentService.Get(PageType.Alert);
             if (ps == null)
             {
                 Log("No Alert component exist.");
+                return;
+            }
+            ps.CloseItem(item);
+        }
+
+        protected virtual void ShowBlock(object item)
+        {
+            var ps = ComponentService.Get(PageType.Block);
+            if (ps == null)
+            {
+                Log("No Block component exist.");
+                return;
+            }
+            ps.ShowItem(item);
+        }
+
+        protected virtual void CloseBlock(object item)
+        {
+            var ps = ComponentService.Get(PageType.Block);
+            if (ps == null)
+            {
+                Log("No Block component exist.");
                 return;
             }
             ps.CloseItem(item);

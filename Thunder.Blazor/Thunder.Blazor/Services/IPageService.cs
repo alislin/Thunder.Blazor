@@ -25,6 +25,7 @@ namespace Thunder.Blazor.Services
         Tab,
         Alert,
         Notify,
+        Block,
         Custom
     }
 }

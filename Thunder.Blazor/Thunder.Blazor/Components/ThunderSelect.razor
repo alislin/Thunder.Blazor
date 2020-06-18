@@ -18,7 +18,7 @@
             }
             else
             {
-                var list = vlist.FirstOrDefault().ToList();
+                var list = vlist?.FirstOrDefault()?.ToList() ?? new List<Standard.Lib.Model.SelectOption>();
                 @foreach (var item in list)
                 {
                     <option value="@item.Value">@item.Text</option>
