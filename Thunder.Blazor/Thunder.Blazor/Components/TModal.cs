@@ -123,14 +123,27 @@ namespace Thunder.Blazor.Components
 
         protected virtual void Close(ContextAction result,object data)
         {
+            if (result != null)
+            {
+                result.ContinueAction = (result, data) => Closed(result, data);
+            }
+            result?.Action?.Invoke(result);
+            if (!result.Disposed)
+            {
+                return;
+            }
             OnClosing = o =>
             {
-                Disposed = result.Disposed;
+                Disposed = result?.Disposed ?? true;
             };
+            Closed(result, data); 
+        }
+
+        protected virtual void Closed(ContextAction result, object data)
+        {
             DataContext.IsVisabled = false;
             DataContext.OnCommand?.Invoke(this, ContextResult.Cancel());
-            result.Action?.Invoke(data);
-            OnResult.InvokeAsync(result.ContextResult(data));
+            OnResult.InvokeAsync(result?.ContextResult(data));
 
             //DataContext.Child = new TContext<TNull>();
             LoadDataContext();

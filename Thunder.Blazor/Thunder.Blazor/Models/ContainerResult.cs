@@ -64,7 +64,7 @@ namespace Thunder.Blazor.Models
     /// </summary>
     public class ContextAction
     {
-        public ContextAction(string text, ContextResultValue result, Action<object> action,bool disposed=true)
+        public ContextAction(string text, ContextResultValue result, Action<ContextAction> action,bool disposed=true)
         {
             Text = text;
             Result = result;
@@ -87,7 +87,11 @@ namespace Thunder.Blazor.Models
         /// <summary>
         /// 操作委托
         /// </summary>
-        public Action<object> Action { get; set; }
+        public Action<ContextAction> Action { get; set; }
+        /// <summary>
+        /// 后续操作委托
+        /// </summary>
+        public Action<ContextAction,object> ContinueAction { get; set; }
         /// <summary>
         /// 操作返回对象
         /// </summary>

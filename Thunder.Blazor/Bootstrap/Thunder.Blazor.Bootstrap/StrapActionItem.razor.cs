@@ -33,7 +33,7 @@ namespace Thunder.Blazor.Bootstrap
             }
 
             Caption = ContextAction.Text;
-            CommandAction = ContextAction.Action;
+            CommandAction = o => ContextAction.Action?.Invoke(ContextAction);
         }
     }
 }
