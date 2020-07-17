@@ -14,7 +14,7 @@ namespace Thunder.Blazor.Components
     /// Modal 窗口
     /// </summary>
     /// <typeparam name="TModel"></typeparam>
-    public class TModal<TModel> : TComponentContainer<TModel> where TModel : TModalContext, new()
+    public class TModal<TModel> : TComponentContainer<TModel> where TModel : TComponent, new()
     {
         [Parameter] public ComponentParamenter Parameters { get; set; }
         [Parameter] public int ButtonTypes { get; set; }

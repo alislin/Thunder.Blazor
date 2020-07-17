@@ -16,9 +16,9 @@ namespace Thunder.Blazor.Components
     /// </summary>
     public abstract class TComponent : ComponentBase, IDisposable, IThunderObject, IAnimate, IBehaverComponent, IAttachment, IBaseBehaver
     {
-        private readonly string domId;
+        private string domId = NewId();
         private readonly CssBuild CssBuild = CssBuild.New;
-        private readonly Random rnd = CommonData.Current.RndSeed;
+        private static readonly Random rnd = CommonData.Current.RndSeed;
         private ComponentService componentService;
 
         /// <summary>
@@ -41,6 +41,7 @@ namespace Thunder.Blazor.Components
         public TComponent()
         {
             domId = NewId();
+            DomId = domId;
         }
 
         #region IThunderObject
@@ -74,7 +75,7 @@ namespace Thunder.Blazor.Components
         /// <summary>
         /// 自动Dom Id
         /// </summary>
-        public string DomId => domId;
+        public string DomId { get; set; } 
         /// <summary>
         /// 主要Css样式
         /// </summary>
@@ -313,9 +314,9 @@ namespace Thunder.Blazor.Components
         /// <typeparam name="TView"></typeparam>
         /// <param name="key"></param>
         /// <returns></returns>
-        public TContext<TView> GetContextParameter<TView>(string key)
+        public TView GetContextParameter<TView>(string key) where TView:TComponent
         {
-            var par = Paramenters?.Get<TContext<TView>>(key);
+            var par = Paramenters?.Get<TView>(key);
             if (par != null)
             {
                 return par;
@@ -324,14 +325,36 @@ namespace Thunder.Blazor.Components
         }
         #endregion
 
+        #region 子组件加载
+        /// <summary>
+        /// 加载子组件
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="child"></param>
+        public void LoadChild<T>(T child) where T:TComponent
+        {
+            if (child == null)
+            {
+                Log("传入参数为空");
+                return;
+            }
+            ChildContent= new RenderFragment(x => { x.OpenComponent(1, child.GetType()); x.CloseComponent(); });
+            ChildParamenters = child.GetComponentParamenter();
+        }
+
+        public ComponentParamenter GetComponentParamenter()
+        {
+            var key = this.GetType().Name;
+            var p = new ComponentParamenter(key, this);
+            return p;
+        }
+        #endregion
+
         /// <summary>
         /// 日志输入
         /// </summary>
         /// <param name="m"></param>
-        protected static void Log(string m)
-        {
-            Console.WriteLine(m);
-        }
+        protected Action<string> Log { get; set; } = m => Console.WriteLine(m);
 
 
         /// <summary>
@@ -339,7 +362,7 @@ namespace Thunder.Blazor.Components
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        public string NewId(string key = null)
+        public static string NewId(string key = null)
         {
             key = string.IsNullOrWhiteSpace(key) ? "t" : key;
             var r = rnd.Next(9999999).ToString("0000000", new NumberFormatInfo());
@@ -425,27 +448,13 @@ namespace Thunder.Blazor.Components
         /// 设置子组件
         /// </summary>
         /// <param name="child">子组件数据</param>
-        public virtual void SetChild(TContext child) { }
+        public virtual void SetChild<TView>(TView child) where TView:TComponent { }
 
-        /// <summary>
-        /// 设置子组件
-        /// </summary>
-        /// <param name="child">子组件数据</param>
-        protected void SetChild<T, TV>(T child, TV data) where T : TContext where TV : TContext
-        {
-            if (data == null)
-            {
-                throw new NullReferenceException();
-            }
-            data.Child = child;
-            ChildContent = data.Child?.ContextFragment;
-            ChildParamenters = data.Child.ContextParameters;
-        }
 
         /// <summary>
         /// Udpate DataContext from view
         /// </summary>
-        protected virtual void UpdateDataContext<T>(T dataContext) where T : TContext
+        protected virtual void UpdateDataContext<T>(T dataContext) where T : TComponent
         {
             if (dataContext != null)
             {
@@ -462,14 +471,13 @@ namespace Thunder.Blazor.Components
                 dataContext.BadgeInfo = BadgeInfo;
 
                 dataContext.DomId = DomId;
-                dataContext.SetViewAction(this);
             }
         }
 
         /// <summary>
         /// Load datacontext to view
         /// </summary>
-        protected virtual void LoadDataContext<T>(T dataContext) where T : TContext
+        protected virtual void LoadDataContext<T>(T dataContext) where T : TComponent
         {
             if (dataContext != null)
             {
@@ -486,7 +494,6 @@ namespace Thunder.Blazor.Components
                 BadgeInfo = dataContext.BadgeInfo;
 
                 dataContext.DomId = DomId;
-                dataContext.SetViewAction(this);
             }
 
         }
@@ -497,8 +504,12 @@ namespace Thunder.Blazor.Components
     /// 含上下文数据的组件
     /// </summary>
     /// <typeparam name="TModel"></typeparam>
-    public abstract class TComponent<TModel> : TComponentObject<TModel> where TModel : TContext, new()
+    public abstract class TComponent<TModel> : TComponentObject<TModel> where TModel : TComponent, new()
     {
+        #region 子组件
+        public TModel Child { get; set; }
+        #endregion
+
 
         protected override void OnInitialized()
         {
@@ -517,10 +528,6 @@ namespace Thunder.Blazor.Components
                 {
                     Log(ex.Message);
                 }            
-            }
-            if (dataContext != null)
-            {
-                dataContext.SetViewAction(this);
             }
         }
 
@@ -571,22 +578,13 @@ namespace Thunder.Blazor.Components
             base.Close();
             UpdateDataContext();
         }
-
-        /// <summary>
-        /// 设置子组件
-        /// </summary>
-        /// <param name="child">子组件数据</param>
-        public override void SetChild(TContext child)
-        {
-            SetChild(child, dataContext);
-        }
     }
 
     /// <summary>
     /// 带容器的组件
     /// </summary>
     /// <typeparam name="TModel"></typeparam>
-    public abstract class TComponentContainer<TModel> : TComponent<TModel>, IPageService where TModel : TContainer, new()
+    public abstract class TComponentContainer<TModel> : TComponent<TModel>, IPageService where TModel : TComponent, new()
     {
         public string ServiceId { get; set; }
         public string PageType { get; set; }
