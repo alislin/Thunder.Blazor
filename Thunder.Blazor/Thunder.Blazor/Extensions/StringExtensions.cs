@@ -1,5 +1,5 @@
 ﻿/* Ceated by Ya Lin. 2019/7/24 16:13:42 */
-#define NET_CORE1
+#define NET_CORE
 using System;
 using System.Collections.Generic;
 using System.Text;
