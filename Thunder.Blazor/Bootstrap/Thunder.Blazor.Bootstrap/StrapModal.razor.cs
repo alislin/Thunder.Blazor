@@ -15,7 +15,7 @@ namespace Thunder.Blazor.Bootstrap
 
         private string GetModalTypeCss()
         {
-            Size = DataContext.SizeEnum switch
+            Size = View.SizeEnum switch
             {
                 SizeEnum.Small => SizeType.small,
                 SizeEnum.Mini => SizeType.small,

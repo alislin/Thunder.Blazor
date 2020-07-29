@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Thunder.Blazor.Components
 {
-    public class TNav:TComponent<TNavContext>
+    public class TNav:TComponent2<TNavContext>
     {
 
     }

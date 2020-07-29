@@ -20,20 +20,20 @@ namespace Thunder.Blazor.Components
 
         public override void LoadDataContext()
         {
-            if (DataContext != null)
+            if (View != null)
             {
-                IsOpen = DataContext.IsOpen;
+                IsOpen = View.IsOpen;
             }
-            LoadDataContext(dataContext.Context);
+            LoadDataContext(view.Context);
         }
 
         public override void UpdateDataContext()
         {
-            if (DataContext != null)
+            if (View != null)
             {
-                DataContext.IsOpen = IsOpen;
+                View.IsOpen = IsOpen;
             }
-            UpdateDataContext(dataContext.Context);
+            UpdateDataContext(view.Context);
         }
         protected override void OnInitialized()
         {
@@ -45,7 +45,7 @@ namespace Thunder.Blazor.Components
                     var para = Paramenters.Get<TModel>();
                     if (para != null)
                     {
-                        dataContext.Context = para;
+                        view.Context = para;
                     }
                 }
                 catch (KeyNotFoundException ex)
@@ -53,12 +53,12 @@ namespace Thunder.Blazor.Components
                     Log(ex.Message);
                 }            
             }
-            if (dataContext != null)
+            if (view != null)
             {
-                dataContext.Context.SetViewAction(this);
+                view.Context.SetViewAction(this);
                 //DataContext.StateHasChanged = StateHasChanged;
             }
-            dataContext.Close = Close;
+            view.Close = Close;
         }
 
         /// <summary>
@@ -71,7 +71,7 @@ namespace Thunder.Blazor.Components
             {
                 throw new ArgumentException($"obj is not {typeof(Node<TModel>).Name}.");
             }
-            dataContext = result;
+            view = result;
             LoadDataContext();
         }
 
@@ -92,7 +92,7 @@ namespace Thunder.Blazor.Components
         /// <param name="child">子组件数据</param>
         public override void SetChild(TContext child)
         {
-            SetChild(child, dataContext.Context);
+            SetChild(child, view.Context);
         }
         public void ToggleShow()
         {

@@ -44,6 +44,32 @@ namespace Thunder.Blazor.Components
             DomId = domId;
         }
 
+        protected override void OnInitialized()
+        {
+            base.OnInitialized();
+            ShowAction = () =>{
+                if (!IsVisabled)
+                {
+                    InitLoaded = false;
+                }
+                IsVisabled = true;
+                this.InvokeAsync(StateHasChanged);
+            };
+
+            CloseAction = () =>
+            {
+                Disposed = true;
+                OnClosing?.Invoke(this);
+                if (Disposed)
+                {
+                    IsVisabled = false;
+                    this.InvokeAsync(StateHasChanged);
+                }
+                OnClosed?.Invoke(this);
+
+            };
+        }
+
         #region IThunderObject
         /// <summary>
         /// 对象名称
@@ -157,10 +183,15 @@ namespace Thunder.Blazor.Components
         /// </summary>
         [Parameter] public EventCallback<object> OnBindChanged { get; set; }
 
+        public Action<object> LoadAction { get; set; }
+        public Action ShowAction { get; set; }
+        public Action CloseAction { get; set; }
+
+
         /// <summary>
         /// 加载
         /// </summary>
-        public virtual void Load(object data) { }
+        public virtual void Load(object data) { LoadAction?.Invoke(data); }
 
         /// <summary>
         /// 显示 / 激活
@@ -416,22 +447,23 @@ namespace Thunder.Blazor.Components
     /// 组件
     /// </summary>
     /// <typeparam name="TModel"></typeparam>
-    public abstract class TComponentObject<TModel> : TComponent where TModel : new()
+    public abstract class TComponent<TModel> : TComponent where TModel : TComponent<TModel>, new()
     {
-        protected TModel dataContext = new TModel();
+        protected TModel view = new TModel();
+        protected abstract void Loaded();
 
         [Parameter]
-        public TModel DataContext
+        public TModel View
         {
             get
             {
                 //UpdateDataContext();
-                return dataContext;
+                return view;
             }
             set
             {
-                dataContext = value;
-                if (dataContext != null)
+                view = value;
+                if (view != null)
                 {
                     LoadDataContext();
                     //StateHasChanged();
@@ -441,7 +473,43 @@ namespace Thunder.Blazor.Components
 
         protected override void OnInitialized()
         {
+            try
+            {
+                View = GetContextParameter<TModel>(null);
+            }
+            catch (Exception ex)
+            {
+                Log(ex.Message);
+                throw;
+            }
             base.OnInitialized();
+            if (HasParamenters)
+            {
+                try
+                {
+                    var para = Paramenters.Get<TModel>();
+                    if (para != null)
+                    {
+                        view = para;
+                    }
+                }
+                catch (KeyNotFoundException ex)
+                {
+                    Log(ex.Message);
+                }
+            }
+            Loaded();
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            disposing = Unloaded(disposing);
+            base.Dispose(disposing);
+        }
+
+        protected virtual bool Unloaded(bool disposing)
+        {
+            return true;
         }
 
         /// <summary>
@@ -498,55 +566,6 @@ namespace Thunder.Blazor.Components
 
         }
 
-    }
-
-    /// <summary>
-    /// 含上下文数据的组件
-    /// </summary>
-    /// <typeparam name="TModel"></typeparam>
-    public abstract class TComponent<TModel> : TComponentObject<TModel> where TModel : TComponent, new()
-    {
-        #region 子组件
-        public TModel Child { get; set; }
-        #endregion
-
-
-        protected override void OnInitialized()
-        {
-            base.OnInitialized();
-            if (HasParamenters)
-            {
-                try
-                {
-                    var para = Paramenters.Get<TModel>();
-                    if (para != null)
-                    {
-                        dataContext = para;
-                    }
-                }
-                catch (KeyNotFoundException ex)
-                {
-                    Log(ex.Message);
-                }            
-            }
-        }
-
-        /// <summary>
-        /// Udpate DataContext from view
-        /// </summary>
-        public override void UpdateDataContext()
-        {
-            UpdateDataContext(dataContext);
-        }
-
-        /// <summary>
-        /// Load datacontext to view
-        /// </summary>
-        public override void LoadDataContext()
-        {
-            LoadDataContext(dataContext);
-        }
-
         /// <summary>
         /// 加载
         /// </summary>
@@ -557,9 +576,10 @@ namespace Thunder.Blazor.Components
             {
                 throw new ArgumentException($"obj is not {typeof(TModel).Name}.");
             }
-            dataContext = result;
+            view = result;
             LoadDataContext();
         }
+
         /// <summary>
         /// 显示 / 激活
         /// </summary>
@@ -578,51 +598,59 @@ namespace Thunder.Blazor.Components
             base.Close();
             UpdateDataContext();
         }
+
     }
 
     /// <summary>
-    /// 带容器的组件
+    /// 容器组件
     /// </summary>
-    /// <typeparam name="TModel"></typeparam>
-    public abstract class TComponentContainer<TModel> : TComponent<TModel>, IPageService where TModel : TComponent, new()
+    public class TComponentContainer : TComponent<TComponentContainer>, IPageService
     {
         public string ServiceId { get; set; }
         public string PageType { get; set; }
-        /// <summary>
-        /// 注册索引
-        /// </summary>
         public int ServiceIndex { get; set; }
+        public Action<object> LoadItemAction { get; set; }
+        public Action<object> ShowItemAction { get; set; }
+        public Action<object> CloseItemAction { get; set; }
+        public Action CancelAction { get; set; }
         /// <summary>
         /// 返回值
         /// </summary>
         public EventCallback<ContextResult> OnResult { get; set; }
 
-        public abstract void LoadItem(object item);
-        public abstract void ShowItem(object item);
-        public abstract void CloseItem(object item);
-
-
-        protected override void OnInitialized()
+        public void Cancel()
         {
-            base.OnInitialized();
+            CancelAction?.Invoke();
+        }
 
+        public void CloseItem(object item)
+        {
+            CloseItemAction?.Invoke(item);
+        }
+
+        public void LoadItem(object item)
+        {
+            LoadItemAction?.Invoke(item);
+        }
+
+        public void ShowItem(object item)
+        {
+            ShowItemAction?.Invoke(item);
+        }
+
+        protected override void Loaded()
+        {
             ServiceId = DomId;
             ComponentService.Regist(this);
 
-            DataContext.Load = Load;
-            DataContext.Show = Show;
-            DataContext.Close = Close;
+            View.LoadAction = Load;
+            View.ShowAction = Show;
+            View.CloseAction = Close;
 
-            DataContext.LoadItem = Load;
-            DataContext.ShowItem = ShowItem;
-            DataContext.CloseItem = CloseItem;
-            DataContext.Cancel = Cancel;
-
-        }
-
-        public virtual void DoCommand(ContextResult result)
-        {
-            DataContext.OnCommand?.Invoke(this, result);
+            View.LoadItemAction = Load;
+            View.ShowItemAction = ShowItem;
+            View.CloseItemAction = CloseItem;
+            View.CancelAction = Cancel;
         }
 
         protected override void Dispose(bool disponsing)
@@ -632,7 +660,11 @@ namespace Thunder.Blazor.Components
                 ComponentService.UnRegist(ServiceId);
             }
         }
-
-        public abstract void Cancel();
+        public virtual void DoCommand(ContextResult result)
+        {
+            View.OnCommand?.Invoke(this, result);
+        }
     }
+
+
 }

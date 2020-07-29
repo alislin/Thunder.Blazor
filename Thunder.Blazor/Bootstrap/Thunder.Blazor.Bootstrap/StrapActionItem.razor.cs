@@ -10,7 +10,7 @@ using Thunder.Blazor.Models;
 
 namespace Thunder.Blazor.Bootstrap
 {
-    public class StrapActionItemBase : TComponent<TagBlockContext>
+    public class StrapActionItemBase : TComponent2<TagBlockContext>
     {
         [Parameter] public StyleType Style { get; set; }
         [Parameter] public ActionItemTag ActionItemTag { get; set; }

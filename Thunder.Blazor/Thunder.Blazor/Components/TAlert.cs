@@ -15,7 +15,7 @@ namespace Thunder.Blazor.Components
             IsVisabled = false;
             PageType = Services.PageType.Alert.ToString();
             UpdateDataContext();
-            DataContext.Show = Show;
+            View.Show = Show;
             base.OnInitialized();
         }
 
@@ -35,7 +35,7 @@ namespace Thunder.Blazor.Components
             {
                 return;
             }
-            DataContext.Child = (TContext)item;
+            View.Child = (TContext)item;
             LoadDataContext();
         }
 
@@ -45,7 +45,7 @@ namespace Thunder.Blazor.Components
             {
                 return;
             }
-            DataContext = (TModel)obj;
+            View = (TModel)obj;
             LoadDataContext();
         }
 

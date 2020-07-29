@@ -12,7 +12,7 @@ namespace Thunder.Blazor.Bootstrap
         protected override void StyleBuild(CssBuild cssBuilder)
         {
             cssBuilder.Add(ComponentType.alert)
-                .Add("-".Join(ComponentType.alert.ToDescriptionString(), (DataContext?.Style ?? StyleType.danger).ToDescriptionString()));
+                .Add("-".Join(ComponentType.alert.ToDescriptionString(), (View?.Style ?? StyleType.danger).ToDescriptionString()));
         }
     }
 

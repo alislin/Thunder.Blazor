@@ -49,7 +49,7 @@ namespace Thunder.Blazor.Bootstrap
 
         public string DropMenuCss => GetDropMenuCss();
         public string DropCss => GetDropCss();
-        protected bool EnableDefaultMenuFlag => EnableDefaultMenu && (DataContext?.ChildNodes?.Count ?? 0) > 0 && !SubItem;
+        protected bool EnableDefaultMenuFlag => EnableDefaultMenu && (View?.ChildNodes?.Count ?? 0) > 0 && !SubItem;
 
         private string GetDropMenuCss()
         {

@@ -8,7 +8,7 @@ using Thunder.Blazor.Components;
 
 namespace Thunder.Blazor.Bootstrap
 {
-    public class BootStrapBase: TComponent<TagBlockContext>
+    public class BootStrapBase: TComponent2<TagBlockContext>
     {
         [Parameter] public StyleType Style { get; set; }
     }

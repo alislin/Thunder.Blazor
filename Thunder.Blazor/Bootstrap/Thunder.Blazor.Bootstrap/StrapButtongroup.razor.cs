@@ -10,7 +10,7 @@ using Thunder.Blazor.Libs;
 
 namespace Thunder.Blazor.Bootstrap
 {
-    public class StrapButtongroupBase : TComponent<TagBlockContext>
+    public class StrapButtongroupBase : TComponent2<TagBlockContext>
     {
         [Parameter] public SizeType Size { get; set; }
         [Parameter] public bool Vertical { get; set; }

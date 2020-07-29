@@ -21,7 +21,7 @@ namespace Thunder.Blazor.Components
         [Parameter] public int ShowCount { get; set; } = 4;
 
 
-        public bool HasItems => (DataContext?.TabsItems.Count ?? 0) > 0;
+        public bool HasItems => (View?.TabsItems.Count ?? 0) > 0;
         protected bool ShowMore { get => showMore; set => showMore = value; }
 
         protected List<TTabItem> ShowItems { get => showItems; set => showItems = value; }
@@ -42,18 +42,18 @@ namespace Thunder.Blazor.Components
                 return;
             }
             var item = (TTabItem)obj;
-            var r = DataContext?.TabsItems?.FirstOrDefault(x => x.Id == item.Id);
+            var r = View?.TabsItems?.FirstOrDefault(x => x.Id == item.Id);
             if (r != null) return;
             var max = 0;
-            if (HasItems) max = DataContext.TabsItems.Max(x => x.Index) + 1;
+            if (HasItems) max = View.TabsItems.Max(x => x.Index) + 1;
             item.Index = max;
-            DataContext.TabsItems.Add(item);
+            View.TabsItems.Add(item);
             SetActive(item.Id);
         }
 
         public override void CloseItem(object item)
         {
-            var k = DataContext.TabsItems.RemoveAll(x => x.Id == ((TTabItem)item).Id);
+            var k = View.TabsItems.RemoveAll(x => x.Id == ((TTabItem)item).Id);
             showMore = UpdateHeads();
             this.InvokeAsync(StateHasChanged);
         }
@@ -62,19 +62,19 @@ namespace Thunder.Blazor.Components
         {
             headers.NavItems.Clear();
             moreActivedItem = null;
-            var orderList = DataContext?.TabsItems.OrderBy(x => x.Index).ToList();
-            DataContext.TabsItems.Clear();
-            dataContext.TabsItems.AddRange(orderList);
-            foreach (var item in DataContext.TabsItems)
+            var orderList = View?.TabsItems.OrderBy(x => x.Index).ToList();
+            View.TabsItems.Clear();
+            view.TabsItems.AddRange(orderList);
+            foreach (var item in View.TabsItems)
             {
                 item.CommandAction = (obj) => TabClick(item);
             }
             //LoadDataContext();
 
-            var first = DataContext?.TabsItems.FirstOrDefault(x => x.IsActived);
+            var first = View?.TabsItems.FirstOrDefault(x => x.IsActived);
             if (first == null)
             {
-                first = DataContext?.TabsItems.FirstOrDefault();
+                first = View?.TabsItems.FirstOrDefault();
                 if (first != null)
                 {
                     first.IsActived = true;
@@ -83,18 +83,18 @@ namespace Thunder.Blazor.Components
             }
 
             var showCount = ShowCount;
-            var count = DataContext?.TabsItems?.Count ?? 0;
+            var count = View?.TabsItems?.Count ?? 0;
             if (count == ShowCount + 1)
             {
                 showCount = count;
             }
 
-            showItems = DataContext?.TabsItems.Take(showCount).ToList();
+            showItems = View?.TabsItems.Take(showCount).ToList();
             headers.NavItems.AddRange(showItems.Select(x => (TagBlockContext)x));
-            if (!HasItems || DataContext.TabsItems.Count <= showCount) return false;
+            if (!HasItems || View.TabsItems.Count <= showCount) return false;
             dropdownItems = new Node<TagBlockContext>(new TagBlockContext { Caption = "更多" });
 
-            var menus = DataContext?.TabsItems.Skip(showCount).Select(x =>
+            var menus = View?.TabsItems.Skip(showCount).Select(x =>
                new TagBlockContext
                {
                    Id = x.Id,
@@ -113,7 +113,7 @@ namespace Thunder.Blazor.Components
             dropdownItems.IsActived = dropdownItems.ChildNodes.FirstOrDefault(x => x.IsActived) != null;
             if (dropdownItems.IsActived)
             {
-                moreActivedItem = DataContext.TabsItems.FirstOrDefault(x => x.IsActived);
+                moreActivedItem = View.TabsItems.FirstOrDefault(x => x.IsActived);
                 headers.NavItems.Add(moreActivedItem);
             }
 
@@ -122,11 +122,11 @@ namespace Thunder.Blazor.Components
 
         protected void SetActive(Guid id)
         {
-            foreach (var item in DataContext.TabsItems)
+            foreach (var item in View.TabsItems)
             {
                 item.IsActived = false;
             }
-            var r = DataContext.TabsItems.FirstOrDefault(x => x.Id == id);
+            var r = View.TabsItems.FirstOrDefault(x => x.Id == id);
             if (r != null)
             {
                 r.IsActived = true;

@@ -14,7 +14,7 @@ namespace Thunder.Blazor.Components
     /// Modal 窗口
     /// </summary>
     /// <typeparam name="TModel"></typeparam>
-    public class TModal<TModel> : TComponentContainer<TModel> where TModel : TComponent, new()
+    public class TModal : TComponentContainer
     {
         [Parameter] public ComponentParamenter Parameters { get; set; }
         [Parameter] public int ButtonTypes { get; set; }
@@ -25,7 +25,7 @@ namespace Thunder.Blazor.Components
             IsVisabled = false;
             PageType = Services.PageType.Modal.ToString();
             UpdateDataContext();
-            DataContext.Show = ShowContext;
+            View.Show = ShowContext;
             base.OnInitialized();
         }
 
@@ -35,7 +35,7 @@ namespace Thunder.Blazor.Components
         public override void LoadDataContext()
         {
             base.LoadDataContext();
-            ButtonTypes = dataContext.ButtonTypes;
+            ButtonTypes = view.ButtonTypes;
         }
 
         /// <summary>
@@ -44,7 +44,7 @@ namespace Thunder.Blazor.Components
         public override void UpdateDataContext()
         {
             base.UpdateDataContext();
-            dataContext.ButtonTypes = ButtonTypes;
+            view.ButtonTypes = ButtonTypes;
         }
 
         /// <summary>
@@ -55,15 +55,15 @@ namespace Thunder.Blazor.Components
         /// <param name="button">按钮</param>
         public void ShowContext(TContext value, string caption = null,SizeEnum sizeEnum= SizeEnum.Default, List<ContextAction> buttons=null, Action<object> onClose = null)
         {
-            DataContext.Caption = caption ?? value?.Caption;
-            DataContext.SizeEnum = sizeEnum;
-            DataContext.ResetAction();
+            View.Caption = caption ?? value?.Caption;
+            View.SizeEnum = sizeEnum;
+            View.ResetAction();
             if (buttons != null)
             {
-                DataContext.ContextActions.AddRange(buttons);
+                View.ContextActions.AddRange(buttons);
             }
-            DataContext.Child = value;
-            DataContext.OnClosed = onClose;
+            View.Child = value;
+            View.OnClosed = onClose;
             Show();
         }
 
@@ -80,7 +80,7 @@ namespace Thunder.Blazor.Components
                 {
                     throw new ArgumentException($"obj is not {typeof(TModel).Name}.");
                 }
-                DataContext = (TModel)value;
+                View = (TModel)value;
             }
             Show();
         }
@@ -90,7 +90,7 @@ namespace Thunder.Blazor.Components
         /// </summary>
         public override void Show()
         {
-            DataContext.IsVisabled = true;
+            View.IsVisabled = true;
             LoadDataContext();
             this.InvokeAsync(StateHasChanged);
         }
@@ -141,8 +141,8 @@ namespace Thunder.Blazor.Components
 
         protected virtual void Closed(ContextAction result, object data)
         {
-            DataContext.IsVisabled = false;
-            DataContext.OnCommand?.Invoke(this, ContextResult.Cancel());
+            View.IsVisabled = false;
+            View.OnCommand?.Invoke(this, ContextResult.Cancel());
             OnResult.InvokeAsync(result?.ContextResult(data));
 
             //DataContext.Child = new TContext<TNull>();
@@ -163,7 +163,7 @@ namespace Thunder.Blazor.Components
             var data = result?.Data;
             var resulttype = result?.Result ?? ContextResultValue.Cancel;
 
-            var action = DataContext.ContextActions?.FirstOrDefault(x => x.Result == resulttype);
+            var action = View.ContextActions?.FirstOrDefault(x => x.Result == resulttype);
             action ??= new ContextAction("", ContextResultValue.Cancel, null);
             Close(action, data);
         }

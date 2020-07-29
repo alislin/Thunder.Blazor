@@ -28,20 +28,20 @@ namespace ThunderBlazorTest.Components
         [Test]
         public void InitComponent()
         {
-            Assert.IsNotNull(tcc.DataContext);
+            Assert.IsNotNull(tcc.View);
         }
 
         [Test]
         public void InitContent()
         {
-            tcc.DataContext = tc;
+            tcc.View = tc;
             Assert.IsTrue(tcc.DomId == tc.DomId);
-            Assert.IsTrue(tcc.DataContext.Caption == tc.Caption);
+            Assert.IsTrue(tcc.View.Caption == tc.Caption);
             tcc.Caption = "change 1";
             tcc.UpdateDataContext();
-            Assert.IsTrue(tcc.Caption == tcc.DataContext.Caption);
+            Assert.IsTrue(tcc.Caption == tcc.View.Caption);
             tc.OnCommand.Invoke(this, ContextResult.Cancel());
-            Assert.IsTrue(tcc.DataContext.ObjectName == "test");
+            Assert.IsTrue(tcc.View.ObjectName == "test");
         }
     }
 

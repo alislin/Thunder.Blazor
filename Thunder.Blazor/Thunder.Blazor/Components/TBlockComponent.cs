@@ -10,7 +10,7 @@ namespace Thunder.Blazor.Components
     /// 内容区域基础类
     /// </summary>
     /// <typeparam name="TModel"></typeparam>
-    public class TBlockComponent<TModel> : TComponent<TModel> where TModel : TNode<TModel>, new()
+    public class TBlockComponent<TModel> : TComponent2<TModel> where TModel : TNode<TModel>, new()
     {
         /// <summary>
         /// 展开状态
@@ -23,18 +23,18 @@ namespace Thunder.Blazor.Components
 
         public override void UpdateDataContext()
         {
-            if (DataContext != null)
+            if (View != null)
             {
-                DataContext.IsOpen = IsOpen;
+                View.IsOpen = IsOpen;
             }
             base.UpdateDataContext();
         }
 
         public override void LoadDataContext()
         {
-            if (DataContext != null)
+            if (View != null)
             {
-                IsOpen = DataContext.IsOpen;
+                IsOpen = View.IsOpen;
             }
             base.LoadDataContext();
         }
@@ -42,7 +42,7 @@ namespace Thunder.Blazor.Components
         protected override void OnInitialized()
         {
             base.OnInitialized();
-            DataContext.Close = Close;
+            View.Close = Close;
         }
 
         public void ToggleShow()

@@ -10,7 +10,7 @@ using Thunder.Blazor.Libs;
 
 namespace Thunder.Blazor.Bootstrap
 {
-    public class StrapBadgeBase : TComponent<TagBlockContext>
+    public class StrapBadgeBase : TComponent2<TagBlockContext>
     {
         [Parameter] public bool Rounded { get; set; }
         [Parameter] public StyleType Style { get; set; }

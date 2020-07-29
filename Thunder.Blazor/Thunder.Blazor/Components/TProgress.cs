@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Thunder.Blazor.Components
 {
-    public class TProgress : TComponent<TProgressContext>
+    public class TProgress : TComponent2<TProgressContext>
     {
         [Parameter] public int Value { get; set; }
         [Parameter] public int Max { get; set; } = 100;
@@ -23,17 +23,17 @@ namespace Thunder.Blazor.Components
         public override void LoadDataContext()
         {
             base.LoadDataContext();
-            Value = dataContext.Value;
-            Max = dataContext.Max;
-            Min = dataContext.Min;
+            Value = view.Value;
+            Max = view.Max;
+            Min = view.Min;
         }
 
         public override void UpdateDataContext()
         {
             base.UpdateDataContext();
-            dataContext.Value = Value;
-            dataContext.Min = Min;
-            dataContext.Max = Max;
+            view.Value = Value;
+            view.Min = Min;
+            view.Max = Max;
         }
     }
 
