@@ -19,7 +19,7 @@
     <PackageProjectUrl>https://github.com/alislin/Thunder.Blazor</PackageProjectUrl>
     <Copyright>Copyright by Ya Lin</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <Version>1.0.2</Version>
+    <Version>1.0.3</Version>
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
     <ResolveCurrentProjectStaticWebAssetsInputsDependsOn>
       CompileTypeScript;
@@ -60,17 +60,17 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="3.1.4" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="3.1.6" />
     <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="3.0.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.TypeScript.MSBuild" Version="3.9.2">
+    <PackageReference Include="Microsoft.TypeScript.MSBuild" Version="3.9.7">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="PropertyChanged.Fody" Version="3.2.8" />
-    <PackageReference Include="Thunder.Standard.Lib" Version="1.1.13" />
+    <PackageReference Include="Thunder.Standard.Lib" Version="1.2.18" />
   </ItemGroup>
 
   <ItemGroup>

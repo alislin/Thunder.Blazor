@@ -39,8 +39,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Bootstrap", "Bootstrap", "{
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Thunder.Blazor.Bootstrap", "Bootstrap\Thunder.Blazor.Bootstrap\Thunder.Blazor.Bootstrap.csproj", "{BFD45AB8-AFA1-44E8-A49D-CC806CDCAC71}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorApp.Server", "BlazorApp.Server\BlazorApp.Server.csproj", "{A6DC77CC-8B99-4132-A6D8-04A811ACD80B}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -95,10 +93,6 @@ Global
 		{BFD45AB8-AFA1-44E8-A49D-CC806CDCAC71}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BFD45AB8-AFA1-44E8-A49D-CC806CDCAC71}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BFD45AB8-AFA1-44E8-A49D-CC806CDCAC71}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A6DC77CC-8B99-4132-A6D8-04A811ACD80B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A6DC77CC-8B99-4132-A6D8-04A811ACD80B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A6DC77CC-8B99-4132-A6D8-04A811ACD80B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A6DC77CC-8B99-4132-A6D8-04A811ACD80B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -117,7 +111,6 @@ Global
 		{E4497FA8-7EA8-4DCF-9055-3D057E0B607B} = {048EA55C-BEEC-44E0-BF58-FFE172EF3F61}
 		{A12FEF4D-A71E-4635-A424-808567452206} = {A9488432-328E-4D8A-8F41-CE21CB7C0A13}
 		{BFD45AB8-AFA1-44E8-A49D-CC806CDCAC71} = {B45EF321-CAD3-4E51-B950-B6EE563C7C04}
-		{A6DC77CC-8B99-4132-A6D8-04A811ACD80B} = {048EA55C-BEEC-44E0-BF58-FFE172EF3F61}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9CCFF833-7926-4C38-BE1B-794E12DDC4A7}
