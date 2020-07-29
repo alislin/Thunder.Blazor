@@ -21,6 +21,11 @@ namespace Thunder.Blazor.Components
         private readonly Random rnd = CommonData.Current.RndSeed;
         private ComponentService componentService;
 
+        /// <summary>
+        /// 销毁标志，可在关闭事件中取消
+        /// </summary>
+        protected bool Disposed;
+
         [Inject] protected ComponentService ComponentService { get => componentService;
             set 
             {
@@ -58,6 +63,10 @@ namespace Thunder.Blazor.Components
         /// 样式类型
         /// </summary>
         [Parameter] public string StyleClass { get; set; }
+        /// <summary>
+        /// Html 属性
+        /// </summary>
+        [Parameter(CaptureUnmatchedValues =true)] public Dictionary<string,object> AdditionalAttributes { get; set; }
         /// <summary>
         /// 仅使用设置的Style样式，跳过自动Style
         /// </summary>
@@ -127,9 +136,13 @@ namespace Thunder.Blazor.Components
         /// </summary>
         [Parameter] public Action<object> CommandAction { get; set; }
         /// <summary>
-        /// 关闭时调用
+        /// 关闭以后调用
         /// </summary>
         public Action<object> OnClosed { get; set; }
+        /// <summary>
+        /// 关闭中
+        /// </summary>
+        public Action<object> OnClosing { get; set; }
 
         #endregion
 
@@ -166,9 +179,15 @@ namespace Thunder.Blazor.Components
         /// </summary>
         public virtual void Close()
         {
-            IsVisabled = false;
-            this.InvokeAsync(StateHasChanged);
+            Disposed = true;
+            OnClosing?.Invoke(this);
+            if (Disposed)
+            {
+                IsVisabled = false;
+                this.InvokeAsync(StateHasChanged);
+            }
             OnClosed?.Invoke(this);
+
         }
         #endregion
 
@@ -206,7 +225,7 @@ namespace Thunder.Blazor.Components
         /// </summary>
         /// <param name="item">TContext 对象</param>
         /// <param name="button">按钮</param>
-        protected void ShowModal(object item, List<ContextAction> buttons = null, Action<object> onClose = null)
+        protected virtual void ShowModal(object item, List<ContextAction> buttons = null,SizeEnum sizeEnum = SizeEnum.Default, Action<object> onClose = null)
         {
             var ps = (TModal<TModalContext>)(object)ComponentService.Get(PageType.Modal);
             if (ps == null)
@@ -215,10 +234,10 @@ namespace Thunder.Blazor.Components
                 return;
             }
             var child = (TContext)item;
-            ps.ShowContext(child, child?.Caption, buttons, onClose);
+            ps.ShowContext(child, child?.Caption, sizeEnum, buttons, onClose);
         }
 
-        protected void ShowModal(TModalContext modalItem)
+        protected virtual void ShowModal(TModalContext modalItem)
         {
             var ps = (TModal<TModalContext>)(object)ComponentService.Get(PageType.Modal);
             if (ps == null)
@@ -230,7 +249,7 @@ namespace Thunder.Blazor.Components
             ps.Show();
         }
 
-        protected void CloseModal()
+        protected virtual void CloseModal()
         {
             var ps = (TModal<TModalContext>)(object)ComponentService.Get(PageType.Modal);
             if (ps == null)
@@ -241,7 +260,7 @@ namespace Thunder.Blazor.Components
             ps.Close();
         }
 
-        protected void ShowAlert(object item)
+        protected virtual void ShowAlert(object item)
         {
             var ps = ComponentService.Get(PageType.Alert);
             if (ps == null)
@@ -252,12 +271,34 @@ namespace Thunder.Blazor.Components
             ps.ShowItem(item);
         }
 
-        protected void CloseAlert(object item)
+        protected virtual void CloseAlert(object item)
         {
             var ps = ComponentService.Get(PageType.Alert);
             if (ps == null)
             {
                 Log("No Alert component exist.");
+                return;
+            }
+            ps.CloseItem(item);
+        }
+
+        protected virtual void ShowBlock(object item)
+        {
+            var ps = ComponentService.Get(PageType.Block);
+            if (ps == null)
+            {
+                Log("No Block component exist.");
+                return;
+            }
+            ps.ShowItem(item);
+        }
+
+        protected virtual void CloseBlock(object item)
+        {
+            var ps = ComponentService.Get(PageType.Block);
+            if (ps == null)
+            {
+                Log("No Block component exist.");
                 return;
             }
             ps.CloseItem(item);
@@ -549,6 +590,10 @@ namespace Thunder.Blazor.Components
     {
         public string ServiceId { get; set; }
         public string PageType { get; set; }
+        /// <summary>
+        /// 注册索引
+        /// </summary>
+        public int ServiceIndex { get; set; }
         /// <summary>
         /// 返回值
         /// </summary>

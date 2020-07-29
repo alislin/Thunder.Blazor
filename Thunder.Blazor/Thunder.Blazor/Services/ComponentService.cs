@@ -102,6 +102,7 @@ namespace Thunder.Blazor.Services
                 Log(log);
                 return;
             }
+            pageService.ServiceIndex = PageServices.Count;
 
             PageServices.Add(pageService);
 
@@ -164,12 +165,24 @@ namespace Thunder.Blazor.Services
         /// <returns></returns>
         public IPageService Get(string type)
         {
-            var ps = PageServices.FirstOrDefault(x => type == PageType.Default.ToString() || x.PageType == type);
-            if (ps == null)
+            var pslist = PageServices.Where(x => type == PageType.Default.ToString() || x.PageType == type).OrderBy(x=>x.ServiceIndex).ToList();
+            var ps = pslist.FirstOrDefault(x => !x.IsVisabled);
+            if (pslist.Count == 0)
             {
                 var log = $"PageService (type:{type}) not found.";
                 Log(log);
-                return ps;
+                return null;
+            }
+            if (ps == null)
+            {
+                if (pslist.Count==1)
+                {
+                    ps = pslist.FirstOrDefault();
+                }
+                else
+                {
+                    ps = pslist.LastOrDefault();
+                }
             }
             return ps;
         }

@@ -37,9 +37,9 @@
     protected override void OnInitialized()
     {
         StrapNavItemContext = new TNavContext();
-        StrapNavItemContext.NavItems.Add(new TagBlockContext { Caption = "Home", CommandAction = (o) => UriHelper.NavigateTo("/") });
-        StrapNavItemContext.NavItems.Add(new TagBlockContext { Caption = "Tabs", CommandAction = (o) => UriHelper.NavigateTo("/tabs") });
-        //StrapNavItemContext.NavItems.Add(new TagBlockContext { Caption = "Counter", CommandAction = () => UriHelper.NavigateTo("/Counter") });
+        StrapNavItemContext.NavItems.Add(new TagBlockContext { Caption = "Home", CommandAction = o => UriHelper.NavigateTo("/") });
+        StrapNavItemContext.NavItems.Add(new TagBlockContext { Caption = "Tabs", CommandAction = o => UriHelper.NavigateTo("/tabs") });
+        StrapNavItemContext.NavItems.Add(new TagBlockContext { Caption = "Counter", CommandAction = o => UriHelper.NavigateTo("/Counter") });
 
         base.OnInitialized();
     }

@@ -9,6 +9,8 @@ namespace Thunder.Blazor.Services
     {
         string ServiceId { get; set; }
         string PageType { get; set; }
+        bool IsVisabled { get; set; }
+        int ServiceIndex { get; set; }
 
         void LoadItem(object item);
         void ShowItem(object item);
@@ -23,6 +25,7 @@ namespace Thunder.Blazor.Services
         Tab,
         Alert,
         Notify,
+        Block,
         Custom
     }
 }

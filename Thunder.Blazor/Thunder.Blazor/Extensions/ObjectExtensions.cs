@@ -32,5 +32,31 @@ namespace Thunder.Blazor.Extensions
             objValue.NullCheck();
             return objValue;
         }
+
+        /// <summary>
+        /// 判断两个对象值相等
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public static bool ValueEqual<T>(this T obja, T objb)
+        {
+            if (obja == null && objb == null)
+            {
+                return true;
+            }
+            if (obja == null || objb == null)
+            {
+                return false;
+            }
+
+            //JSON对比
+            if (obja.ToJson() == objb.ToJson())
+            {
+                return true;
+            }
+
+            return false;
+        }
+
     }
 }

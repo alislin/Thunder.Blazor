@@ -53,7 +53,10 @@ namespace Thunder.Blazor.Components
             }
             if (!parameters.ContainsKey(name))
             {
+                System.Console.WriteLine($"{name} 参数不存在");
+#if DEBUG
                 throw new KeyNotFoundException($"{name} 参数不存在");
+#endif
             }
 
             return (T)parameters[name];

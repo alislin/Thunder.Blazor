@@ -53,9 +53,10 @@ namespace Thunder.Blazor.Components
         /// <param name="value">Child 对象</param>
         /// <param name="caption">标题</param>
         /// <param name="button">按钮</param>
-        public void ShowContext(TContext value, string caption = null, List<ContextAction> buttons=null, Action<object> onClose = null)
+        public void ShowContext(TContext value, string caption = null,SizeEnum sizeEnum= SizeEnum.Default, List<ContextAction> buttons=null, Action<object> onClose = null)
         {
             DataContext.Caption = caption ?? value?.Caption;
+            DataContext.SizeEnum = sizeEnum;
             DataContext.ResetAction();
             if (buttons != null)
             {
@@ -122,10 +123,27 @@ namespace Thunder.Blazor.Components
 
         protected virtual void Close(ContextAction result,object data)
         {
+            if (result != null)
+            {
+                result.ContinueAction = (result, data) => Closed(result, data);
+            }
+            result?.Action?.Invoke(result);
+            if (!result.Disposed)
+            {
+                return;
+            }
+            OnClosing = o =>
+            {
+                Disposed = result?.Disposed ?? true;
+            };
+            Closed(result, data); 
+        }
+
+        protected virtual void Closed(ContextAction result, object data)
+        {
             DataContext.IsVisabled = false;
             DataContext.OnCommand?.Invoke(this, ContextResult.Cancel());
-            result.Action?.Invoke(data);
-            OnResult.InvokeAsync(result.ContextResult(data));
+            OnResult.InvokeAsync(result?.ContextResult(data));
 
             //DataContext.Child = new TContext<TNull>();
             LoadDataContext();
@@ -172,7 +190,11 @@ namespace Thunder.Blazor.Components
         /// 按钮枚举值
         /// </summary>
         public int ButtonTypes { get; set; }
-        public new Action<TContext, string, List<ContextAction>,Action<object>> Show { get; set; }
+        /// <summary>
+        /// 显示尺寸
+        /// </summary>
+        public SizeEnum SizeEnum { get; set; }
+        public new Action<TContext, string,SizeEnum, List<ContextAction>,Action<object>> Show { get; set; }
 
         public List<ContextAction> ContextActions { get; } = new List<ContextAction>();
 

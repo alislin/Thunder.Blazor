@@ -1,4 +1,6 @@
 ﻿@inherits StrapActionItemBase
+@if (IsVisabled)
+{
 @if (!string.IsNullOrEmpty(Caption) && Caption.IndexOf("---") >= 0)
 {
     //分割线
@@ -13,16 +15,16 @@ else
             <button class="@CssStyle" disabled="@(!IsEnabled)" @onclick="@CommandAction">
                 @if (ChildContent == null)
                 {@Caption}
-            else
-            {@ChildContent}
+                else
+                {@ChildContent}
             </button>
             break;
         case ActionItemTag.a:
             <a class="@CssStyle" href="javascript:;" @onclick="@CommandAction">
                 @if (ChildContent == null)
                 {@Caption}
-            else
-            {@ChildContent}
+                else
+                {@ChildContent}
             </a>
             break;
         case ActionItemTag.input:
@@ -32,4 +34,5 @@ else
             <input class="@CssStyle" type="submit" value="@Caption" disabled="@(!IsEnabled)" @onclick="@CommandAction" />
             break;
     }
+}
 }

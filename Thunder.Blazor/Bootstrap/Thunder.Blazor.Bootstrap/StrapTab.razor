@@ -1,5 +1,5 @@
 ﻿@inherits StrapTabBase
-@if (HasItems)
+@if (IsVisabled && HasItems)
 {
     <StrapNav DataContext="@Headers" IsTab="true"></StrapNav>
     <div class="tab-content">

@@ -21,27 +21,27 @@
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Version>1.0.0</Version>
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
+    <ResolveCurrentProjectStaticWebAssetsInputsDependsOn>
+      CompileTypeScript;
+      $(ResolveCurrentProjectStaticWebAssetsInputs)
+    </ResolveCurrentProjectStaticWebAssetsInputsDependsOn>
+    <TypescriptOutDir>wwwroot</TypescriptOutDir>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="content\animate.min.css" />
+    <None Remove="jssrc\animate.min.css" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="content\**\*.js" LogicalName="blazor:js:%(RecursiveDir)%(Filename)%(Extension)" />
-    <EmbeddedResource Include="content\**\*.css" LogicalName="blazor:css:%(RecursiveDir)%(Filename)%(Extension)" />
-    <EmbeddedResource Include="content\**" Exclude="**\*.js;**\*.css" LogicalName="blazor:file:%(RecursiveDir)%(Filename)%(Extension)" />
+    <EmbeddedResource Include="jssrc\**\*.js" LogicalName="blazor:js:%(RecursiveDir)%(Filename)%(Extension)" />
+    <EmbeddedResource Include="jssrc\**\*.css" LogicalName="blazor:css:%(RecursiveDir)%(Filename)%(Extension)" />
+    <EmbeddedResource Include="jssrc\**" Exclude="**\*.js;**\*.css" LogicalName="blazor:file:%(RecursiveDir)%(Filename)%(Extension)" />
   </ItemGroup>
 
   <ItemGroup>
-    <TypeScriptCompile Include="content\thunder.animate.ts">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </TypeScriptCompile>
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="3.1.6" />
-    <PackageReference Include="Microsoft.TypeScript.MSBuild" Version="3.9.7">
+    <PackageReference Include="Microsoft.AspNetCore.Components" Version="3.1.4" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="3.1.4" />
+    <PackageReference Include="Microsoft.TypeScript.MSBuild" Version="3.9.2">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
@@ -50,6 +50,10 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Thunder.Blazor\Thunder.Blazor.csproj" />
   </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="copy $(TargetPath) $(SolutionDir)\..\output\$(TargetFileName)" />
+  </Target>
   
   
 </Project>

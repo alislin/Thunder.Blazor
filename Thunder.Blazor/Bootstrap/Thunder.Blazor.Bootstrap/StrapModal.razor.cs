@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Components;
 using Thunder.Blazor.Components;
 using Thunder.Blazor.Extensions;
 using Thunder.Blazor.Libs;
+using Thunder.Blazor.Models;
 
 namespace Thunder.Blazor.Bootstrap
 {
@@ -14,9 +15,18 @@ namespace Thunder.Blazor.Bootstrap
 
         private string GetModalTypeCss()
         {
+            Size = DataContext.SizeEnum switch
+            {
+                SizeEnum.Small => SizeType.small,
+                SizeEnum.Mini => SizeType.small,
+                SizeEnum.Large => SizeType.large,
+                SizeEnum.Huge => SizeType.large,
+                _ => SizeType.normal
+            };
             var key = "modal";
             return CssBuild.New
                 .Add("modal-dialog")
+                .Add("modal-dialog-scrollable")
                 .Add("-".Join(key, Size.ToDescriptionString()))
                 .Build()
                 .CssString;
