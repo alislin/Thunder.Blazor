@@ -21,9 +21,9 @@ namespace Thunder.Blazor.Extensions
         /// <typeparam name="T"></typeparam>
         /// <param name="obj"></param>
         /// <returns></returns>
-        public static string ToJson<T>(this T obj)
+        public static string ToJson<T>(this T obj,JsonSerializerOptions options=null)
         {
-            return JsonSerializer.Serialize(obj);
+            return JsonSerializer.Serialize(obj, options);
         }
 
         /// <summary>
@@ -32,9 +32,9 @@ namespace Thunder.Blazor.Extensions
         /// <typeparam name="T"></typeparam>
         /// <param name="src"></param>
         /// <returns></returns>
-        public static T FromJson<T>(this string src)
+        public static T FromJson<T>(this string src, JsonSerializerOptions options = null)
         {
-            return JsonSerializer.Deserialize<T>(src);
+            return JsonSerializer.Deserialize<T>(src, options);
         }
 
 #else
