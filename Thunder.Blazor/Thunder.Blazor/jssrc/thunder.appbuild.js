@@ -11,8 +11,8 @@ var __assign = (this && this.__assign) || function () {
 };
 var Thunder;
 (function (Thunder) {
-    var CssBuilder;
-    (function (CssBuilder) {
+    var AppBuilder;
+    (function (AppBuilder) {
         var CssBuild = /** @class */ (function () {
             function CssBuild() {
             }
@@ -51,14 +51,37 @@ var Thunder;
             };
             return CssBuild;
         }());
+        var App = /** @class */ (function () {
+            function App() {
+            }
+            App.prototype.getNavigator = function () {
+                var nav = new Navigator();
+                nav.appCodeName = navigator.appCodeName;
+                nav.appVersion = navigator.appVersion;
+                nav.userAgent = navigator.userAgent;
+                return nav;
+                //return navigator;
+            };
+            App.prototype.getScreent = function () { return window.screen; };
+            App.prototype.userAgent = function () { return navigator.userAgent; };
+            App.prototype.getTitle = function () { return document.title; };
+            App.prototype.setTitle = function (title) { document.title = title; };
+            return App;
+        }());
         var CssData = /** @class */ (function () {
             function CssData() {
             }
             return CssData;
         }());
+        var Navigator = /** @class */ (function () {
+            function Navigator() {
+            }
+            return Navigator;
+        }());
         function Init() {
             var obj = {
-                CssBuilder: new CssBuild()
+                CssBuilder: new CssBuild(),
+                App: new App()
             };
             if (window.ThunderBlazor) {
                 window.ThunderBlazor = __assign(__assign({}, window.ThunderBlazor), obj);
@@ -67,8 +90,8 @@ var Thunder;
                 window.ThunderBlazor = __assign({}, obj);
             }
         }
-        CssBuilder.Init = Init;
-    })(CssBuilder = Thunder.CssBuilder || (Thunder.CssBuilder = {}));
+        AppBuilder.Init = Init;
+    })(AppBuilder = Thunder.AppBuilder || (Thunder.AppBuilder = {}));
 })(Thunder || (Thunder = {}));
-Thunder.CssBuilder.Init();
-//# sourceMappingURL=thunder.cssbuild.js.map
+Thunder.AppBuilder.Init();
+//# sourceMappingURL=thunder.appbuild.js.map

@@ -1,4 +1,4 @@
-﻿namespace Thunder.CssBuilder {
+﻿namespace Thunder.AppBuilder {
     class CssBuild {
         public Add(data: CssData): void {
             const node = document.querySelector('#' + data.id);
@@ -39,16 +39,47 @@
         }
     }
 
+    class App {
+        public getNavigator(): Navigator {
+            var nav = new Navigator();
+            nav.appCodeName = navigator.appCodeName;
+            nav.appVersion = navigator.appVersion;
+            nav.userAgent = navigator.userAgent;
+            return nav;
+            //return navigator;
+        }
+        public getScreent(): Screen { return window.screen; }
+        public userAgent(): string { return navigator.userAgent; }
+        public 
+        public getTitle(): string { return document.title; }
+        public setTitle(title: string) { document.title = title; }
+    }
+
     class CssData {
         public id: string;
         public list: string[];
+    }
+
+    class Navigator {
+        public appCodeName: string;
+        public appName: string;
+        public appVersion: string;
+        public browserLanguage: string;
+        public cookieEnabled: boolean;
+        public cpuClass: string;
+        public onLine: string;
+        public platform: string;
+        public systemLanguage: string;
+        public userAgent: string;
+        public userLanguage: string;
     }
 
     declare var window: Window & { ThunderBlazor: any }
 
     export function Init(): void {
         const obj = {
-            CssBuilder: new CssBuild()
+            CssBuilder: new CssBuild(),
+            App: new App()
         };
 
         if (window.ThunderBlazor) {
@@ -59,4 +90,4 @@
         }
     }
 }
-Thunder.CssBuilder.Init();
+Thunder.AppBuilder.Init();

@@ -19,7 +19,6 @@
     <ProjectReference Include="..\..\JsLibs\Thunder.Blazor.DomObject\Thunder.Blazor.DomObject.csproj" />
     <ProjectReference Include="..\..\JsLibs\Thunder.Blazor.Noty\Thunder.Blazor.Noty.csproj" />
     <ProjectReference Include="..\..\Thunder.Blazor\Thunder.Blazor.csproj" />
-    <ProjectReference Include="..\ClientDemo.Shared\ClientDemo.Shared.csproj" />
   </ItemGroup>
 
 </Project>

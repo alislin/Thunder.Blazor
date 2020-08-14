@@ -24,6 +24,7 @@ namespace ServerDemo
             services.AddServerSideBlazor();
             services.AddComponentServiceScoped()
                 .AddNotyScoped()
+                .AddDomServiceScoped()
                 .AddAnimateScoped();
         }
 

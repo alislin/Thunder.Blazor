@@ -159,6 +159,18 @@
         </StrapCard>
     </div>
 </div>
+<div class="row">
+    <div class="col">
+        <StrapCard StyleClass="m-2" Title="Brower Info">
+            <p>Title: @dom.GetTitle()</p>
+            <p>User-Agent: @nav?.userAgent</p>
+        </StrapCard>
+    </div>
+    <div class="col">
+        <StrapCard StyleClass="m-2" Title="Select">
+        </StrapCard>
+    </div>
+</div>
 <p></p>
 <p></p>
 <p></p>
@@ -171,6 +183,7 @@
     [Inject] protected NotifyService noty { get; set; }
     [Inject] protected AnimateService animate { get; set; }
     [Inject] protected IJSRuntime jSRuntime { get; set; }
+    [Inject] protected DomService dom { get; set; }
 
     protected string titleId { get; set; }
     protected string btnClickText { get; set; } = "Click !!! ??";
@@ -185,7 +198,10 @@
     StrapAlert alert;
     StrapProgress ProgressData;
 
-    protected override void OnInitialized()
+    Navigator nav;
+    Screen screen;
+
+    protected override async void OnInitialized()
     {
         titleId = NewId();
         DropdownDemoItem = GetDropdownDemo();
@@ -193,14 +209,19 @@
         InitNav();
         InitSelect();
 
+
         base.OnInitialized();
     }
 
-    protected override void OnAfterRender(bool firstRender)
+    protected override async void OnAfterRender(bool firstRender)
     {
         base.OnAfterRender(firstRender);
         if (firstRender)
+        {
             jSRuntime.InvokeAsync<object>("hljs.initHighlightingOnLoad()", null);
+            nav = await dom.GetNavigator();
+            screen = await dom.GetScreen();
+        }
     }
 
     private void BtnClick(string text, Action action = null)
