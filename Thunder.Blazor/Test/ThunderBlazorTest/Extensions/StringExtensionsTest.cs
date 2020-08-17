@@ -1,13 +1,14 @@
 using NUnit.Framework;
 using Thunder.Blazor.Extensions;
 using Thunder.Blazor.Models;
+using Thunder.Standard.Lib.Model;
 
 namespace Thunder.BlazorTest
 {
     public class StringExtensionsTest
     {
-        string v = "{\"Data\":\"test\",\"DataType\":\"System.String, System.Private.CoreLib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e\",\"Result\":1,\"Canceled\":false}";
-        ContextResult result = ContextResult.Ok("test");
+        string v = "{\"Text\":\"\\u9009\\u62E9\",\"Value\":\"OK\",\"Group\":null,\"Selected\":false,\"Object\":null}";
+        SelectOption result = new SelectOption { Value = "OK", Text = "Ñ¡Ôñ" };
 
         [Test]
         public void Test_tojson()
@@ -19,10 +20,11 @@ namespace Thunder.BlazorTest
         [Test]
         public void Test_fromjson()
         {
-            var obj = v.FromJson<ContextResult>();
-            Assert.IsTrue(obj.Result == result.Result);
-            Assert.IsTrue(obj.Result != null);
-            Assert.IsTrue((string)obj.Data == (string)result.Data);
+            var obj = v.FromJson<SelectOption>();
+
+            Assert.IsTrue(obj.Value == result.Value);
+            Assert.IsTrue(obj.Value != null);
+            Assert.IsTrue(obj.Value == result.Value);
         }
     }
 }

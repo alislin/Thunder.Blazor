@@ -53,12 +53,10 @@
             }
         }
         public AddBodyCss(css: string[]) {
-            var body = document.getElementsByTagName("body")[0];
-            this.AddCss(body, css);
+            this.AddCss(document.body, css);
         }
         public RemoveBodyCss(css: string[]) {
-            var body = document.getElementsByTagName("body")[0];
-            this.RemoveCss(body, css);
+            this.RemoveCss(document.body, css);
         }
     }
 

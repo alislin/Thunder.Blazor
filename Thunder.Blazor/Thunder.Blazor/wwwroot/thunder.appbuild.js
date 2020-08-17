@@ -62,12 +62,10 @@ var Thunder;
                 }
             };
             CssBuild.prototype.AddBodyCss = function (css) {
-                var body = document.getElementsByTagName("body")[0];
-                this.AddCss(body, css);
+                this.AddCss(document.body, css);
             };
             CssBuild.prototype.RemoveBodyCss = function (css) {
-                var body = document.getElementsByTagName("body")[0];
-                this.RemoveCss(body, css);
+                this.RemoveCss(document.body, css);
             };
             return CssBuild;
         }());
