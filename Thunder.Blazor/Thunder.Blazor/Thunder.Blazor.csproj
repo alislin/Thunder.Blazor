@@ -29,37 +29,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="_Imports.razor" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Remove="Components\_Imports.razor" />
-    <None Remove="jssrc\cssbuild.js" />
-    <None Remove="jssrc\cssbuild.js.map" />
-    <None Remove="FodyWeavers.xml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Include="jssrc\**\*.js" LogicalName="blazor:js:%(RecursiveDir)%(Filename)%(Extension)" />
-    <EmbeddedResource Include="jssrc\**\*.css" LogicalName="blazor:css:%(RecursiveDir)%(Filename)%(Extension)" />
-    <EmbeddedResource Include="jssrc\**" Exclude="**\*.js;**\*.css" LogicalName="blazor:file:%(RecursiveDir)%(Filename)%(Extension)" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Remove="jssrc\*.ts" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Remove="jssrc\*.ts" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <TypeScriptCompile Update="jssrc\*.ts">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </TypeScriptCompile>
-  </ItemGroup>
-
-  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components" Version="3.1.6" />
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="3.1.6" />
     <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="3.0.0">
       <PrivateAssets>all</PrivateAssets>
@@ -71,10 +41,6 @@
     </PackageReference>
     <PackageReference Include="PropertyChanged.Fody" Version="3.2.8" />
     <PackageReference Include="Thunder.Standard.Lib" Version="1.2.18" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="wwwroot\" />
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
