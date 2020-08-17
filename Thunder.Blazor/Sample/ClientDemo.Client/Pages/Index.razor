@@ -162,8 +162,25 @@
 <div class="row">
     <div class="col">
         <StrapCard StyleClass="m-2" Title="Brower Info">
-            <p>Title: @dom.GetTitle()</p>
-            <p>User-Agent: @nav?.userAgent</p>
+            <p>Title: @Title</p>
+            <p>
+                User-Agent: @nav?.userAgent<br />
+                appCodeName: @nav?.appCodeName<br />
+                appVersion: @nav?.appVersion<br />
+                browserLanguage: @nav?.browserLanguage<br />
+                cookieEnabled: @nav?.cookieEnabled<br />
+                onLine: @nav?.onLine<br />
+                platform: @nav?.platform<br />
+            </p>
+
+            <p>
+                width: @screen?.width<br />
+                height: @screen?.height<br />
+                availHeight: @screen?.availHeight<br />
+                availWidth: @screen?.availWidth<br />
+                colorDepth: @screen?.colorDepth<br />
+                pixelDepth: @screen?.pixelDepth<br />
+            </p>
         </StrapCard>
     </div>
     <div class="col">
@@ -200,6 +217,7 @@
 
     Navigator nav;
     Screen screen;
+    string Title;
 
     protected override async void OnInitialized()
     {
@@ -219,8 +237,10 @@
         if (firstRender)
         {
             jSRuntime.InvokeAsync<object>("hljs.initHighlightingOnLoad()", null);
+            Title = await dom.GetTitle();
             nav = await dom.GetNavigator();
             screen = await dom.GetScreen();
+            StateHasChanged();
         }
     }
 

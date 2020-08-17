@@ -70,34 +70,23 @@ namespace Thunder.Blazor.Services
     public class Navigator
     {
         public string appCodeName { get; set; }
-        public string appMinorVersion { get; set; }
         public string appName { get; set; }
         public string appVersion { get; set; }
         public string browserLanguage { get; set; }
         public bool cookieEnabled { get; set; }
-        public string cpuClass { get; set; }
         public bool onLine { get; set; }
         public string platform { get; set; }
-        public string systemLanguage { get; set; }
         public string userAgent { get; set; }
-        public string userLanguage { get; set; }
     }
 
     public class Screen
     {
+        public int width { get; set; }
+        public int height { get; set; }
         public int availHeight { get; set; }
         public int availWidth { get; set; }
-        public int bufferDepth { get; set; }
         public int colorDepth { get; set; }
-        public int deviceXDPI { get; set; }
-        public int deviceYDPI { get; set; }
-        public int fontSmoothingEnabled { get; set; }
-        public int height { get; set; }
-        public int logicalXDPI { get; set; }
-        public int logicalYDPI { get; set; }
         public int pixelDepth { get; set; }
-        public int updateInterval { get; set; }
-        public int width { get; set; }
     }
 
     public static class DomServiceExtentsion

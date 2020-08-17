@@ -2,40 +2,63 @@
     class CssBuild {
         public Add(data: CssData): void {
             const node = document.querySelector('#' + data.id);
-            if (node == null) {
-                return;
-            }
-            if (data.list !== null || data.list.length > 0) {
-                for (var i = 0; i < data.list.length; i++) {
-                    node.classList.add(data.list[i]);
-                }
-            }
+            this.AddCss(node, data.list);
         }
 
         public Remove(data: CssData): void {
             const node = document.querySelector('#' + data.id);
-            if (node == null) {
-                return;
-            }
-            for (var i = 0; i < data.list.length; i++) {
-                node.classList.remove(data.list[i]);
-            }
+            this.RemoveCss(node, data.list);
         }
 
         public ClassList(id: string): CssData {
             const node = document.querySelector('#' + id);
             var result = new CssData();
             result.id = id;
-            result.list = new Array();
-            if (node == null) {
+            result.list = this.GetCssList(node);
+            return result;
+        }
+
+        public GetCssList(element: Element): string[] {
+            var result = new Array();
+            if (element == null) {
                 return result;
             }
-            node.classList.forEach(
+            element.classList.forEach(
                 function (value, key, obj) {
-                    result.list.push(value);
+                    result.push(value);
                 }
             )
             return result;
+        }
+
+        public AddCss(element: Element, cssList: string[]) {
+            if (element == null) {
+                return;
+            }
+            if (cssList !== null || cssList.length > 0) {
+                for (var i = 0; i < cssList.length; i++) {
+                    element.classList.remove(cssList[i]);
+                }
+            }
+        }
+
+        public RemoveCss(element: Element, cssList: string[]) {
+            if (element == null) {
+                return;
+            }
+            if (cssList !== null || cssList.length > 0) {
+                for (var i = 0; i < cssList.length; i++) {
+                    element.classList.add(cssList[i]);
+                }
+            }
+        }
+        public AddBodyCss(css: string[]) {
+            var body = document.getElementsByTagName("body")[0];
+            this.AddCss(body, css);
+        }
+        public RemoveBodyCss(css: string[]) {
+            var body = document.getElementsByTagName("body")[0];
+            this.RemoveCss(body, css);
         }
     }
 
@@ -45,12 +68,27 @@
             nav.appCodeName = navigator.appCodeName;
             nav.appVersion = navigator.appVersion;
             nav.userAgent = navigator.userAgent;
+            nav.appName = navigator.appName;
+            nav.browserLanguage = navigator.language;
+            nav.cookieEnabled = navigator.cookieEnabled;
+            nav.onLine = navigator.onLine;
+            nav.platform = navigator.platform;
             return nav;
-            //return navigator;
         }
-        public getScreent(): Screen { return window.screen; }
+        public getScreent(): Screen {
+            var s = window.screen;
+            var screen = new Screen();
+            screen.width = s.width;
+            screen.height = s.height;
+            screen.availWidth = s.availWidth;
+            screen.availHeight = s.availHeight;
+            screen.colorDepth = s.colorDepth;
+            screen.pixelDepth = s.pixelDepth;
+
+
+            return screen;
+        }
         public userAgent(): string { return navigator.userAgent; }
-        public 
         public getTitle(): string { return document.title; }
         public setTitle(title: string) { document.title = title; }
     }
@@ -66,12 +104,21 @@
         public appVersion: string;
         public browserLanguage: string;
         public cookieEnabled: boolean;
-        public cpuClass: string;
-        public onLine: string;
+        public onLine: boolean;
         public platform: string;
-        public systemLanguage: string;
         public userAgent: string;
-        public userLanguage: string;
+    }
+
+    class Screen {
+        public width: number;
+        public height: number;
+        public availWidth: number;
+        public availHeight: number;
+        public colorDepth: number;
+        public pixelDepth: number;
+        public updateInterval: number;
+        public fontSmoothingEnabled: number;
+
     }
 
     declare var window: Window & { ThunderBlazor: any }

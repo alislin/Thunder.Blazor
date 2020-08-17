@@ -18,36 +18,56 @@ var Thunder;
             }
             CssBuild.prototype.Add = function (data) {
                 var node = document.querySelector('#' + data.id);
-                if (node == null) {
-                    return;
-                }
-                if (data.list !== null || data.list.length > 0) {
-                    for (var i = 0; i < data.list.length; i++) {
-                        node.classList.add(data.list[i]);
-                    }
-                }
+                this.AddCss(node, data.list);
             };
             CssBuild.prototype.Remove = function (data) {
                 var node = document.querySelector('#' + data.id);
-                if (node == null) {
-                    return;
-                }
-                for (var i = 0; i < data.list.length; i++) {
-                    node.classList.remove(data.list[i]);
-                }
+                this.RemoveCss(node, data.list);
             };
             CssBuild.prototype.ClassList = function (id) {
                 var node = document.querySelector('#' + id);
                 var result = new CssData();
                 result.id = id;
-                result.list = new Array();
-                if (node == null) {
+                result.list = this.GetCssList(node);
+                return result;
+            };
+            CssBuild.prototype.GetCssList = function (element) {
+                var result = new Array();
+                if (element == null) {
                     return result;
                 }
-                node.classList.forEach(function (value, key, obj) {
-                    result.list.push(value);
+                element.classList.forEach(function (value, key, obj) {
+                    result.push(value);
                 });
                 return result;
+            };
+            CssBuild.prototype.AddCss = function (element, cssList) {
+                if (element == null) {
+                    return;
+                }
+                if (cssList !== null || cssList.length > 0) {
+                    for (var i = 0; i < cssList.length; i++) {
+                        element.classList.remove(cssList[i]);
+                    }
+                }
+            };
+            CssBuild.prototype.RemoveCss = function (element, cssList) {
+                if (element == null) {
+                    return;
+                }
+                if (cssList !== null || cssList.length > 0) {
+                    for (var i = 0; i < cssList.length; i++) {
+                        element.classList.add(cssList[i]);
+                    }
+                }
+            };
+            CssBuild.prototype.AddBodyCss = function (css) {
+                var body = document.getElementsByTagName("body")[0];
+                this.AddCss(body, css);
+            };
+            CssBuild.prototype.RemoveBodyCss = function (css) {
+                var body = document.getElementsByTagName("body")[0];
+                this.RemoveCss(body, css);
             };
             return CssBuild;
         }());
@@ -59,10 +79,24 @@ var Thunder;
                 nav.appCodeName = navigator.appCodeName;
                 nav.appVersion = navigator.appVersion;
                 nav.userAgent = navigator.userAgent;
+                nav.appName = navigator.appName;
+                nav.browserLanguage = navigator.language;
+                nav.cookieEnabled = navigator.cookieEnabled;
+                nav.onLine = navigator.onLine;
+                nav.platform = navigator.platform;
                 return nav;
-                //return navigator;
             };
-            App.prototype.getScreent = function () { return window.screen; };
+            App.prototype.getScreent = function () {
+                var s = window.screen;
+                var screen = new Screen();
+                screen.width = s.width;
+                screen.height = s.height;
+                screen.availWidth = s.availWidth;
+                screen.availHeight = s.availHeight;
+                screen.colorDepth = s.colorDepth;
+                screen.pixelDepth = s.pixelDepth;
+                return screen;
+            };
             App.prototype.userAgent = function () { return navigator.userAgent; };
             App.prototype.getTitle = function () { return document.title; };
             App.prototype.setTitle = function (title) { document.title = title; };
@@ -77,6 +111,11 @@ var Thunder;
             function Navigator() {
             }
             return Navigator;
+        }());
+        var Screen = /** @class */ (function () {
+            function Screen() {
+            }
+            return Screen;
         }());
         function Init() {
             var obj = {
