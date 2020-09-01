@@ -13,7 +13,7 @@ namespace Thunder.Blazor.Services
 {
     public partial class AnimateService
     {
-        private Dictionary<string, (AnimateData data, ValueTask<object> task)> Data = new Dictionary<string, (AnimateData, ValueTask<object>)>();
+        private Dictionary<string, (AnimateData data, DateTime start, ValueTask<object> task)> Data = new Dictionary<string, (AnimateData, DateTime, ValueTask<object>)>();
 
         public AnimateService(IJSRuntime jsRuntime)
         {
@@ -26,6 +26,10 @@ namespace Thunder.Blazor.Services
 
         [Inject]
         public IJSRuntime JsRuntime { get; set; }
+        /// <summary>
+        /// 动画超时（秒）
+        /// </summary>
+        public int Timeout { get; set; } = 3;
 
         /// <summary>
         /// 执行动画
@@ -57,7 +61,7 @@ namespace Thunder.Blazor.Services
             //    cb = null;
             //}
             var task = JsRuntime.InvokeAsync<object>("ThunderBlazor.Animate.Start", new object[] { data, cb });
-            Data.Add(data.id, (data, task));
+            Data.Add(data.id, (data, DateTime.Now, task));
         }
 
         /// <summary>
@@ -70,15 +74,14 @@ namespace Thunder.Blazor.Services
             if (Data.ContainsKey(data.id))
             {
                 var ani = Data[data.id];
-                if (!ani.task.IsCompleted)
+                if (!ani.task.IsCompleted && !forceRemove)
                 {
+                    // 计算超时时长
+                    var total = (int)(DateTime.Now - ani.start).TotalSeconds;
+
                     //Console.WriteLine($"等待动画结束。{ani.data.AnimateType.ToString()}");
-                    ani.task.AsTask().Wait();
+                    ani.task.AsTask().Wait(total > Timeout ? total - Timeout : 0);
                 }
-            }
-            if (Data.ContainsKey(data.id) || forceRemove)
-            {
-                var ani = Data[data.id];
                 await JsRuntime.InvokeAsync<object>("ThunderBlazor.Animate.Reset", ani.data);
                 Data.Remove(data.id);
                 //Console.WriteLine($"完成动画清理。{ani.data.AnimateType.ToString()}");
