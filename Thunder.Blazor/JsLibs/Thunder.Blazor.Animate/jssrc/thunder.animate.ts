@@ -2,6 +2,9 @@
     class Animate {
         public Start(data: AnimateData,  callback: any): void {
             const node = document.querySelector('#' + data.id);
+            if (node == null || node == undefined) {
+                return;
+            }
 
             function handleAnimationEnd() {
                 node.removeEventListener('animationend', handleAnimationEnd);
@@ -19,6 +22,9 @@
 
         public Reset(data: AnimateData): void {
             const node = document.querySelector('#' + data.id);
+            if (node == null || node == undefined) {
+                return;
+            }
             for (var i = 0; i < data.animateClass.length; i++) {
                 node.classList.remove(data.animateClass[i]);
             }
