@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <Folder Include="Shared\" />
+    <Folder Include="wwwroot\_content\jssrc\" />
   </ItemGroup>
 
   <ItemGroup>

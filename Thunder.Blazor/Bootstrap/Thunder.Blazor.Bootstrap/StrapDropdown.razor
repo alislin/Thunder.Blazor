@@ -1,7 +1,7 @@
 ﻿@inherits StrapDropdownBase
 @if (IsVisabled)
 {
-    <div class="@DropCss">
+    <div class="@DropCss" @attributes="AdditionalAttributes">
         @if (EnableDefaultMenuFlag)
         {
             var firstMenu = DataContext.ChildNodes.FirstOrDefault();
@@ -21,7 +21,7 @@
         }
         @if (IsOpen)
         {
-            <div class="@DropMenuCss">
+            <div class="@DropMenuCss" id="@($"dropmenu_{DomId}")">
                 @if ((DataContext?.HasChildNodes ?? false))
                 {
                     @foreach (var item in DataContext.ChildNodes)

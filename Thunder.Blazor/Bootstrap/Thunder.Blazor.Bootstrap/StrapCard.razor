@@ -1,12 +1,12 @@
 ﻿@inherits TComponent
-<div class="card @CssStyle">
+<div class="card @CssStyle" @attributes="AdditionalAttributes">
     @if (Header == null)
     {
         <h5 class="card-header">@Title</h5>
     }
     else
     {
-        <div class="card-header header-elements-inline">
+        <div class="card-header header-elements-inline" id="@($"cardhead_{DomId}")">
             @Header
         </div>
     }

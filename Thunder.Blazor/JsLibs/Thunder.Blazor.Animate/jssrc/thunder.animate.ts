@@ -8,11 +8,26 @@
 
             function handleAnimationEnd() {
                 node.removeEventListener('animationend', handleAnimationEnd);
+                if (data.beginClass !== null || data.beginClass?.length > 0) {
+                    for (var i = 0; i < data.beginClass.length; i++) {
+                        node.classList.remove(data.beginClass[i]);
+                    }
+                }
+                if (data.endClass !== null || data.endClass?.length > 0) {
+                    for (var i = 0; i < data.endClass.length; i++) {
+                        node.classList.add(data.endClass[i]);
+                    }
+                }
 
                 if (typeof callback === 'object') callback.invokeMethodAsync("CallAction", data);
             }
 
-            if (data.animateClass !== null || data.animateClass.length > 0) {
+            if (data.beginClass !== null || data.beginClass?.length > 0) {
+                for (var i = 0; i < data.beginClass.length; i++) {
+                    node.classList.add(data.beginClass[i]);
+                }
+            }
+            if (data.animateClass !== null || data.animateClass?.length > 0) {
                 for (var i = 0; i < data.animateClass.length; i++) {
                     node.classList.add(data.animateClass[i]);
                 }
@@ -34,6 +49,8 @@
     class AnimateData {
         public id: string;
         public animateClass: string[];
+        public beginClass: string[];
+        public endClass: string[];
     }
 
 

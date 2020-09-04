@@ -1,7 +1,7 @@
 ﻿@inherits StrapProgressBase
 @if (IsVisabled)
 {
-    <div class="@CssStyle" style="@CssHeight">
+    <div class="@CssStyle" style="@CssHeight" @attributes="AdditionalAttributes">
         <div class="@CssProgress" style="width: @ProgressPercent">
             @if (ShowLabel)
             {

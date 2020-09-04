@@ -19,7 +19,7 @@
     <PackageProjectUrl>https://github.com/alislin/Thunder.Blazor</PackageProjectUrl>
     <Copyright>Copyright by Ya Lin</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <Version>1.0.3</Version>
+    <Version>1.0.4</Version>
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
     <ResolveCurrentProjectStaticWebAssetsInputsDependsOn>
       CompileTypeScript;

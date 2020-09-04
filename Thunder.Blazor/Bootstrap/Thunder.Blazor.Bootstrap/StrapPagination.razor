@@ -4,7 +4,7 @@
 {
     var next = "下一页";
     var prev = "上一页";
-    <ul class="@CssStyle">
+    <ul class="@CssStyle" @attributes="AdditionalAttributes">
         @if (DataContext.AlwaysShowNextPrev || DataContext.ShowLeft)
         {
             <li class="@prevmark"><button class="page-link" @onclick="@(()=> { GotoPage(DataContext.PageIndex - 1); })">@prev</button></li>

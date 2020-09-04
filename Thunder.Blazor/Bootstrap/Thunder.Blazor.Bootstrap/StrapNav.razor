@@ -1,7 +1,7 @@
 ﻿@inherits StrapNavBase
 @if (IsVisabled)
 {
-    <ul class="@CssStyle">
+    <ul class="@CssStyle" @attributes="AdditionalAttributes">
         @if (!string.IsNullOrWhiteSpace(Brand))
         {
             <div class="navbar-brand">@((MarkupString)Brand)</div>

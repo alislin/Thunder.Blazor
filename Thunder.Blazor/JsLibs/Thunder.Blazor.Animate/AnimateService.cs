@@ -104,6 +104,14 @@ namespace Thunder.Blazor.Services
         /// </summary>
         public string[] animateClass => GetAnimate();
         /// <summary>
+        /// 开始时设置CSS
+        /// </summary>
+        public string[] beginClass { get; set; }
+        /// <summary>
+        /// 结束时设置CSS
+        /// </summary>
+        public string[] endClass { get; set; }
+        /// <summary>
         /// 动画类型
         /// </summary>
         public AnimateType AnimateType { get; set; } = AnimateType.fadeIn;

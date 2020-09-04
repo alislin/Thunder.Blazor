@@ -1,5 +1,5 @@
 ﻿@inherits TComponent<TTabItem>
-<div class="@CssStyle">
+<div class="@CssStyle" @attributes="AdditionalAttributes">
     <CascadingValue Value="@DataContext.Child.ContextParameters">
         @if (DataContext?.Child != null)
         {

@@ -4,7 +4,7 @@
 @if (!string.IsNullOrEmpty(Caption) && Caption.IndexOf("---") >= 0)
 {
     //分割线
-    <div class="dropdown-divider"></div>
+    <div class="dropdown-divider" @attributes="AdditionalAttributes"></div>
 }
 else
 {
@@ -12,7 +12,7 @@ else
     {
         default:
         case ActionItemTag.button:
-            <button class="@CssStyle" disabled="@(!IsEnabled)" @onclick="@CommandAction">
+            <button class="@CssStyle" disabled="@(!IsEnabled)" @onclick="@CommandAction" @attributes="AdditionalAttributes">
                 @if (ChildContent == null)
                 {@Caption}
                 else
@@ -20,7 +20,7 @@ else
             </button>
             break;
         case ActionItemTag.a:
-            <a class="@CssStyle" href="javascript:;" @onclick="@CommandAction">
+            <a class="@CssStyle" href="javascript:;" @onclick="@CommandAction" @attributes="AdditionalAttributes">
                 @if (ChildContent == null)
                 {@Caption}
                 else
@@ -28,10 +28,10 @@ else
             </a>
             break;
         case ActionItemTag.input:
-            <input class="@CssStyle" type="button" value="@Caption" disabled="@(!IsEnabled)" @onclick="@CommandAction" />
+            <input class="@CssStyle" type="button" value="@Caption" disabled="@(!IsEnabled)" @onclick="@CommandAction" @attributes="AdditionalAttributes"/>
             break;
         case ActionItemTag.submit:
-            <input class="@CssStyle" type="submit" value="@Caption" disabled="@(!IsEnabled)" @onclick="@CommandAction" />
+            <input class="@CssStyle" type="submit" value="@Caption" disabled="@(!IsEnabled)" @onclick="@CommandAction" @attributes="AdditionalAttributes"/>
             break;
     }
 }

@@ -2,7 +2,7 @@
 @if (IsVisabled && HasItems)
 {
     <StrapNav DataContext="@Headers" IsTab="true"></StrapNav>
-    <div class="tab-content">
+    <div class="tab-content" @attributes="AdditionalAttributes">
         @foreach (var item in DataContext.TabsItems)
         {
             <StrapContent StyleClass="tab-pane fade" DataContext="@item" IsActived="item.IsActived" IsEnabled="item.IsEnabled" IsVisabled="item.IsVisabled"></StrapContent>
