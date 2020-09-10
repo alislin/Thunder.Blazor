@@ -11,35 +11,30 @@ var __assign = (this && this.__assign) || function () {
 };
 var Thunder;
 (function (Thunder) {
-    var Animate;
-    (function (Animate_1) {
-        var Animate = /** @class */ (function () {
-            function Animate() {
+    var AnimateTransition;
+    (function (AnimateTransition_1) {
+        var AnimateTransition = /** @class */ (function () {
+            function AnimateTransition() {
             }
-            Animate.prototype.Start = function (data, callback) {
-                var _a, _b, _c;
+            AnimateTransition.prototype.Start = function (data, callback) {
+                var _a;
                 var node = document.querySelector('#' + data.id);
                 if (node == null || node == undefined) {
                     return;
                 }
                 function handleAnimationEnd() {
-                    var _a, _b;
                     node.removeEventListener('animationend', handleAnimationEnd);
-                    this.AddCss(node, (_a = data.endClass) === null || _a === void 0 ? void 0 : _a.addCss)
-                        .RemoveCss(node, (_b = data.endClass) === null || _b === void 0 ? void 0 : _b.removeCss);
                     if (typeof callback === 'object')
                         callback.invokeMethodAsync("CallAction", data);
                 }
-                this.AddCss(node, (_a = data.beginClass) === null || _a === void 0 ? void 0 : _a.addCss)
-                    .RemoveCss(node, (_b = data.beginClass) === null || _b === void 0 ? void 0 : _b.removeCss);
-                if (data.animateClass !== null || ((_c = data.animateClass) === null || _c === void 0 ? void 0 : _c.length) > 0) {
+                if (data.animateClass !== null || ((_a = data.animateClass) === null || _a === void 0 ? void 0 : _a.length) > 0) {
                     for (var i = 0; i < data.animateClass.length; i++) {
                         node.classList.add(data.animateClass[i]);
                     }
                     node.addEventListener('animationend', handleAnimationEnd);
                 }
             };
-            Animate.prototype.Reset = function (data) {
+            AnimateTransition.prototype.Reset = function (data) {
                 var node = document.querySelector('#' + data.id);
                 if (node == null || node == undefined) {
                     return;
@@ -48,23 +43,7 @@ var Thunder;
                     node.classList.remove(data.animateClass[i]);
                 }
             };
-            Animate.prototype.AddCss = function (node, css) {
-                if (css !== null || (css === null || css === void 0 ? void 0 : css.length) > 0) {
-                    for (var i = 0; i < css.length; i++) {
-                        node.classList.add(css[i]);
-                    }
-                }
-                return this;
-            };
-            Animate.prototype.RemoveCss = function (node, css) {
-                if (css !== null || (css === null || css === void 0 ? void 0 : css.length) > 0) {
-                    for (var i = 0; i < css.length; i++) {
-                        node.classList.remove(css[i]);
-                    }
-                }
-                return this;
-            };
-            return Animate;
+            return AnimateTransition;
         }());
         var AnimateData = /** @class */ (function () {
             function AnimateData() {
@@ -78,7 +57,7 @@ var Thunder;
         }());
         function Init() {
             var obj = {
-                Animate: new Animate()
+                AnimateTransition: new AnimateTransition()
             };
             if (window.ThunderBlazor) {
                 window.ThunderBlazor = __assign(__assign({}, window.ThunderBlazor), obj);
@@ -87,8 +66,8 @@ var Thunder;
                 window.ThunderBlazor = __assign({}, obj);
             }
         }
-        Animate_1.Init = Init;
-    })(Animate = Thunder.Animate || (Thunder.Animate = {}));
+        AnimateTransition_1.Init = Init;
+    })(AnimateTransition = Thunder.AnimateTransition || (Thunder.AnimateTransition = {}));
 })(Thunder || (Thunder = {}));
-Thunder.Animate.Init();
-//# sourceMappingURL=thunder.animate.js.map
+Thunder.AnimateTransition.Init();
+//# sourceMappingURL=thunder.animateTransition.js.map

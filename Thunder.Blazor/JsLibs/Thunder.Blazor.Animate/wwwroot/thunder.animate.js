@@ -17,7 +17,7 @@ var Thunder;
             function Animate() {
             }
             Animate.prototype.Start = function (data, callback) {
-                var _a, _b;
+                var _a, _b, _c;
                 var node = document.querySelector('#' + data.id);
                 if (node == null || node == undefined) {
                     return;
@@ -25,25 +25,14 @@ var Thunder;
                 function handleAnimationEnd() {
                     var _a, _b;
                     node.removeEventListener('animationend', handleAnimationEnd);
-                    if (data.beginClass !== null || ((_a = data.beginClass) === null || _a === void 0 ? void 0 : _a.length) > 0) {
-                        for (var i = 0; i < data.beginClass.length; i++) {
-                            node.classList.remove(data.beginClass[i]);
-                        }
-                    }
-                    if (data.endClass !== null || ((_b = data.endClass) === null || _b === void 0 ? void 0 : _b.length) > 0) {
-                        for (var i = 0; i < data.endClass.length; i++) {
-                            node.classList.add(data.endClass[i]);
-                        }
-                    }
+                    this.AddCss(node, (_a = data.endClass) === null || _a === void 0 ? void 0 : _a.addCss)
+                        .RemoveCss(node, (_b = data.endClass) === null || _b === void 0 ? void 0 : _b.removeCss);
                     if (typeof callback === 'object')
                         callback.invokeMethodAsync("CallAction", data);
                 }
-                if (data.beginClass !== null || ((_a = data.beginClass) === null || _a === void 0 ? void 0 : _a.length) > 0) {
-                    for (var i = 0; i < data.beginClass.length; i++) {
-                        node.classList.add(data.beginClass[i]);
-                    }
-                }
-                if (data.animateClass !== null || ((_b = data.animateClass) === null || _b === void 0 ? void 0 : _b.length) > 0) {
+                this.AddCss(node, (_a = data.beginClass) === null || _a === void 0 ? void 0 : _a.addCss)
+                    .RemoveCss(node, (_b = data.beginClass) === null || _b === void 0 ? void 0 : _b.removeCss);
+                if (data.animateClass !== null || ((_c = data.animateClass) === null || _c === void 0 ? void 0 : _c.length) > 0) {
                     for (var i = 0; i < data.animateClass.length; i++) {
                         node.classList.add(data.animateClass[i]);
                     }
@@ -59,12 +48,33 @@ var Thunder;
                     node.classList.remove(data.animateClass[i]);
                 }
             };
+            Animate.prototype.AddCss = function (node, css) {
+                if (css !== null || (css === null || css === void 0 ? void 0 : css.length) > 0) {
+                    for (var i = 0; i < css.length; i++) {
+                        node.classList.add(css[i]);
+                    }
+                }
+                return this;
+            };
+            Animate.prototype.RemoveCss = function (node, css) {
+                if (css !== null || (css === null || css === void 0 ? void 0 : css.length) > 0) {
+                    for (var i = 0; i < css.length; i++) {
+                        node.classList.remove(css[i]);
+                    }
+                }
+                return this;
+            };
             return Animate;
         }());
         var AnimateData = /** @class */ (function () {
             function AnimateData() {
             }
             return AnimateData;
+        }());
+        var MarkClass = /** @class */ (function () {
+            function MarkClass() {
+            }
+            return MarkClass;
         }());
         function Init() {
             var obj = {

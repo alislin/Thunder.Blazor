@@ -106,11 +106,11 @@ namespace Thunder.Blazor.Services
         /// <summary>
         /// 开始时设置CSS
         /// </summary>
-        public string[] beginClass { get; set; }
+        public MarkClass beginClass { get; set; }
         /// <summary>
         /// 结束时设置CSS
         /// </summary>
-        public string[] endClass { get; set; }
+        public MarkClass endClass { get; set; }
         /// <summary>
         /// 动画类型
         /// </summary>
@@ -159,6 +159,12 @@ namespace Thunder.Blazor.Services
         {
             return string.Join(" ", animateClass);
         }
+    }
+
+    public class MarkClass
+    {
+        public string[] addCss { get; set; }
+        public string[] removeCss { get; set; }
     }
 
     public enum AnimateType
