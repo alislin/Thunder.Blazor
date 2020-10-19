@@ -1,1 +1,0 @@
-dotnet pack -o ..\output -c release /p:Version=1.1.0-CI-%date-%1
