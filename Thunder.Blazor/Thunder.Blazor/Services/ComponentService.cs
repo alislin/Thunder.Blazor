@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Thunder.Blazor.Extensions;
+using Thunder.Blazor.Models;
 
 namespace Thunder.Blazor.Services
 {
@@ -19,6 +20,12 @@ namespace Thunder.Blazor.Services
         /// 消息事件
         /// </summary>
         public event EventHandler<string> OnMessage;
+
+        /// <summary>
+        /// 数据事件
+        /// </summary>
+        public event EventHandler<EventData> OnData;
+
         /// <summary>
         /// 需要刷新事件
         /// </summary>
@@ -196,7 +203,7 @@ namespace Thunder.Blazor.Services
         /// <param name="msg"></param>
         public async void SendMessage(string msg)
         {
-            await Task.Run(() => { OnMessage?.Invoke(this, msg); }).ConfigureAwait(false);
+            await Task.Run(() => OnMessage?.Invoke(this, msg)).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -204,7 +211,16 @@ namespace Thunder.Blazor.Services
         /// </summary>
         public async void NeedUpdate()
         {
-            await Task.Run(() => { OnNeedUpdate?.Invoke(this,new EventArgs()); }).ConfigureAwait(false);
+            await Task.Run(() => OnNeedUpdate?.Invoke(this, new EventArgs())).ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// 发送数据
+        /// </summary>
+        /// <param name="data"></param>
+        public async void SendData(EventData data)
+        {
+            await Task.Run(() => OnData?.Invoke(this, data)).ConfigureAwait(false);
         }
         #endregion
 

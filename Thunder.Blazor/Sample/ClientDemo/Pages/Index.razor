@@ -185,6 +185,12 @@
     </div>
     <div class="col">
         <StrapCard StyleClass="m-2" Title="Select">
+            <div>
+            <StrapButton Caption="关闭" CommandAction="CloseContent" ></StrapButton>
+            <StrapButton Caption="加载 Counter" CommandAction="o=>LoadContent(new TContext<Counter>())" ></StrapButton>
+            <StrapButton Caption="加载 Tab" CommandAction="o=>LoadContent(new TContext<Tabs>())" ></StrapButton>
+            </div>
+            <div><TContentComponent @ref="contentComponent" /></div>
         </StrapCard>
     </div>
 </div>
@@ -209,6 +215,8 @@
     protected TNavContext StrapNavItemContext { get; set; }
     protected List<SelectOption> SelectOptions { get; set; }
     protected string SelectedValue { get; set; }
+
+    private TContentComponent contentComponent;
 
     string btncode = "<StrapButton Caption=\"Primary\" CommandAction=\"@(()=>BtnClick(\"Primary\"))\" Style=\"@StyleType.primary\" DataContext=\"@(new TagBlockContext { Caption=\"P-1\",CommandAction=()=>BtnClick(\"P-1\")})\"></StrapButton>";
 
@@ -383,6 +391,19 @@
             .Close((o) => Log("取消按钮"), "不要了");
         //ShowModal(new TContext<Counter>() { Caption = "测试 计数器" }, ButtonType.OKCancel);
         base.ShowModal(md);
+    }
+
+    private async void LoadContent(TContext content)
+    {
+        //await noty.Show(new NotyData("加载内容。<br> This is a test pop!", NotyType.information));
+        contentComponent.SetChild(content);
+        contentComponent.Show();
+    }
+
+    private async void CloseContent(object obj)
+    {
+        //await noty.Show(new NotyData("关闭内容。<br> This is a test pop!", NotyType.information));
+        contentComponent.Close();
     }
 
 }

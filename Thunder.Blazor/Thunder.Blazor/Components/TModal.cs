@@ -16,7 +16,7 @@ namespace Thunder.Blazor.Components
     /// <typeparam name="TModel"></typeparam>
     public class TModal<TModel> : TComponentContainer<TModel> where TModel : TModalContext, new()
     {
-        [Parameter] public ComponentParamenter Parameters { get; set; }
+        //[Parameter] public ComponentParamenter Parameters { get; set; }
         [Parameter] public int ButtonTypes { get; set; }
         private Action OnCloseAction;
 

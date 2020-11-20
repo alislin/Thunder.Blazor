@@ -500,6 +500,7 @@ namespace Thunder.Blazor.Components
     public abstract class TComponent<TModel> : TComponentObject<TModel> where TModel : TContext, new()
     {
 
+        [Parameter] public ComponentParamenter Parameters { get; set; }
         protected override void OnInitialized()
         {
             base.OnInitialized();

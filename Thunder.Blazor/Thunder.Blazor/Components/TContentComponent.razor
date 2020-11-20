@@ -1,0 +1,34 @@
+﻿@inherits TComponent<TContext>
+
+@if (IsVisabled)
+{
+    @if (DataContext?.Child != null)
+    {
+        <CascadingValue Value="@dataContext.Child.ContextParameters">
+            @DataContext.Child.ContextFragment
+        </CascadingValue>
+    }
+    else
+    {
+        <CascadingValue Value="@Parameters">
+            @ChildContent
+        </CascadingValue>
+    }
+}
+
+@code{
+    /// <summary>
+    /// 数据事件
+    /// </summary>
+    public event EventHandler<EventData> OnData;
+
+    /// <summary>
+    /// 发送数据
+    /// </summary>
+    /// <param name="data"></param>
+    public async void SendData(EventData data)
+    {
+        await Task.Run(() => OnData?.Invoke(this, data)).ConfigureAwait(false);
+    }
+
+}
