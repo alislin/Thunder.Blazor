@@ -49,7 +49,7 @@ var Thunder;
                 }
             };
             Animate.prototype.AddCss = function (node, css) {
-                if (css !== null || (css === null || css === void 0 ? void 0 : css.length) > 0) {
+                if (css !== undefined && (css !== null || (css === null || css === void 0 ? void 0 : css.length) > 0)) {
                     for (var i = 0; i < css.length; i++) {
                         node.classList.add(css[i]);
                     }
@@ -57,7 +57,7 @@ var Thunder;
                 return this;
             };
             Animate.prototype.RemoveCss = function (node, css) {
-                if (css !== null || (css === null || css === void 0 ? void 0 : css.length) > 0) {
+                if (css !== undefined && (css !== null || (css === null || css === void 0 ? void 0 : css.length) > 0)) {
                     for (var i = 0; i < css.length; i++) {
                         node.classList.remove(css[i]);
                     }

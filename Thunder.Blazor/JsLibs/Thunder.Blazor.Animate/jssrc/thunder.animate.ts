@@ -37,7 +37,7 @@
         }
 
         public AddCss(node: Element, css: string[]): Animate {
-            if (css !== null || css?.length > 0) {
+            if (css !== undefined &&( css !== null || css?.length > 0)) {
                 for (var i = 0; i < css.length; i++) {
                     node.classList.add(css[i]);
                 }
@@ -46,7 +46,7 @@
         }
 
         public RemoveCss(node: Element, css: string[]): Animate {
-            if (css !== null || css?.length > 0) {
+            if (css !== undefined && (css !== null || css?.length > 0)) {
                 for (var i = 0; i < css.length; i++) {
                     node.classList.remove(css[i]);
                 }
